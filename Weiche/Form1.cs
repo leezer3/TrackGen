@@ -2592,6 +2592,25 @@ namespace Weiche
                         }
                     }
                     
+                    //Check that track gauge is a valid number
+                    EingabeOK = double.TryParse(trackgauge_inp.Text, out trackgauge);
+                    if (EingabeOK == false)
+                    {
+                        MessageBox.Show("Invalid Track Gauge!");
+                        return;
+                    }
+                    else
+                    {
+                        //Is the track gauge standard?
+                        if (trackgauge != 1.44)
+                        {
+                            gaugeoffset = ((trackgauge - 1.44) / 2);
+                        }
+                        else
+                        {
+                            gaugeoffset = 0;
+                        }
+                    }
 
 
                     //Check platform widths are over 1m
@@ -2627,6 +2646,7 @@ namespace Weiche
                     {
                         ConvertAndMove(launchpath, fence_texture, texture_format, fence_file, outputtype);
                     }
+
 
                     
                     
@@ -2766,7 +2786,7 @@ namespace Weiche
                         }
                     }
 
-
+                    //Calculate the track width to move the platforms as appropriate
                     trans = new Transform(1, radius, LiRe, 0);
 
                     //Write Out to CSV
@@ -2804,12 +2824,12 @@ namespace Weiche
                                             {
                                                 platwidth = platwidth_near;
                                             }
-                                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 - platwidth), (25 / segmente) * i), platheight, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
-                                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-2.55, (25 / segmente) * i), platheight, trans.Z(-3.5, (25 / segmente) * i));
-                                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-1.55, (25 / segmente) * i), platheight, trans.Z(-1.55, (25 / segmente) * i));
-                                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-1.55, (25 / segmente) * i), platheight - 0.104, trans.Z(-1.55, (25 / segmente) * i));
-                                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-1.8, (25 / segmente) * i), platheight - 0.104, trans.Z(-1.8, (25 / segmente) * i));
-                                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-1.8, (25 / segmente) * i), -0.2, trans.Z(-1.8, (25 / segmente) * i));
+                                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 - gaugeoffset) - platwidth), (25 / segmente) * i), platheight, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
+                                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-2.55 -gaugeoffset), (25 / segmente) * i), platheight, trans.Z(-3.5, (25 / segmente) * i));
+                                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55- gaugeoffset), (25 / segmente) * i), platheight, trans.Z(-1.55, (25 / segmente) * i));
+                                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 - gaugeoffset), (25 / segmente) * i), platheight - 0.104, trans.Z(-1.55, (25 / segmente) * i));
+                                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.8 - gaugeoffset), (25 / segmente) * i), platheight - 0.104, trans.Z(-1.8, (25 / segmente) * i));
+                                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.8 - gaugeoffset), (25 / segmente) * i), -0.2, trans.Z(-1.8, (25 / segmente) * i));
                                         }
                                     }
                                     else if (radioButton8.Checked == true)
@@ -2843,12 +2863,12 @@ namespace Weiche
 
                                                 platheight_new = platheight;
                                             }
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 - platwidth), (25 / segmente) * i), platheight_new, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-2.55, (25 / segmente) * i), platheight_new, trans.Z(-3.5, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-1.55, (25 / segmente) * i), platheight_new, trans.Z(-1.55, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-1.55, (25 / segmente) * i), platheight_new - 0.104, trans.Z(-1.55, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-1.8, (25 / segmente) * i), platheight_new - 0.104, trans.Z(-1.8, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-1.8, (25 / segmente) * i), -0.2, trans.Z(-1.8, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 -gaugeoffset) - platwidth), (25 / segmente) * i), platheight_new, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-2.55 -gaugeoffset), (25 / segmente) * i), platheight_new, trans.Z(-3.5, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 -gaugeoffset), (25 / segmente) * i), platheight_new, trans.Z(-1.55, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 -gaugeoffset), (25 / segmente) * i), platheight_new - 0.104, trans.Z(-1.55, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.8 -gaugeoffset), (25 / segmente) * i), platheight_new - 0.104, trans.Z(-1.8, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.8 -gaugeoffset), (25 / segmente) * i), -0.2, trans.Z(-1.8, (25 / segmente) * i));
                                         }
                                     }
                                     else
@@ -2882,12 +2902,12 @@ namespace Weiche
 
                                                 platheight_new = platheight;
                                             }
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 - platwidth), (25 / segmente) * i), platheight_new, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-2.55, (25 / segmente) * i), platheight_new, trans.Z(-3.5, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-1.55, (25 / segmente) * i), platheight_new, trans.Z(-1.55, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-1.55, (25 / segmente) * i), platheight_new - 0.104, trans.Z(-1.55, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-1.8, (25 / segmente) * i), platheight_new - 0.104, trans.Z(-1.8, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-1.8, (25 / segmente) * i), -0.2, trans.Z(-1.8, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 -gaugeoffset) - platwidth), (25 / segmente) * i), platheight_new, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-2.55 -gaugeoffset), (25 / segmente) * i), platheight_new, trans.Z(-3.5, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 -gaugeoffset), (25 / segmente) * i), platheight_new, trans.Z(-1.55, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 -gaugeoffset), (25 / segmente) * i), platheight_new - 0.104, trans.Z(-1.55, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.8 -gaugeoffset), (25 / segmente) * i), platheight_new - 0.104, trans.Z(-1.8, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.8 -gaugeoffset), (25 / segmente) * i), -0.2, trans.Z(-1.8, (25 / segmente) * i));
                                         }
                                     }
                                 }
@@ -2917,12 +2937,12 @@ namespace Weiche
                                             {
                                                 platwidth = platwidth_near;
                                             }
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 - platwidth), (25 / segmente) * i), platheight, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-2.55, (25 / segmente) * i), platheight, trans.Z(-3.5, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-1.55, (25 / segmente) * i), platheight, trans.Z(-1.55, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-1.55, (25 / segmente) * i), platheight - 0.104, trans.Z(-1.55, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-1.8, (25 / segmente) * i), platheight - 0.104, trans.Z(-1.8, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-1.8, (25 / segmente) * i), -0.2, trans.Z(-1.8, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 -gaugeoffset) - platwidth), (25 / segmente) * i), platheight, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-2.55 -gaugeoffset), (25 / segmente) * i), platheight, trans.Z(-3.5, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 -gaugeoffset), (25 / segmente) * i), platheight, trans.Z(-1.55, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 -gaugeoffset), (25 / segmente) * i), platheight - 0.104, trans.Z(-1.55, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.8 -gaugeoffset), (25 / segmente) * i), platheight - 0.104, trans.Z(-1.8, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.8 -gaugeoffset), (25 / segmente) * i), -0.2, trans.Z(-1.8, (25 / segmente) * i));
                                         }
                                     }
                                     else if (radioButton8.Checked == true)
@@ -2957,12 +2977,12 @@ namespace Weiche
                                             {
                                                 platheight_new = platheight;
                                             }
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 - platwidth), (25 / segmente) * i), platheight_new, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-2.55, (25 / segmente) * i), platheight_new, trans.Z(-3.5, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-1.55, (25 / segmente) * i), platheight_new, trans.Z(-1.55, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-1.55, (25 / segmente) * i), platheight_new - 0.104, trans.Z(-1.55, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-1.8, (25 / segmente) * i), platheight_new - 0.104, trans.Z(-1.8, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-1.8, (25 / segmente) * i), -0.2, trans.Z(-1.8, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 -gaugeoffset) - platwidth), (25 / segmente) * i), platheight_new, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-2.55 -gaugeoffset), (25 / segmente) * i), platheight_new, trans.Z(-3.5, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 -gaugeoffset), (25 / segmente) * i), platheight_new, trans.Z(-1.55, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 -gaugeoffset), (25 / segmente) * i), platheight_new - 0.104, trans.Z(-1.55, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.8 -gaugeoffset), (25 / segmente) * i), platheight_new - 0.104, trans.Z(-1.8, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.8 -gaugeoffset), (25 / segmente) * i), -0.2, trans.Z(-1.8, (25 / segmente) * i));
                                         }
                                     }
 
@@ -3001,12 +3021,12 @@ namespace Weiche
                                             {
                                                 platheight_new = platheight;
                                             }
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 - platwidth), (25 / segmente) * i), platheight_new, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-2.55, (25 / segmente) * i), platheight_new, trans.Z(-3.5, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-1.55, (25 / segmente) * i), platheight_new, trans.Z(-1.55, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-1.55, (25 / segmente) * i), platheight_new - 0.104, trans.Z(-1.55, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-1.8, (25 / segmente) * i), platheight_new - 0.104, trans.Z(-1.8, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-1.8, (25 / segmente) * i), -0.2, trans.Z(-1.8, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 -gaugeoffset) - platwidth), (25 / segmente) * i), platheight_new, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-2.55 -gaugeoffset), (25 / segmente) * i), platheight_new, trans.Z(-3.5, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 -gaugeoffset), (25 / segmente) * i), platheight_new, trans.Z(-1.55, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 -gaugeoffset), (25 / segmente) * i), platheight_new - 0.104, trans.Z(-1.55, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.8 -gaugeoffset), (25 / segmente) * i), platheight_new - 0.104, trans.Z(-1.8, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.8 -gaugeoffset), (25 / segmente) * i), -0.2, trans.Z(-1.8, (25 / segmente) * i));
                                         }
                                     }
                                 }
@@ -3049,8 +3069,8 @@ namespace Weiche
                                                             platwidth = platwidth_near;
                                                         }
                                                         platwidth = (platwidth - 0.3);
-                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 - platwidth), (25 / segmente) * i), platheight, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
-                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 - platwidth), (25 / segmente) * i), platheight + fenceheight, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
+                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 -gaugeoffset) - platwidth), (25 / segmente) * i), platheight, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
+                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 -gaugeoffset) - platwidth), (25 / segmente) * i), platheight + fenceheight, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
                                                     }
                                                 }
                                                 else if (radioButton8.Checked == true)
@@ -3085,8 +3105,8 @@ namespace Weiche
                                                             platheight_new = platheight;
                                                         }
                                                         platwidth = (platwidth - 0.3);
-                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 - platwidth), (25 / segmente) * i), platheight_new, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
-                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 - platwidth), (25 / segmente) * i), platheight_new + fenceheight, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
+                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 -gaugeoffset) - platwidth), (25 / segmente) * i), platheight_new, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
+                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 -gaugeoffset) - platwidth), (25 / segmente) * i), platheight_new + fenceheight, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
                                                     }
                                                 }
                                                 else
@@ -3121,8 +3141,8 @@ namespace Weiche
                                                             platheight_new = platheight;
                                                         }
                                                         platwidth = (platwidth - 0.3);
-                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 - platwidth), (25 / segmente) * i), platheight_new, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
-                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 - platwidth), (25 / segmente) * i), platheight_new + fenceheight, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
+                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 -gaugeoffset) - platwidth), (25 / segmente) * i), platheight_new, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
+                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 -gaugeoffset) - platwidth), (25 / segmente) * i), platheight_new + fenceheight, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
                                                     }
                                                 }
                                             }
@@ -3153,8 +3173,8 @@ namespace Weiche
                                                             platwidth = platwidth_near;
                                                         }
                                                         platwidth = (platwidth - 0.3);
-                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 - platwidth), (25 / segmente) * i), platheight, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
-                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 - platwidth), (25 / segmente) * i), platheight+ fenceheight, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
+                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 -gaugeoffset) - platwidth), (25 / segmente) * i), platheight, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
+                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 -gaugeoffset) - platwidth), (25 / segmente) * i), platheight+ fenceheight, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
                                                     }
                                                 }
                                                 else if (radioButton8.Checked == true)
@@ -3190,8 +3210,8 @@ namespace Weiche
                                                             platheight_new = platheight;
                                                         }
                                                         platwidth = (platwidth - 0.3);
-                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 - platwidth), (25 / segmente) * i), platheight_new, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
-                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 - platwidth), (25 / segmente) * i), platheight_new + fenceheight, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
+                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 -gaugeoffset) - platwidth), (25 / segmente) * i), platheight_new, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
+                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 -gaugeoffset) - platwidth), (25 / segmente) * i), platheight_new + fenceheight, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
                                                     }
                                                 }
                                                 else
@@ -3230,8 +3250,8 @@ namespace Weiche
                                                             platheight_new = platheight;
                                                         }
                                                         platwidth = (platwidth - 0.3);
-                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 - platwidth), (25 / segmente) * i), platheight_new, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
-                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 - platwidth), (25 / segmente) * i), platheight_new + fenceheight, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
+                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 -gaugeoffset) - platwidth), (25 / segmente) * i), platheight_new, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
+                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 -gaugeoffset) - platwidth), (25 / segmente) * i), platheight_new + fenceheight, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
                                                     }
                                                 }
                                             }
@@ -3283,12 +3303,12 @@ namespace Weiche
                                             {
                                                 platwidth = platwidth_near;
                                             }
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.55 + platwidth), (25 / segmente) * i), platheight, trans.Z((1.55 + platwidth), (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(2.55, (25 / segmente) * i), platheight, trans.Z(3.5, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(1.55, (25 / segmente) * i), platheight, trans.Z(1.55, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(1.55, (25 / segmente) * i), platheight - 0.104, trans.Z(1.55, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(1.8, (25 / segmente) * i), platheight - 0.104, trans.Z(1.8, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(1.8, (25 / segmente) * i), -0.2, trans.Z(1.8, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((1.55 +gaugeoffset)+ platwidth), (25 / segmente) * i), platheight, trans.Z((1.55 + platwidth), (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((2.55 +gaugeoffset), (25 / segmente) * i), platheight, trans.Z(3.5, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.55 +gaugeoffset), (25 / segmente) * i), platheight, trans.Z(1.55, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.55 +gaugeoffset), (25 / segmente) * i), platheight - 0.104, trans.Z(1.55, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.8 + gaugeoffset), (25 / segmente) * i), platheight - 0.104, trans.Z(1.8, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.8 + gaugeoffset), (25 / segmente) * i), -0.2, trans.Z(1.8, (25 / segmente) * i));
                                         }
                                     }
                                     else if (radioButton8.Checked == true)
@@ -3322,12 +3342,12 @@ namespace Weiche
 
                                                 platheight_new = platheight;
                                             }
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.55 + platwidth), (25 / segmente) * i), platheight_new, trans.Z((1.55 + platwidth), (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(2.55, (25 / segmente) * i), platheight_new, trans.Z(3.5, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(1.55, (25 / segmente) * i), platheight_new, trans.Z(1.55, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(1.55, (25 / segmente) * i), platheight_new - 0.104, trans.Z(1.55, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(1.8, (25 / segmente) * i), platheight_new - 0.104, trans.Z(1.8, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(1.8, (25 / segmente) * i), -0.2, trans.Z(1.8, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((1.55 + gaugeoffset) + platwidth), (25 / segmente) * i), platheight_new, trans.Z((1.55 + platwidth), (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((2.55 + gaugeoffset), (25 / segmente) * i), platheight_new, trans.Z(3.5, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.55 + gaugeoffset), (25 / segmente) * i), platheight_new, trans.Z(1.55, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.55 + gaugeoffset), (25 / segmente) * i), platheight_new - 0.104, trans.Z(1.55, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.8 + gaugeoffset), (25 / segmente) * i), platheight_new - 0.104, trans.Z(1.8, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.8 + gaugeoffset), (25 / segmente) * i), -0.2, trans.Z(1.8, (25 / segmente) * i));
                                         }
                                     }
                                     else
@@ -3361,12 +3381,12 @@ namespace Weiche
 
                                                 platheight_new = platheight;
                                             }
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.55 + platwidth), (25 / segmente) * i), platheight_new, trans.Z((1.55 + platwidth), (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(2.55, (25 / segmente) * i), platheight_new, trans.Z(3.5, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(1.55, (25 / segmente) * i), platheight_new, trans.Z(1.55, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(1.55, (25 / segmente) * i), platheight_new - 0.104, trans.Z(1.55, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(1.8, (25 / segmente) * i), platheight_new - 0.104, trans.Z(1.8, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(1.8, (25 / segmente) * i), -0.2, trans.Z(1.8, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((1.55 + gaugeoffset) + platwidth), (25 / segmente) * i), platheight_new, trans.Z((1.55 + platwidth), (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((2.55 + gaugeoffset), (25 / segmente) * i), platheight_new, trans.Z(3.5, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.55 + gaugeoffset), (25 / segmente) * i), platheight_new, trans.Z(1.55, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.55 + gaugeoffset), (25 / segmente) * i), platheight_new - 0.104, trans.Z(1.55, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.8 + gaugeoffset), (25 / segmente) * i), platheight_new - 0.104, trans.Z(1.8, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.8 + gaugeoffset), (25 / segmente) * i), -0.2, trans.Z(1.8, (25 / segmente) * i));
                                         }
                                     }
                                 }
@@ -3396,12 +3416,12 @@ namespace Weiche
                                             {
                                                 platwidth = platwidth_near;
                                             }
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.55 + platwidth), (25 / segmente) * i), platheight, trans.Z((1.55 + platwidth), (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(2.55, (25 / segmente) * i), platheight, trans.Z(3.5, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(1.55, (25 / segmente) * i), platheight, trans.Z(1.55, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(1.55, (25 / segmente) * i), platheight - 0.104, trans.Z(1.55, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(1.8, (25 / segmente) * i), platheight - 0.104, trans.Z(1.8, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(1.8, (25 / segmente) * i), -0.2, trans.Z(1.8, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((1.55 + gaugeoffset) + platwidth), (25 / segmente) * i), platheight, trans.Z((1.55 + platwidth), (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((2.55 + gaugeoffset), (25 / segmente) * i), platheight, trans.Z(3.5, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.55 + gaugeoffset), (25 / segmente) * i), platheight, trans.Z(1.55, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.55 + gaugeoffset), (25 / segmente) * i), platheight - 0.104, trans.Z(1.55, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.8 + gaugeoffset), (25 / segmente) * i), platheight - 0.104, trans.Z(1.8, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.8 + gaugeoffset), (25 / segmente) * i), -0.2, trans.Z(1.8, (25 / segmente) * i));
                                         }
                                     }
                                     else if (radioButton8.Checked == true)
@@ -3436,12 +3456,12 @@ namespace Weiche
                                             {
                                                 platheight_new = platheight;
                                             }
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.55 + platwidth), (25 / segmente) * i), platheight_new, trans.Z((1.55 + platwidth), (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(2.55, (25 / segmente) * i), platheight_new, trans.Z(3.5, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(1.55, (25 / segmente) * i), platheight_new, trans.Z(1.55, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(1.55, (25 / segmente) * i), platheight_new - 0.104, trans.Z(1.55, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(1.8, (25 / segmente) * i), platheight_new - 0.104, trans.Z(1.8, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(1.8, (25 / segmente) * i), -0.2, trans.Z(1.8, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((1.55 + gaugeoffset) + platwidth), (25 / segmente) * i), platheight_new, trans.Z((1.55 + platwidth), (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((2.55 + gaugeoffset), (25 / segmente) * i), platheight_new, trans.Z(3.5, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.55 + gaugeoffset), (25 / segmente) * i), platheight_new, trans.Z(1.55, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.55 + gaugeoffset), (25 / segmente) * i), platheight_new - 0.104, trans.Z(1.55, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.8 + gaugeoffset), (25 / segmente) * i), platheight_new - 0.104, trans.Z(1.8, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.8 + gaugeoffset), (25 / segmente) * i), -0.2, trans.Z(1.8, (25 / segmente) * i));
                                         }
                                     }
 
@@ -3480,12 +3500,12 @@ namespace Weiche
                                             {
                                                 platheight_new = platheight;
                                             }
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.55 + platwidth), (25 / segmente) * i), platheight_new, trans.Z((1.55 + platwidth), (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(2.55, (25 / segmente) * i), platheight_new, trans.Z(3.5, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(1.55, (25 / segmente) * i), platheight_new, trans.Z(1.55, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(1.55, (25 / segmente) * i), platheight_new - 0.104, trans.Z(1.55, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(1.8, (25 / segmente) * i), platheight_new - 0.104, trans.Z(1.8, (25 / segmente) * i));
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(1.8, (25 / segmente) * i), -0.2, trans.Z(1.8, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((1.55 + gaugeoffset) + platwidth), (25 / segmente) * i), platheight_new, trans.Z((1.55 + platwidth), (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((2.55 + gaugeoffset), (25 / segmente) * i), platheight_new, trans.Z(3.5, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.55 + gaugeoffset), (25 / segmente) * i), platheight_new, trans.Z(1.55, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.55 + gaugeoffset), (25 / segmente) * i), platheight_new - 0.104, trans.Z(1.55, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.8 + gaugeoffset), (25 / segmente) * i), platheight_new - 0.104, trans.Z(1.8, (25 / segmente) * i));
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.8 + gaugeoffset), (25 / segmente) * i), -0.2, trans.Z(1.8, (25 / segmente) * i));
                                         }
                                     }
                                 }
@@ -3530,8 +3550,8 @@ namespace Weiche
                                                             platwidth = platwidth_near;
                                                         }
                                                         platwidth = (platwidth - 0.3);
-                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.55 + platwidth), (25 / segmente) * i), platheight, trans.Z((1.55 + platwidth), (25 / segmente) * i));
-                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.55 + platwidth), (25 / segmente) * i), platheight + fenceheight, trans.Z((1.55 + platwidth), (25 / segmente) * i));
+                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((1.55 + gaugeoffset) + platwidth), (25 / segmente) * i), platheight, trans.Z((1.55 + platwidth), (25 / segmente) * i));
+                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((1.55 + gaugeoffset) + platwidth), (25 / segmente) * i), platheight + fenceheight, trans.Z((1.55 + platwidth), (25 / segmente) * i));
                                                     }
                                                 }
                                                 else if (radioButton8.Checked == true)
@@ -3566,8 +3586,8 @@ namespace Weiche
                                                             platheight_new = platheight;
                                                         }
                                                         platwidth = (platwidth - 0.3);
-                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.55 + platwidth), (25 / segmente) * i), platheight_new, trans.Z((1.55 + platwidth), (25 / segmente) * i));
-                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.55 + platwidth), (25 / segmente) * i), platheight_new + fenceheight, trans.Z((1.55 + platwidth), (25 / segmente) * i));
+                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((1.55 + gaugeoffset) + platwidth), (25 / segmente) * i), platheight_new, trans.Z((1.55 + platwidth), (25 / segmente) * i));
+                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((1.55 + gaugeoffset) + platwidth), (25 / segmente) * i), platheight_new + fenceheight, trans.Z((1.55 + platwidth), (25 / segmente) * i));
                                                     }
                                                 }
                                                 else
@@ -3602,8 +3622,8 @@ namespace Weiche
                                                             platheight_new = platheight;
                                                         }
                                                         platwidth = (platwidth - 0.3);
-                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.55 + platwidth), (25 / segmente) * i), platheight_new, trans.Z((1.55 + platwidth), (25 / segmente) * i));
-                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.55 + platwidth), (25 / segmente) * i), platheight_new + fenceheight, trans.Z((1.55 + platwidth), (25 / segmente) * i));
+                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((1.55 + gaugeoffset) + platwidth), (25 / segmente) * i), platheight_new, trans.Z((1.55 + platwidth), (25 / segmente) * i));
+                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((1.55 + gaugeoffset) + platwidth), (25 / segmente) * i), platheight_new + fenceheight, trans.Z((1.55 + platwidth), (25 / segmente) * i));
                                                     }
                                                 }
                                             }
@@ -3634,8 +3654,8 @@ namespace Weiche
                                                             platwidth = platwidth_near;
                                                         }
                                                         platwidth = (platwidth - 0.3);
-                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.55 + platwidth), (25 / segmente) * i), platheight, trans.Z((-1.55 + platwidth), (25 / segmente) * i));
-                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.55 + platwidth), (25 / segmente) * i), platheight + fenceheight, trans.Z((1.55 + platwidth), (25 / segmente) * i));
+                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((1.55 + gaugeoffset) + platwidth), (25 / segmente) * i), platheight, trans.Z((-1.55 + platwidth), (25 / segmente) * i));
+                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((1.55 + gaugeoffset) + platwidth), (25 / segmente) * i), platheight + fenceheight, trans.Z((1.55 + platwidth), (25 / segmente) * i));
                                                     }
                                                 }
                                                 else if (radioButton8.Checked == true)
@@ -3671,8 +3691,8 @@ namespace Weiche
                                                             platheight_new = platheight;
                                                         }
                                                         platwidth = (platwidth - 0.3);
-                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.55 + platwidth), (25 / segmente) * i), platheight_new, trans.Z((1.55 + platwidth), (25 / segmente) * i));
-                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.55 + platwidth), (25 / segmente) * i), platheight_new + fenceheight, trans.Z((1.55 + platwidth), (25 / segmente) * i));
+                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((1.55 + gaugeoffset) + platwidth), (25 / segmente) * i), platheight_new, trans.Z((1.55 + platwidth), (25 / segmente) * i));
+                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((1.55 + gaugeoffset) + platwidth), (25 / segmente) * i), platheight_new + fenceheight, trans.Z((1.55 + platwidth), (25 / segmente) * i));
                                                     }
                                                 }
                                                 else
@@ -3711,8 +3731,8 @@ namespace Weiche
                                                             platheight_new = platheight;
                                                         }
                                                         platwidth = (platwidth - 0.3);
-                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.55 + platwidth), (25 / segmente) * i), platheight_new, trans.Z((1.55 + platwidth), (25 / segmente) * i));
-                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.55 + platwidth), (25 / segmente) * i), platheight_new + fenceheight, trans.Z((1.55 + platwidth), (25 / segmente) * i));
+                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((1.55 + gaugeoffset) + platwidth), (25 / segmente) * i), platheight_new, trans.Z((1.55 + platwidth), (25 / segmente) * i));
+                                                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((1.55 + gaugeoffset) + platwidth), (25 / segmente) * i), platheight_new + fenceheight, trans.Z((1.55 + platwidth), (25 / segmente) * i));
                                                     }
                                                 }
                                             }
