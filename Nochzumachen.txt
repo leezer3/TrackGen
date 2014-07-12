@@ -1,0 +1,5 @@
+- Radius für Totspur
+- Idiotensicher
+- keine festen längen (25,50,75...)
+- werte der schine in externem file
+- Textfile überarbeiten
