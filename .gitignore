@@ -1,0 +1,6 @@
+# git ignore file
+Weiche/bin/
+Weiche/obj/
+_UpgradeReport_Files/
+UpgradeLog.XML
+Backup/

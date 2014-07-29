@@ -1,17 +1,13 @@
-Version:
-
-TRACKGEN v1.2
+Version: 
+TRACKGEN v1.5 Alpha 5
 
 This Programm is Freeware. 
 
-Improvements in v1.2:
-- TrackGen now works correctly under Windows 8 (No more solid black window!)
-- Option to use PNG textures as per OpenBVE standard.
-- English translation tweaked slightly.
-
-With the permission of Nils Busch, I've made a few small adjustments to TrackGen to make it work a little better, and 
-am hosting v1.2.
-Comments and questions welcome :)
+Current Features:
+- English/ German menus.
+- Track generation, with variable gauge selection.
+- Platform generation.
+- Custom texture selection
 
 Cheers
 
@@ -19,6 +15,11 @@ Chris Lees
 
 http://www.bvecornwall.co.uk
 
+
+
+
+TrackGen was originally created by Nils Busch, and has been improved and modified with his permission.
+The original ReadMe is reproduced below:
 --------------------------------------------------------------------------------------------------------------
 
 For Contact and Information visit my webpage:

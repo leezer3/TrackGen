@@ -365,7 +365,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(254, 13);
             this.label2.TabIndex = 21;
-            this.label2.Text = "v 1.5 ALPHA 6  © N.Busch and C. Lees 2008- 2014";
+            this.label2.Text = "v 1.5 ALPHA 7  © N.Busch and C. Lees 2008- 2014";
             // 
             // label1
             // 

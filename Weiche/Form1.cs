@@ -224,6 +224,12 @@ namespace Weiche
         //Für gebogene tote Kurve mit Abweichung
 
         //Generate curves using deviation???
+
+        //Paramaaters are as follows:
+        //Segment??
+        //Radius
+        //???
+        //Left or right
         static double Abbiege_x(double z, double radius_tot, double x_Abweich,int LiReT) 
         {
 	        double winkel = Math.Asin(z/radius_tot);
@@ -1747,26 +1753,47 @@ namespace Weiche
                         a = -1;
                         sw.WriteLine("\r\r\nCreateMeshBuilder ;Sleepers L Branch");
 
+                        
+
+                        //This only works properly on right branching switches
+                        
                         for (double i = 0; i <= 25 * laenge; i = i + 25 / segmente, a++)
                         {
-                            //New
-                            double newsleepers = trans.X((1.3 + gaugeoffset) * LiRe_T, i);
-                            //Original
-                            double newsleepers1 = trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i);               
-                           
 
-                            
-                            sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((-1.3- gaugeoffset) * LiRe_T, i), trans.Z((-1.3- gaugeoffset) * LiRe_T, i));
-                            if (newsleepers - newsleepers1 <= 0.1)
+                            if (LiRe_T == 1)
                             {
-                                sw.WriteLine("AddVertex,{0:f4},-0.151,{1:f4},", trans.X((1.3 + gaugeoffset) * LiRe_T, i), trans.Z((1.3 + gaugeoffset) * LiRe_T, i));
+
+                                //New
+                                double newsleepers = trans.X((1.3 + gaugeoffset) * LiRe_T, i);
+                                //Original
+                                double newsleepers1 = trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i);
+                                sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((-1.3 - gaugeoffset) * LiRe_T, i), trans.Z((-1.3 - gaugeoffset) * LiRe_T, i));
+                                if (newsleepers - newsleepers1 <= 0.1)
+                                {
+                                    sw.WriteLine("AddVertex,{0:f4},-0.151,{1:f4},", trans.X((1.3 + gaugeoffset) * LiRe_T, i), trans.Z((1.3 + gaugeoffset) * LiRe_T, i));
+                                }
+                                else
+                                {
+                                    sw.WriteLine("AddVertex,{0:f4},-0.151,{1:f4},", trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i), trans.Z((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
+                                }
                             }
                             else
                             {
-                                sw.WriteLine("AddVertex,{0:f4},-0.151,{1:f4},", trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i), trans.Z((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
+                                //New
+                                double newsleepers = trans.X((1.3 + gaugeoffset) * LiRe_T, i);
+                                //Original
+                                double newsleepers1 = trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i);
+                                sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((-1.3 - gaugeoffset) * LiRe_T, i), trans.Z((-1.3 - gaugeoffset) * LiRe_T, i));
+                                if (newsleepers - newsleepers1 >= -0.1)
+                                {
+                                    sw.WriteLine("AddVertex,{0:f4},-0.151,{1:f4},", trans.X((1.3 + gaugeoffset) * LiRe_T, i), trans.Z((1.3 + gaugeoffset) * LiRe_T, i));
+                                }
+                                else
+                                {
+                                    sw.WriteLine("AddVertex,{0:f4},-0.151,{1:f4},", trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i), trans.Z((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
+                                }
                             }
-                            //OLD RIGHT
-                            //sw.WriteLine("AddVertex,{0:f4},-0.151,{1:f4},", trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i), trans.Z((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
+                            
                         }
 
 
@@ -1793,9 +1820,13 @@ namespace Weiche
                         }
                         else
                         {
+                            
+                            double f = 0;
                             for (double i = a; i >= 0; i--)
                             {
-                                c = (Abbiege_x(25 * laenge * (a - i) / a, radiusT, 0, LiRe_T * LiRe_T) / 2 + (1.3+ gaugeoffset)) / (2.6 + (gaugeoffset * 2));
+                                
+                                c = (Abbiege_x(25 * laenge * (a - i) / a, radiusT, 0, LiRe_T * LiRe_T) / 2 + (1.3 + gaugeoffset)) / (2.6 + (gaugeoffset * 2));
+                                
                                 double newcoords;
                                 if (c < 1)
                                 {
@@ -1805,6 +1836,10 @@ namespace Weiche
                                 {
                                     newcoords = 1;
                                 }
+
+                                
+                                
+
                                 sw.WriteLine("SetTextureCoordinates,{0:f4},0,{1:f4},", b, i * 15 * laenge / a);
                                 sw.WriteLine("SetTextureCoordinates,{0:f4},{1:f4},{2:f4},", b + 1, newcoords, i * 15 * laenge / a);
                                 b = b + 2;
@@ -1818,19 +1853,38 @@ namespace Weiche
                         sw.WriteLine("\r\r\nCreateMeshBuilder ;Sleepers R Branch");
                          for (double i = 0; i <= 25 * laenge; i = i + 25 / segmente, a++)
                         {
-                            double newsleepers1 = (trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
-                            double newsleepers2 = (trans.X(Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
-                            if (newsleepers2 <= newsleepers1)
+                            if (LiRe_T == 1)
                             {
-                                sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i), trans.Z((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
+                                double newsleepers1 = (trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
+                                double newsleepers2 = (trans.X(Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
+                                if (newsleepers2 <= newsleepers1)
+                                {
+                                    sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i), trans.Z((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
+                                }
+                                else
+                                {
+                                    sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)), trans.Z(Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
+                                }
+
+
+                                sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(Abbiege_x(i, radiusT, (1.3 + gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (1.3 + gaugeoffset), LiRe_T)), trans.Z(Abbiege_x(i, radiusT, (1.3 + gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (1.3 + gaugeoffset), LiRe_T)));
                             }
                             else
                             {
-                                sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)), trans.Z(Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
+                                double newsleepers1 = (trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
+                                double newsleepers2 = (trans.X(Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
+                                if (newsleepers2 >= newsleepers1)
+                                {
+                                    sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i), trans.Z((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
+                                }
+                                else
+                                {
+                                    sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)), trans.Z(Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
+                                }
+
+
+                                sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(Abbiege_x(i, radiusT, (1.3 + gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (1.3 + gaugeoffset), LiRe_T)), trans.Z(Abbiege_x(i, radiusT, (1.3 + gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (1.3 + gaugeoffset), LiRe_T)));
                             }
-                             //sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i), trans.Z((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
-                            
-                            sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(Abbiege_x(i, radiusT, (1.3+ gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (1.3+ gaugeoffset), LiRe_T)), trans.Z(Abbiege_x(i, radiusT, (1.3+ gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (1.3+ gaugeoffset), LiRe_T)));
                         }
 
                         AddFace(sw, a, LiRe_T);
@@ -1884,21 +1938,43 @@ namespace Weiche
 
                         for (double i = 0; i <= 25 * laenge; i = i + 25 / segmente, a++, totalsegs++)
                         {
-                            //New
-                            double newsleepers = trans.X((1.3 + gaugeoffset) * LiRe_T, i);
-                            //Original
-                            double newsleepers1 = trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i);
-
-
-                            if (newsleepers - newsleepers1 <= 0.1)
+                            if (LiRe_T == 1)
                             {
-                            sw.WriteLine("AddVertex,{0:f4},-0.151,{1:f4},", trans.X((1.3 + gaugeoffset) * LiRe_T, i), trans.Z((1.3 + gaugeoffset) * LiRe_T, i));
-                            sw.WriteLine("AddVertex,{0:f4},-0.4,{1:f4},", trans.X((2.8 + gaugeoffset) * LiRe_T, i), trans.Z((2.8 + gaugeoffset) * LiRe_T, i));
+                                //New
+                                double newsleepers = trans.X((1.3 + gaugeoffset) * LiRe_T, i);
+                                //Original
+                                double newsleepers1 = trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i);
+
+
+                                if (newsleepers - newsleepers1 <= 0.1)
+                                {
+                                    sw.WriteLine("AddVertex,{0:f4},-0.151,{1:f4},", trans.X((1.3 + gaugeoffset) * LiRe_T, i), trans.Z((1.3 + gaugeoffset) * LiRe_T, i));
+                                    sw.WriteLine("AddVertex,{0:f4},-0.4,{1:f4},", trans.X((2.8 + gaugeoffset) * LiRe_T, i), trans.Z((2.8 + gaugeoffset) * LiRe_T, i));
+                                }
+                                else
+                                {
+                                    //Don't do anything, subtract one from a
+                                    a--;
+                                }
                             }
                             else
                             {
-                                //Don't do anything, subtract one from a
-                                a--;
+                                //New
+                                double newsleepers = trans.X((1.3 + gaugeoffset) * LiRe_T, i);
+                                //Original
+                                double newsleepers1 = trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i);
+
+
+                                if (newsleepers - newsleepers1 >= -0.1)
+                                {
+                                    sw.WriteLine("AddVertex,{0:f4},-0.151,{1:f4},", trans.X((1.3 + gaugeoffset) * LiRe_T, i), trans.Z((1.3 + gaugeoffset) * LiRe_T, i));
+                                    sw.WriteLine("AddVertex,{0:f4},-0.4,{1:f4},", trans.X((2.8 + gaugeoffset) * LiRe_T, i), trans.Z((2.8 + gaugeoffset) * LiRe_T, i));
+                                }
+                                else
+                                {
+                                    //Don't do anything, subtract one from a
+                                    a--;
+                                }
                             }
                             
                         }
@@ -1920,18 +1996,37 @@ namespace Weiche
 
                         for (double i = 0; i <= 25 * laenge; i = i + 25 / segmente, a++, totalsegs++)
                         {
-                            double newsleepers1 = (trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
-                            double newsleepers2 = (trans.X(Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
-
-
-                            if (newsleepers2 <= newsleepers1)
+                            if (LiRe_T == 1)
                             {
-                                a--;
+                                double newsleepers1 = (trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
+                                double newsleepers2 = (trans.X(Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
+
+
+                                if (newsleepers2 <= newsleepers1)
+                                {
+                                    a--;
+                                }
+                                else
+                                {
+                                    sw.WriteLine("AddVertex,{0:f4},-0.4,{1:f4},", trans.X(Abbiege_x(i, radiusT, (-2.8 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-2.8 - gaugeoffset), LiRe_T)), trans.Z(Abbiege_x(i, radiusT, (-2.8 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-2.8 - gaugeoffset), LiRe_T)));
+                                    sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)), trans.Z(Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
+                                }
                             }
                             else
                             {
-                                sw.WriteLine("AddVertex,{0:f4},-0.4,{1:f4},", trans.X(Abbiege_x(i, radiusT, (-2.8 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-2.8 - gaugeoffset), LiRe_T)), trans.Z(Abbiege_x(i, radiusT, (-2.8 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-2.8 - gaugeoffset), LiRe_T)));
-                                sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)), trans.Z(Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
+                                double newsleepers1 = (trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
+                                double newsleepers2 = (trans.X(Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
+
+
+                                if (newsleepers2 >= newsleepers1)
+                                {
+                                    a--;
+                                }
+                                else
+                                {
+                                    sw.WriteLine("AddVertex,{0:f4},-0.4,{1:f4},", trans.X(Abbiege_x(i, radiusT, (-2.8 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-2.8 - gaugeoffset), LiRe_T)), trans.Z(Abbiege_x(i, radiusT, (-2.8 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-2.8 - gaugeoffset), LiRe_T)));
+                                    sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)), trans.Z(Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
+                                }
                             }
 
                         }
@@ -1951,31 +2046,6 @@ namespace Weiche
 
                         double d = Abw_tot / (2 * Math.Cos(winkel_tot(laenge, Abw_tot)));
 
-                        /*
-                         ** NOT NEEDED ANYMORE **
-                        sw.WriteLine("\r\r\nCreateMeshBuilder,");
-                        sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(Abbiege_x(25 * laenge, radiusT, 0, LiRe_T) / (2+ (gaugeoffset* 2)), 25 * laenge), trans.Z(Abbiege_x(25 * laenge, radiusT, 0, LiRe_T) / (2+ (gaugeoffset* 2)), 25 * laenge));
-                        sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(Abbiege_x(25 * laenge, radiusT, -d, LiRe_T), Abbiege_z(25 * laenge, radiusT, -d, LiRe_T)), trans.Z(Abbiege_x(25 * laenge, radiusT, -d, LiRe_T), Abbiege_z(25 * laenge, radiusT, -d, LiRe_T)));
-                        sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(Abbiege_x(25 * laenge, radiusT, (1.3+ gaugeoffset), LiRe_T), Abbiege_z(25 * laenge, radiusT, (1.3+ gaugeoffset), LiRe_T)), trans.Z(Abbiege_x(25 * laenge, radiusT, (1.3+ gaugeoffset), LiRe_T), Abbiege_z(25 * laenge, radiusT, (1.3+ gaugeoffset), LiRe_T)));
-                        if (LiRe_T > 0)
-                        {
-                            sw.WriteLine("AddFace,0,1,2,");
-                        }
-                        else
-                        {
-                            sw.WriteLine("AddFace,2,1,0,");
-                        }
-
-                        sw.WriteLine("GenerateNormals,");
-                        sw.WriteLine("LoadTexture,{0:f4}.{1:f4},", sleeper_file, texture_format);
-                        
-                        c = 1 - (Abbiege_x(25 * laenge, radiusT, 0, LiRe_T * LiRe_T) / 2 + 1.3) / 2.6;
-                        sw.WriteLine("SetTextureCoordinates,0,{0:f4},1,", trans.X(c, 25 - z));
-                        sw.WriteLine("SetTextureCoordinates,1,{0:f4},{1:f4},", trans.X(c, 25 - z), trans.Z(c, (1 - (Abbiege_z(25 * laenge, radiusT, -d, LiRe_T) - (25 * laenge)) * 15 / 25)) - z);
-                        sw.WriteLine("SetTextureCoordinates,2,1,1,");
-                        */
-
-                        // SchienenbefestigungAnfang Spielerspur
 
                         a = -1;
                         sw.WriteLine("\r\r\nCreateMeshBuilder");
