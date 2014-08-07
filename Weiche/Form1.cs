@@ -18,7 +18,9 @@ namespace Weiche
     public partial class Weichengenerator : Form
     {
         //Define initial texture filenames
-        
+        //Motor Texture
+        public string motor_texture;
+        public string motor_file;
         //Ballast Textures
         public string ballast_file;
         public string ballast_texture;
@@ -728,6 +730,9 @@ namespace Weiche
             string spezanf_file = "SchieneSpezAnf";
             string spezanf_texture = (richTextBox1.Text + "\\Textures\\SchieneSpezAnf.png");
 
+            motor_file = "WeichAntrieb";
+            motor_texture = (richTextBox1.Text + "\\Textures\\WeichAntrieb.png");
+
             //Set texture format
             if (!checkBox4.Checked)
             {
@@ -855,7 +860,10 @@ namespace Weiche
                     //Spez Textures
                     ConvertAndMove(launchpath, spez_texture, texture_format, spez_file, outputtype);
                     ConvertAndMove(launchpath, spezanf_texture, texture_format, spezanf_file, outputtype);
-
+                    if (checkBox1.Checked)
+                    {
+                        ConvertAndMove(launchpath, motor_texture, texture_format, motor_file, outputtype);
+                    }
                     //Embankment Texture
                     if (checkBox2.Checked == false)
                     {
@@ -868,6 +876,8 @@ namespace Weiche
                         ConvertAndMove(launchpath, railside_texture, texture_format, railside_file, outputtype);
                         ConvertAndMove(launchpath, railtop_texture, texture_format, railtop_file, outputtype);
                     }
+
+                    
 
                     //LiRe Definition
                     if (radius < 0)
@@ -1932,9 +1942,12 @@ namespace Weiche
 
                         //Left Branch Ballast Shoulder R
 
+                        //Increment this one if we add any verticies
+                        //Needed to eliminate writing out stuff uncessarily
+                        int neededtest = 0;
                         a = -1;
                         int totalsegs = -1;
-                        sw.WriteLine("\r\r\nCreateMeshBuilder ;Shoulder R Branch L");
+                        
 
                         for (double i = 0; i <= 25 * laenge; i = i + 25 / segmente, a++, totalsegs++)
                         {
@@ -1948,8 +1961,13 @@ namespace Weiche
 
                                 if (newsleepers - newsleepers1 <= 0.1)
                                 {
+                                    if (neededtest == 0)
+                                    {
+                                        sw.WriteLine("\r\r\nCreateMeshBuilder ;Shoulder R Branch L");
+                                    }
                                     sw.WriteLine("AddVertex,{0:f4},-0.151,{1:f4},", trans.X((1.3 + gaugeoffset) * LiRe_T, i), trans.Z((1.3 + gaugeoffset) * LiRe_T, i));
                                     sw.WriteLine("AddVertex,{0:f4},-0.4,{1:f4},", trans.X((2.8 + gaugeoffset) * LiRe_T, i), trans.Z((2.8 + gaugeoffset) * LiRe_T, i));
+                                    neededtest++;
                                 }
                                 else
                                 {
@@ -1967,8 +1985,13 @@ namespace Weiche
 
                                 if (newsleepers - newsleepers1 >= -0.1)
                                 {
+                                    if (neededtest == 0)
+                                    {
+                                        sw.WriteLine("\r\r\nCreateMeshBuilder ;Shoulder R Branch L");
+                                    }
                                     sw.WriteLine("AddVertex,{0:f4},-0.151,{1:f4},", trans.X((1.3 + gaugeoffset) * LiRe_T, i), trans.Z((1.3 + gaugeoffset) * LiRe_T, i));
                                     sw.WriteLine("AddVertex,{0:f4},-0.4,{1:f4},", trans.X((2.8 + gaugeoffset) * LiRe_T, i), trans.Z((2.8 + gaugeoffset) * LiRe_T, i));
+                                    neededtest++;
                                 }
                                 else
                                 {
@@ -1979,20 +2002,22 @@ namespace Weiche
                             
                         }
 
-
-                        AddFace(sw, a, LiRe_T);
-                        double texturefactor1 = a;
-                        double texturefactor2 = totalsegs;
-                        double texturefactor = ((texturefactor1 / texturefactor2) * 10);
-                        sw.WriteLine("GenerateNormals,");
-                        sw.WriteLine("LoadTexture,{0:f4}.{1:f4},", ballast_file, texture_format);
-                        SetTexture(sw, a, texturefactor * laenge, 5);
-
+                        
+                            AddFace(sw, a, LiRe_T);
+                            double texturefactor1 = a;
+                            double texturefactor2 = totalsegs;
+                            double texturefactor = ((texturefactor1 / texturefactor2) * 10);
+                            if (neededtest != 0)
+                            {
+                            sw.WriteLine("GenerateNormals,");
+                            sw.WriteLine("LoadTexture,{0:f4}.{1:f4},", ballast_file, texture_format);
+                            SetTexture(sw, a, texturefactor * laenge, 5);
+                            }
                         //Right Branch Ballast Shoulder L
-
+                        neededtest = 0;
                         a = -1;
                         totalsegs = -1;
-                        sw.WriteLine("\r\r\nCreateMeshBuilder ;Shoulder L Branch R");
+                        
 
                         for (double i = 0; i <= 25 * laenge; i = i + 25 / segmente, a++, totalsegs++)
                         {
@@ -2000,7 +2025,7 @@ namespace Weiche
                             {
                                 double newsleepers1 = (trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
                                 double newsleepers2 = (trans.X(Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
-
+                                
 
                                 if (newsleepers2 <= newsleepers1)
                                 {
@@ -2008,8 +2033,13 @@ namespace Weiche
                                 }
                                 else
                                 {
+                                    if (neededtest == 0)
+                                    {
+                                        sw.WriteLine("\r\r\nCreateMeshBuilder ;Shoulder L Branch R");
+                                    }
                                     sw.WriteLine("AddVertex,{0:f4},-0.4,{1:f4},", trans.X(Abbiege_x(i, radiusT, (-2.8 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-2.8 - gaugeoffset), LiRe_T)), trans.Z(Abbiege_x(i, radiusT, (-2.8 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-2.8 - gaugeoffset), LiRe_T)));
                                     sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)), trans.Z(Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
+                                    neededtest++;
                                 }
                             }
                             else
@@ -2024,8 +2054,13 @@ namespace Weiche
                                 }
                                 else
                                 {
+                                    if (neededtest == 0)
+                                    {
+                                        sw.WriteLine("\r\r\nCreateMeshBuilder ;Shoulder L Branch R");
+                                    }
                                     sw.WriteLine("AddVertex,{0:f4},-0.4,{1:f4},", trans.X(Abbiege_x(i, radiusT, (-2.8 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-2.8 - gaugeoffset), LiRe_T)), trans.Z(Abbiege_x(i, radiusT, (-2.8 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-2.8 - gaugeoffset), LiRe_T)));
                                     sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)), trans.Z(Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
+                                    neededtest++;
                                 }
                             }
 
@@ -2036,10 +2071,12 @@ namespace Weiche
                         texturefactor1 = a;
                         texturefactor2 = totalsegs;
                         texturefactor = ((texturefactor1 / texturefactor2) * 10);
-                        sw.WriteLine("GenerateNormals,");
-                        sw.WriteLine("LoadTexture,{0:f4}.{1:f4},", ballast_file, texture_format);
-                        SetTexture(sw, a, texturefactor * laenge, 2);
-
+                        if (neededtest != 0)
+                        {
+                            sw.WriteLine("GenerateNormals,");
+                            sw.WriteLine("LoadTexture,{0:f4}.{1:f4},", ballast_file, texture_format);
+                            SetTexture(sw, a, texturefactor * laenge, 2);
+                        }
 
 
                         //Right Branch Additional Sleeper Bit
