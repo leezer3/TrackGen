@@ -1,17 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Globalization;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using System.IO;
-using System.Security;
-using System.Security.Permissions;
-using System.Web;
 using Microsoft.Win32;
+using Weiche.Properties;
 
 namespace Weiche
 {
@@ -46,104 +39,79 @@ namespace Weiche
         public Weichengenerator()
         {
             
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
+           
             InitializeComponent();
             using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Trackgen", true))
             {
                 if (key != null)
                 {
+                    Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en-GB");
                     var language = key.GetValue("Language");
                     var textureformat = key.GetValue("TextureFormat");
-                    //Set Language
-                    if (Convert.ToString(language) == "en")
-                    {
-                        //English
-                        label_radius.Text = "Curve radius for player's track OR deviation (In meters)";
-                        label_tot.Text = "Deviation for diverging track (In meters)";
-                        radioButton1.Text = "Switch";
-                        radioButton2.Text = "Curve";
-                        radioButton3.Text = "Straight";
-                        label_laenge.Text = "Switch Length Multiplication (25,50,75,..) ";
-                        label_segmente.Text = "Number of segments";
-                        groupBox1.Text = "Advanced options";
-                        checkBox5.Text = "Do not texture rails";
-                        checkBox4.Text = "Use PNG textures";
-                        checkBox3.Text = "Invert textures";
-                        checkBox2.Text = "Without embankment";
-                        checkBox1.Text = "Add point motor";
-                        label_z.Text = "Z - adjustment";
-                        folderPath.Text = "Path";
-                        button.Text = "Create";
-                        label3.Text = "Platform Side";
-                        label4.Text = "Platform height (in m)";
-                        label5.Text = "Platform Width (Near)";
-                        label7.Text = "Plarform Width (Far)";
-                        label6.Text = "Platform Ramp";
-                        label8.Text = "Platform Fence";
-                        texturebutton.Text = "Choose Textures...";
-                        radioButton5.Text = "Left";
-                        radioButton6.Text = "Right";
-                    }
+                    
                     if (Convert.ToString(language) == "de")
                     {
+                        Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("de-DE");
                         //German
-                        label_radius.Text = "Radius/Abweichung der eigenen Spur (in m) ";
-                        label_tot.Text = "Abweichung der Totspur (in m) ";
-                        radioButton1.Text = "Weiche";
-                        radioButton2.Text = "Kurve";
-                        radioButton3.Text = "Gerade";
-                        label_laenge.Text = "Weichenlänge (25,50,75,..) ";
-                        label_segmente.Text = "Anzahl Segmente";
-                        groupBox1.Text = "Erweiterte Optionen";
-                        checkBox5.Text = "Nicht Textur Schiene";
-                        checkBox4.Text = "PNG Textur";
-                        checkBox3.Text = "Textur Invertieren";
-                        checkBox2.Text = "Ohne Böschung";
-                        checkBox1.Text = "Weichenantrieb";
-                        label_z.Text = "z - Verschiebung";
-                        folderPath.Text = "Pfad";
-                        button.Text = "Erstellen";
-                        label3.Text = "Bahnsteigseite";
-                        label4.Text = "Plattformhöhe (in m)";
-                        label5.Text = "Plattformbreite (Nahe)";
-                        label7.Text = "Plattformbreite (Weit)";
-                        label6.Text = "Plattform Rampe";
-                        label8.Text = "Plattform Zaun";
-                        texturebutton.Text = "Texturen Wählen...";
-                        radioButton5.Text = "Links";
-                        radioButton6.Text = "Recht";
+                        label_radius.Text = Resources.radius;
+                        label_tot.Text = Resources.deviation;
+                        radioButton1.Text = Resources.pointswitch;
+                        radioButton2.Text = Resources.curve;
+                        radioButton3.Text = Resources.straight;
+                        label_laenge.Text = Resources.lengthmultiplier;
+                        label_segmente.Text = Resources.segments;
+                        groupBox1.Text = Resources.advanced;
+                        checkBox5.Text = Resources.railtexture;
+                        checkBox4.Text = Resources.pngtexture;
+                        checkBox3.Text = Resources.invertexture;
+                        checkBox2.Text = Resources.embankment;
+                        checkBox1.Text = Resources.pointmotor;
+                        label_z.Text = Resources.zadjust;
+                        folderPath.Text = Resources.path;
+                        button.Text = Resources.createbutton;
+                        label3.Text = Resources.platformside;
+                        label4.Text = Resources.platformheight;
+                        label5.Text = Resources.platformwidth_n;
+                        label7.Text = Resources.platformwidth_f;
+                        label6.Text = Resources.platformramp;
+                        label8.Text = Resources.platformfence;
+                        radioButton5.Text = Resources.left;
+                        radioButton6.Text = Resources.right;
+                        texturebutton.Text = Resources.choosetexture;
+
                     }
                     else
                     {
                         //If the registry key isn't what we expect
                         //Return English & reset value
                         key.SetValue("Language", "en");
-                        label_radius.Text = "Curve radius for player's track OR deviation (In meters)";
-                        label_tot.Text = "Deviation for diverging track (In meters)";
-                        radioButton1.Text = "Switch";
-                        radioButton2.Text = "Curve";
-                        radioButton3.Text = "Straight";
-                        label_laenge.Text = "Switch Length Multiplication (25,50,75,..) ";
-                        label_segmente.Text = "Number of segments";
-                        groupBox1.Text = "Advanced options";
-                        checkBox5.Text = "Do not texture rails";
-                        checkBox4.Text = "Use PNG textures";
-                        checkBox3.Text = "Invert textures";
-                        checkBox2.Text = "Without embankment";
-                        checkBox1.Text = "Add point motor";
-                        label_z.Text = "Z - adjustment";
-                        folderPath.Text = "Path";
-                        button.Text = "Create";
-                        label3.Text = "Platform Side";
-                        label4.Text = "Platform height (in m)";
-                        label5.Text = "Platform Width (Near)";
-                        label7.Text = "Plarform Width (Far)";
-                        label6.Text = "Platform Ramp";
-                        label8.Text = "Platform Fence";
-                        texturebutton.Text = "Choose Textures...";
-                        radioButton5.Text = "Left";
-                        radioButton6.Text = "Right";
+                        label_radius.Text = Resources.radius;
+                        label_tot.Text = Resources.deviation;
+                        radioButton1.Text = Resources.pointswitch;
+                        radioButton2.Text = Resources.curve;
+                        radioButton3.Text = Resources.straight;
+                        label_laenge.Text = Resources.lengthmultiplier;
+                        label_segmente.Text = Resources.segments;
+                        groupBox1.Text = Resources.advanced;
+                        checkBox5.Text = Resources.railtexture;
+                        checkBox4.Text = Resources.pngtexture;
+                        checkBox3.Text = Resources.invertexture;
+                        checkBox2.Text = Resources.embankment;
+                        checkBox1.Text = Resources.pointmotor;
+                        label_z.Text = Resources.zadjust;
+                        folderPath.Text = Resources.path;
+                        button.Text = Resources.createbutton;
+                        label3.Text = Resources.platformside;
+                        label4.Text = Resources.platformheight;
+                        label5.Text = Resources.platformwidth_n;
+                        label7.Text = Resources.platformwidth_f;
+                        label6.Text = Resources.platformramp;
+                        label8.Text = Resources.platformfence;
+                        radioButton5.Text = Resources.left;
+                        radioButton6.Text = Resources.right;
+                        texturebutton.Text = Resources.choosetexture;
                     }
+                    
 
                     if (key.GetValue("TextureFormat") != null)
                     {
@@ -215,7 +183,7 @@ namespace Weiche
                     return z + _z;
                 }
             }
-            int laenge;          ///< in Meter
+            int laenge;          // < in Meter
             double eigenRadius;
             double radiusOffset;
             double winkel;
@@ -234,13 +202,13 @@ namespace Weiche
         //Left or right
         static double Abbiege_x(double z, double radius_tot, double x_Abweich,int LiReT) 
         {
-	        double winkel = Math.Asin(z/radius_tot);
+	        var winkel = Math.Asin(z/radius_tot);
             return ((radius_tot - Math.Sqrt(radius_tot * radius_tot - z * z) + Math.Cos(winkel) * x_Abweich) * LiReT);
         }
 
         static double Abbiege_z(double z, double radius_tot, double x_Abweich,int LiReT)
         {
-            double winkel = Math.Asin(z / radius_tot);
+            var winkel = Math.Asin(z / radius_tot);
             return (z + Math.Sin(winkel)*x_Abweich*-1);
         }
 
@@ -248,8 +216,8 @@ namespace Weiche
 
         static double radius_tot(int laenge, double Abweichung)
         {
-            double winkel = Math.Atan(Abweichung / (laenge*25));
-            double radius_t = laenge*25 / (Math.Sin(2 * winkel));
+            var winkel = Math.Atan(Abweichung / (laenge*25));
+            var radius_t = laenge*25 / (Math.Sin(2 * winkel));
             return (radius_t);
         }
 
@@ -265,7 +233,7 @@ namespace Weiche
 
         static void SetTexture(StreamWriter sw, int Faktor,double TexturMulti, int Ausrichtung)
         {
-            int b = 0;
+            var b = 0;
             switch (Ausrichtung)
             {
                 case 1:
@@ -318,15 +286,14 @@ namespace Weiche
 
         static void SetPlatformTexture(StreamWriter sw, int Faktor, double TexturMulti, int Ausrichtung, double platwidth_near, double platwidth_far, double segmente)
         {
-            int b = 0;
+            var b = 0;
             switch (Ausrichtung)
             {
 
                 case 1:
                     //Platform Single Mesh
                     
-                    int c = 0;
-                    double calculated_texture = 0;
+                    var c = 0;
                     for (double i = Faktor; i >= 0; i--)
                     {
                         //5m wide nominal width- Return zero for both
@@ -340,93 +307,97 @@ namespace Weiche
                             sw.WriteLine("SetTextureCoordinates,{0},{1:f4},1,", b + 5, i * TexturMulti / Faktor);
                         }
                         //Are both widths equal?
-                        else if (platwidth_near == platwidth_far)
-                        {
-                            
-                            if (platwidth_far < 5)
-                            {
-                                //Calculate texture for below 5m width
-                                calculated_texture = (0.67 - (0.1675 * (platwidth_far)));
-                            }
-                            else
-                            {
-                                //Otherwise return zero and stretch
-                                calculated_texture = 0;
-                            }
-                            sw.WriteLine("SetTextureCoordinates,{0},{1:f4},{2},", b, i * TexturMulti / Faktor, calculated_texture);
-                            sw.WriteLine("SetTextureCoordinates,{0},{1:f4},0.67,", b + 1, i * TexturMulti / Faktor);
-                            sw.WriteLine("SetTextureCoordinates,{0},{1:f4},0.79,", b + 2, i * TexturMulti / Faktor);
-                            sw.WriteLine("SetTextureCoordinates,{0},{1:f4},0.8,", b + 3, i * TexturMulti / Faktor);
-                            sw.WriteLine("SetTextureCoordinates,{0},{1:f4},0.81,", b + 4, i * TexturMulti / Faktor);
-                            sw.WriteLine("SetTextureCoordinates,{0},{1:f4},1,", b + 5, i * TexturMulti / Faktor);
-                        }
-                        //If platform is wider at far end
-                        else if (platwidth_near < platwidth_far)
-                        {
-                            double far_texture = 0;
-                            double near_texture= 0;
-                            //Calculate co-ordinates for far end texture
-                            if (platwidth_far <= 5)
-                            {
-                                //Calculate texture for below 5m width
-                                far_texture = (0.67 - (0.1675 * (platwidth_far -1)));
-                            }
-                            else
-                            {
-                                far_texture = 0;
-                            }
-
-                            if (platwidth_near <= 5)
-                            {
-                                //Calculate texture for below 5m width
-                                near_texture = (0.67 - (0.1675 * (platwidth_near -1)));
-                            }
-                            else
-                            {
-                                near_texture = 0;
-                            }
-                            calculated_texture = (((near_texture - far_texture) / segmente) * i);
-                            //calculated_texture = ((far_texture - near_texture) / segmente) * i;
-                            sw.WriteLine("SetTextureCoordinates,{0},{1:f4},{2},", b, i * TexturMulti / Faktor, calculated_texture);
-                            sw.WriteLine("SetTextureCoordinates,{0},{1:f4},0.67,", b + 1, i * TexturMulti / Faktor);
-                            sw.WriteLine("SetTextureCoordinates,{0},{1:f4},0.79,", b + 2, i * TexturMulti / Faktor);
-                            sw.WriteLine("SetTextureCoordinates,{0},{1:f4},0.8,", b + 3, i * TexturMulti / Faktor);
-                            sw.WriteLine("SetTextureCoordinates,{0},{1:f4},0.81,", b + 4, i * TexturMulti / Faktor);
-                            sw.WriteLine("SetTextureCoordinates,{0},{1:f4},1,", b + 5, i * TexturMulti / Faktor);
-                        }
                         else
                         {
-                            //Platform is wider at near end 
-                            double far_texture = 0;
-                            double near_texture = 0;
-                            //Calculate co-ordinates for far end texture
-                            if (platwidth_far < 5)
+                            double calculated_texture;
+                            if (platwidth_near == platwidth_far)
                             {
-                                //Calculate texture for below 5m width
-                                far_texture = (0.67 - (0.1675 * (platwidth_far - 1)));
+                            
+                                if (platwidth_far < 5)
+                                {
+                                    //Calculate texture for below 5m width
+                                    calculated_texture = (0.67 - (0.1675 * (platwidth_far)));
+                                }
+                                else
+                                {
+                                    //Otherwise return zero and stretch
+                                    calculated_texture = 0;
+                                }
+                                sw.WriteLine("SetTextureCoordinates,{0},{1:f4},{2},", b, i * TexturMulti / Faktor, calculated_texture);
+                                sw.WriteLine("SetTextureCoordinates,{0},{1:f4},0.67,", b + 1, i * TexturMulti / Faktor);
+                                sw.WriteLine("SetTextureCoordinates,{0},{1:f4},0.79,", b + 2, i * TexturMulti / Faktor);
+                                sw.WriteLine("SetTextureCoordinates,{0},{1:f4},0.8,", b + 3, i * TexturMulti / Faktor);
+                                sw.WriteLine("SetTextureCoordinates,{0},{1:f4},0.81,", b + 4, i * TexturMulti / Faktor);
+                                sw.WriteLine("SetTextureCoordinates,{0},{1:f4},1,", b + 5, i * TexturMulti / Faktor);
                             }
-                            else
+                                //If platform is wider at far end
+                            else if (platwidth_near < platwidth_far)
                             {
-                                far_texture = 0;
-                            }
+                                double far_texture;
+                                double near_texture;
+                                //Calculate co-ordinates for far end texture
+                                if (platwidth_far <= 5)
+                                {
+                                    //Calculate texture for below 5m width
+                                    far_texture = (0.67 - (0.1675 * (platwidth_far -1)));
+                                }
+                                else
+                                {
+                                    far_texture = 0;
+                                }
 
-                            if (platwidth_near < 5)
-                            {
-                                //Calculate texture for below 5m width
-                                near_texture = (0.67 - (0.1675 * (platwidth_near - 1)));
+                                if (platwidth_near <= 5)
+                                {
+                                    //Calculate texture for below 5m width
+                                    near_texture = (0.67 - (0.1675 * (platwidth_near -1)));
+                                }
+                                else
+                                {
+                                    near_texture = 0;
+                                }
+                                calculated_texture = (((near_texture - far_texture) / segmente) * i);
+                                //calculated_texture = ((far_texture - near_texture) / segmente) * i;
+                                sw.WriteLine("SetTextureCoordinates,{0},{1:f4},{2},", b, i * TexturMulti / Faktor, calculated_texture);
+                                sw.WriteLine("SetTextureCoordinates,{0},{1:f4},0.67,", b + 1, i * TexturMulti / Faktor);
+                                sw.WriteLine("SetTextureCoordinates,{0},{1:f4},0.79,", b + 2, i * TexturMulti / Faktor);
+                                sw.WriteLine("SetTextureCoordinates,{0},{1:f4},0.8,", b + 3, i * TexturMulti / Faktor);
+                                sw.WriteLine("SetTextureCoordinates,{0},{1:f4},0.81,", b + 4, i * TexturMulti / Faktor);
+                                sw.WriteLine("SetTextureCoordinates,{0},{1:f4},1,", b + 5, i * TexturMulti / Faktor);
                             }
                             else
                             {
-                                near_texture = 0;
+                                //Platform is wider at near end 
+                                double far_texture;
+                                double near_texture;
+                                //Calculate co-ordinates for far end texture
+                                if (platwidth_far < 5)
+                                {
+                                    //Calculate texture for below 5m width
+                                    far_texture = (0.67 - (0.1675 * (platwidth_far - 1)));
+                                }
+                                else
+                                {
+                                    far_texture = 0;
+                                }
+
+                                if (platwidth_near < 5)
+                                {
+                                    //Calculate texture for below 5m width
+                                    near_texture = (0.67 - (0.1675 * (platwidth_near - 1)));
+                                }
+                                else
+                                {
+                                    near_texture = 0;
+                                }
+                                calculated_texture = (((far_texture - near_texture) / segmente) * c);
+                                sw.WriteLine("SetTextureCoordinates,{0},{1:f4},{2},", b, i * TexturMulti / Faktor,calculated_texture);
+                                sw.WriteLine("SetTextureCoordinates,{0},{1:f4},0.67,", b + 1, i * TexturMulti / Faktor);
+                                sw.WriteLine("SetTextureCoordinates,{0},{1:f4},0.79,", b + 2, i * TexturMulti / Faktor);
+                                sw.WriteLine("SetTextureCoordinates,{0},{1:f4},0.8,", b + 3, i * TexturMulti / Faktor);
+                                sw.WriteLine("SetTextureCoordinates,{0},{1:f4},0.81,", b + 4, i * TexturMulti / Faktor);
+                                sw.WriteLine("SetTextureCoordinates,{0},{1:f4},1,", b + 5, i * TexturMulti / Faktor);
+                                c++;
                             }
-                            calculated_texture = (((far_texture - near_texture) / segmente) * c);
-                            sw.WriteLine("SetTextureCoordinates,{0},{1:f4},{2},", b, i * TexturMulti / Faktor,calculated_texture);
-                            sw.WriteLine("SetTextureCoordinates,{0},{1:f4},0.67,", b + 1, i * TexturMulti / Faktor);
-                            sw.WriteLine("SetTextureCoordinates,{0},{1:f4},0.79,", b + 2, i * TexturMulti / Faktor);
-                            sw.WriteLine("SetTextureCoordinates,{0},{1:f4},0.8,", b + 3, i * TexturMulti / Faktor);
-                            sw.WriteLine("SetTextureCoordinates,{0},{1:f4},0.81,", b + 4, i * TexturMulti / Faktor);
-                            sw.WriteLine("SetTextureCoordinates,{0},{1:f4},1,", b + 5, i * TexturMulti / Faktor);
-                            c++;
                         }
                         b = b + 6;
                     }
@@ -449,7 +420,7 @@ namespace Weiche
 
         static void AddFace(StreamWriter sw, int Faktor,int LiRe_T)
         {
-                double[] face = new double[4];
+                var face = new double[4];
                 if (LiRe_T > 0)
                 {
                     face[0] = 2;
@@ -466,7 +437,7 @@ namespace Weiche
                 }
 
 
-                for (int i = 0; i < Faktor; i++)
+                for (var i = 0; i < Faktor; i++)
                 {
                     sw.WriteLine("AddFace,{0},{1},{2},{3},", face[0], face[1], face[2], face[3]);
                     face[0] += 2;
@@ -478,7 +449,7 @@ namespace Weiche
 
         static void AddFace2_New(StreamWriter sw, int Faktor, int LiRe_T)
         {
-            double[] face = new double[4];
+            var face = new double[4];
             if (LiRe_T > 0)
             {
                 face[0] = 2;
@@ -495,7 +466,7 @@ namespace Weiche
             }
 
 
-            for (int i = 0; i < Faktor; i++)
+            for (var i = 0; i < Faktor; i++)
             {
                 sw.WriteLine("AddFace2,{0},{1},{2},{3},", face[0], face[1], face[2], face[3]);
                 face[0] += 2;
@@ -508,7 +479,7 @@ namespace Weiche
         //New face constructor for platforms
         static void PlatFace(StreamWriter sw, int Faktor, int LiRe_T)
         {
-            double[] face = new double[20];
+            var face = new double[20];
             if (LiRe_T > 0)
             {
                 //Platform Top P1
@@ -567,7 +538,7 @@ namespace Weiche
             }
 
 
-            for (int i = 0; i < Faktor; i++)
+            for (var i = 0; i < Faktor; i++)
             {
                 sw.WriteLine("AddFace,{0},{1},{2},{3},", face[0], face[1], face[2], face[3]);
                 face[0] += 6;
@@ -599,14 +570,14 @@ namespace Weiche
 
         static void AddFace2(StreamWriter sw, int Faktor)
         {
-            double[] face = new double[4];
+            var face = new double[4];
 
                 face[0] = 2;
                 face[1] = 3;
                 face[2] = 1;
                 face[3] = 0;
 
-            for (int i = 0; i < Faktor; i++)
+            for (var i = 0; i < Faktor; i++)
             {
                 sw.WriteLine("AddFace2,{0},{1},{2},{3},", face[0], face[1], face[2], face[3]);
                 face[0] += 2;
@@ -632,7 +603,7 @@ namespace Weiche
                     }
                     else
                     {
-                        System.Drawing.Image image1 = System.Drawing.Image.FromFile(@inputfile);
+                        var image1 = System.Drawing.Image.FromFile(@inputfile);
                         image1.Save(@launchdir + "\\Output\\" + output + "\\" + filename + "." + outputtex, System.Drawing.Imaging.ImageFormat.Bmp);
                     }
                 }
@@ -644,7 +615,7 @@ namespace Weiche
                     }
                     else
                     {
-                        System.Drawing.Image image2 = System.Drawing.Image.FromFile(@inputfile);
+                        var image2 = System.Drawing.Image.FromFile(@inputfile);
                         image2.Save(@launchdir + "\\Output\\" + output + "\\" + filename + "." + outputtex, System.Drawing.Imaging.ImageFormat.Png);
                     }
                 }
@@ -664,8 +635,8 @@ namespace Weiche
             double Abw_tot;
             double radiusT;
             int laenge;
-            int LiRe = 1;
-            int LiRe_T = 1;
+            var LiRe = 1;
+            var LiRe_T = 1;
             bool EingabeOK;
             double segmente;
             double trackgauge;
@@ -673,9 +644,8 @@ namespace Weiche
             double platheight;
             double platwidth_near;
             double platwidth_far;
-            double platwidth = 0;
+            double platwidth;
             double fenceheight = 0;
-            double[] face = new double[4];
             int z;
             string name;
             string texture_format;
@@ -725,10 +695,10 @@ namespace Weiche
                 fence_texture = (richTextBox1.Text + "\\Textures\\fence_18.png");
             }
 
-            string spez_file = "SchieneSpez";
-            string spez_texture = (richTextBox1.Text + "\\Textures\\SchieneSpez.png");
-            string spezanf_file = "SchieneSpezAnf";
-            string spezanf_texture = (richTextBox1.Text + "\\Textures\\SchieneSpezAnf.png");
+            var spez_file = "SchieneSpez";
+            var spez_texture = (richTextBox1.Text + "\\Textures\\SchieneSpez.png");
+            var spezanf_file = "SchieneSpezAnf";
+            var spezanf_texture = (richTextBox1.Text + "\\Textures\\SchieneSpezAnf.png");
 
             motor_file = "WeichAntrieb";
             motor_texture = (richTextBox1.Text + "\\Textures\\WeichAntrieb.png");
@@ -743,7 +713,7 @@ namespace Weiche
                 texture_format = ("png");
             }
             //Check if the entered path exists
-            bool pathExists = System.IO.Directory.Exists(richTextBox1.Text);
+            var pathExists = System.IO.Directory.Exists(richTextBox1.Text);
             if (!pathExists)
             {
                 MessageBox.Show("Path does not exist.");
@@ -853,7 +823,7 @@ namespace Weiche
 
 
                     //Main Textures
-                    string outputtype = "Tracks";
+                    const string outputtype = "Tracks";
                     ConvertAndMove(launchpath, ballast_texture, texture_format, ballast_file, outputtype);
                     ConvertAndMove(launchpath, sleeper_texture, texture_format, sleeper_file, outputtype);
                     
@@ -913,28 +883,28 @@ namespace Weiche
                      * Did we need to move these???
                      * Try below.
                      */
-                    double[] K1 = new double[2];
+                    var K1 = new double[2];
                     K1[1] = Math.Sqrt((radiusT + (0.72 + gaugeoffset)) * (radiusT + (0.72 + gaugeoffset)) - (radiusT - (0.72 + gaugeoffset)) * (radiusT - (0.72 + gaugeoffset)));
                     K1[0] = (0.72 + gaugeoffset) * LiRe_T;
 
                     // Co-ordinates 2- Left End
-                    double[] K2 = new double[2];
+                    var K2 = new double[2];
                     K2[1] = Math.Sqrt((radiusT + (0.72 + gaugeoffset)) * (radiusT + (0.72 + gaugeoffset)) - (radiusT - (0.72 + gaugeoffset) - 0.15) * (radiusT - (0.72 + gaugeoffset) - 0.15));
                     K2[0] = (radiusT - Math.Sqrt((radiusT + (0.72 + gaugeoffset)) * (radiusT + (0.72 + gaugeoffset)) - K2[1] * K2[1])) * LiRe_T;
 
                     //Co-ordinate 3- Right End
-                    double[] K3 = new double[2];
+                    var K3 = new double[2];
                     K3[1] = K2[1] + Math.Tan(winkel_tot(laenge, Abw_tot)) * (K2[0] * LiRe_T - (0.72 + gaugeoffset));
                     K3[0] = (0.72 + gaugeoffset) * LiRe_T;
 
                     //Co-ordinates 4- Toe of point
-                    double[] K4 = new double[2];
+                    var K4 = new double[2];
                     K4[1] = K3[1];
                     K4[0] = (K2[0] - K3[0]) / 2 + K3[0];
                     
                     //Write out to CSV
 
-                    using (StreamWriter sw = new StreamWriter(name))
+                    using (var sw = new StreamWriter(name))
                     {
                         sw.WriteLine(";c by Nils Busch");
                         sw.WriteLine(";Created with Weiche");
@@ -961,7 +931,7 @@ namespace Weiche
                         if (!checkBox5.Checked)
                         {
                             
-                            sw.WriteLine("LoadTexture,railTop.{0:f4},", texture_format);
+                            sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
                             sw.WriteLine("SetTextureCoordinates,0,0,1,");
                             sw.WriteLine("SetTextureCoordinates,1,0,0,");
                             sw.WriteLine("SetTextureCoordinates,2,0.5,0,");
@@ -987,7 +957,7 @@ namespace Weiche
                         sw.WriteLine("GenerateNormals,");
                         if (!checkBox5.Checked)
                         {
-                            sw.WriteLine("LoadTexture,railTop.{0:f4},", texture_format);
+                            sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
                             sw.WriteLine("SetTextureCoordinates,0,0.5,0,");
                             sw.WriteLine("SetTextureCoordinates,1,0.9,0,");
                             sw.WriteLine("SetTextureCoordinates,2,0.9,1,");
@@ -1011,7 +981,7 @@ namespace Weiche
                         }
                         j = j + 25 / segmente;
 
-                        int a = 0;
+                        var a = 0;
                         for (; j <= 25 * laenge; j = j + 25 / segmente, a++)
                         {
 
@@ -1024,7 +994,7 @@ namespace Weiche
                         sw.WriteLine("GenerateNormals,");
                         if (!checkBox5.Checked)
                         {
-                            sw.WriteLine("LoadTexture,railTop.{0:f4},", texture_format);
+                            sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
                             SetTexture(sw, a, 1, 1);
                         }
                         else
@@ -1059,7 +1029,7 @@ namespace Weiche
                         sw.WriteLine("GenerateNormals,");
                         if (!checkBox5.Checked)
                         {
-                            sw.WriteLine("LoadTexture,railTop.{0:f4},", texture_format);
+                            sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
                             SetTexture(sw, a, 1, 1);
                         }
                         else
@@ -1071,16 +1041,16 @@ namespace Weiche
 
                         //Gerade Spielerspur Vorne
                         //It's the frog that's the problem....
-                        double[] K5 = new double[2];
+                        var K5 = new double[2];
                         K5[0] = (0.72 + gaugeoffset) * LiRe_T;
                         K5[1] = Math.Sqrt((radiusT + (0.67 + gaugeoffset)) * (radiusT + (0.67 + gaugeoffset)) - (radiusT - (0.72 + gaugeoffset)) * (radiusT - (0.72 + gaugeoffset)));
-                        double[] K6 = new double[2];
+                        var K6 = new double[2];
                         K6[0] = (0.78 + gaugeoffset) * LiRe_T;
                         K6[1] = Math.Sqrt((radiusT + (0.61 + gaugeoffset)) * (radiusT + (0.61 + gaugeoffset)) - (radiusT - (0.78 + gaugeoffset)) * (radiusT - (0.78 + gaugeoffset)));
 
                         sw.WriteLine("\r\r\nCreateMeshBuilder ;Gerade Spielerspur Vorne");
                         a = 0;
-                        for (int i = 0; (25 / segmente) * i <= K6[1]; i++, a++)
+                        for (var i = 0; (25 / segmente) * i <= K6[1]; i++, a++)
                         {
                             sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X((0.72+ gaugeoffset) * LiRe_T, (25 / segmente) * i), trans.Z((0.72 +gaugeoffset) * LiRe_T, (25 / segmente) * i));
                             sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X((0.78+ gaugeoffset) * LiRe_T, (25 / segmente) * i), trans.Z((0.78 +gaugeoffset) * LiRe_T, (25 / segmente) * i));
@@ -1093,7 +1063,7 @@ namespace Weiche
                         sw.WriteLine("GenerateNormals,");
                         if (!checkBox5.Checked)
                         {
-                            sw.WriteLine("LoadTexture,railTop.{0:f4},", texture_format);
+                            sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
                             SetTexture(sw, a, 1, 1);
                         }
                         else
@@ -1105,16 +1075,16 @@ namespace Weiche
 
                         //Totspur vorne
 
-                        double[] K7 = new double[2];
+                        var K7 = new double[2];
                         K7[0] = (0.61+ gaugeoffset) * LiRe_T;
                         K7[1] = Math.Sqrt((radiusT + (0.78+ gaugeoffset)) * (radiusT + (0.78+ gaugeoffset)) - (radiusT - (0.61+ gaugeoffset)) * (radiusT - (0.61+ gaugeoffset)));
-                        double[] K8 = new double[2];
+                        var K8 = new double[2];
                         K8[0] = (0.67 + gaugeoffset) * LiRe_T;
                         K8[1] = Math.Sqrt((radiusT + (0.72+ gaugeoffset)) * (radiusT + (0.72+ gaugeoffset)) - (radiusT - (0.67+ gaugeoffset)) * (radiusT - (0.67+ gaugeoffset)));
-                        double[] K11 = new double[2];
+                        var K11 = new double[2];
                         K11[1] = Math.Sqrt((radiusT + (0.78+ gaugeoffset)) * (radiusT + (0.78+ gaugeoffset)) - (radiusT + 0) * (radiusT + 0));
                         K11[0] = 0;
-                        double[] K12 = new double[2];
+                        var K12 = new double[2];
                         K12[0] = Abbiege_x(K11[1], radiusT, (-0.72 - gaugeoffset), LiRe_T);
                         K12[1] = Abbiege_z(Math.Sqrt((radiusT + (0.78+ gaugeoffset)) * (radiusT + (0.78+ gaugeoffset)) - (radiusT + 0) * (radiusT + 0)), radiusT, (-0.72- gaugeoffset), LiRe_T);
 
@@ -1151,7 +1121,7 @@ namespace Weiche
                         sw.WriteLine("GenerateNormals,");
                         if (!checkBox5.Checked)
                         {
-                            sw.WriteLine("LoadTexture,railTop.{0:f4},", texture_format);
+                            sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
                             SetTexture(sw, a, 1, 1);
                         }
                         else
@@ -1161,7 +1131,7 @@ namespace Weiche
 
                         //Flügelschiene Kurve Spielerspur
 
-                        double[] K18 = new double[2];
+                        var K18 = new double[2];
                         K18[0] = (0.78+ gaugeoffset) * LiRe_T;
                         K18[1] = Math.Sqrt((radiusT + (0.67+ gaugeoffset)) * (radiusT + (0.67+ gaugeoffset)) - (radiusT - (0.78+ gaugeoffset)) * (radiusT - (0.78+ gaugeoffset)));
 
@@ -1180,7 +1150,7 @@ namespace Weiche
                         sw.WriteLine("GenerateNormals,");
                         if (!checkBox5.Checked)
                         {
-                            sw.WriteLine("LoadTexture,railTop.{0:f4},", texture_format);
+                            sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
                             sw.WriteLine("SetTextureCoordinates,0,0,1,");
                             sw.WriteLine("SetTextureCoordinates,1,0,0,");
                             sw.WriteLine("SetTextureCoordinates,2,1,1,");
@@ -1200,7 +1170,7 @@ namespace Weiche
                         sw.WriteLine("GenerateNormals,");
                         if (!checkBox5.Checked)
                         {
-                            sw.WriteLine("LoadTexture,railTop.{0:f4},", texture_format);
+                            sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
                             SetTexture(sw, a, 1, 1);
                             sw.WriteLine("SetColor,169,140,114,");
                         }
@@ -1212,7 +1182,7 @@ namespace Weiche
 
                         //Flügelschiene Gerade Totspur
 
-                        double[] K17 = new double[2];
+                        var K17 = new double[2];
                         K17[0] = (0.67+ gaugeoffset) * LiRe_T;
                         K17[1] = Math.Sqrt((radiusT + (0.78+ gaugeoffset)) * (radiusT + (0.78+ gaugeoffset)) - (radiusT - (0.67+ gaugeoffset)) * (radiusT - (0.67+ gaugeoffset)));
 
@@ -1232,7 +1202,7 @@ namespace Weiche
                         if (!checkBox5.Checked)
                         {
 
-                            sw.WriteLine("LoadTexture,railTop.{0:f4},", texture_format);
+                            sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
                             sw.WriteLine("SetTextureCoordinates,0,1,1,");
                             sw.WriteLine("SetTextureCoordinates,1,0,0,");
                             sw.WriteLine("SetTextureCoordinates,2,0,1,");
@@ -1252,7 +1222,7 @@ namespace Weiche
                         sw.WriteLine("GenerateNormals,");
                         if (!checkBox5.Checked)
                         {
-                            sw.WriteLine("LoadTexture,railTop.{0:f4},", texture_format);
+                            sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
                             SetTexture(sw, a, 1, 1);
                             sw.WriteLine("SetColor,169,140,114,");
                         }
@@ -1267,7 +1237,7 @@ namespace Weiche
 
                         a = -1;
                         sw.WriteLine("\r\r\nCreateMeshBuilder ;Gerade Schiene Aussen");
-                        for (int i = 0; i <= segmente * laenge; i++, a++)
+                        for (var i = 0; i <= segmente * laenge; i++, a++)
                         {
                             sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X((-0.72- gaugeoffset) * LiRe_T, (25 / segmente) * i), trans.Z((-0.72- gaugeoffset) * LiRe_T, (25 / segmente) * i));
                             sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X((-0.78- gaugeoffset) * LiRe_T, (25 / segmente) * i), trans.Z((-0.78- gaugeoffset) * LiRe_T, (25 / segmente) * i));
@@ -1278,7 +1248,7 @@ namespace Weiche
                         sw.WriteLine("GenerateNormals,");
                         if (!checkBox5.Checked)
                         {
-                            sw.WriteLine("LoadTexture,railTop.{0:f4},", texture_format);
+                            sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
                             SetTexture(sw, a, 1, 1);
                         }
                         else
@@ -1296,7 +1266,7 @@ namespace Weiche
                         sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X((-0.66 - gaugeoffset) * LiRe_T, K1[1] - 1.65), trans.Z((-0.66- gaugeoffset) * LiRe_T, K1[1] - 1.65));
                         sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X((-0.62- gaugeoffset) * LiRe_T, K1[1] - 1.65), trans.Z((-0.62- gaugeoffset) * LiRe_T, K1[1] - 1.65));
                         a = 1;
-                        for (double i = -1.5; i <= 1.5; i = i + 1, a++)
+                        for (var i = -1.5; i <= 1.5; i = i + 1, a++)
                         {
                             sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X((-0.68- gaugeoffset) * LiRe_T, K1[1] + i), trans.Z((-0.68- gaugeoffset) * LiRe_T, K1[1] + i));
                             sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X((-0.64- gaugeoffset) * LiRe_T, K1[1] + i), trans.Z((-0.64- gaugeoffset) * LiRe_T, K1[1] + i));
@@ -1309,7 +1279,7 @@ namespace Weiche
                         sw.WriteLine("GenerateNormals,");
                         if (!checkBox5.Checked)
                         {
-                            sw.WriteLine("LoadTexture,railTop.{0:f4},", texture_format);
+                            sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
                             SetTexture(sw, a, 1, 1);
                             sw.WriteLine("SetColor,169,140,114,");
                         }
@@ -1329,7 +1299,7 @@ namespace Weiche
                             trans.X(Abbiege_x(K1[1] - 1.65, radiusT, (0.62 + gaugeoffset), LiRe_T), Abbiege_z(K1[1] - 1.65, radiusT, (0.62 + gaugeoffset), LiRe_T)),
                             trans.Z(Abbiege_x(K1[1] - 1.65, radiusT, (0.62 + gaugeoffset), LiRe_T), Abbiege_z(K1[1] - 1.65, radiusT, (0.62 + gaugeoffset), LiRe_T)));
                         a = 1;
-                        for (double i = -1.5; i <= 1.5; i = i + 1, a++)
+                        for (var i = -1.5; i <= 1.5; i = i + 1, a++)
                         {
                             sw.WriteLine("AddVertex,{0:f4},0,{1:f4},",
                                 trans.X(Abbiege_x(K1[1] + i, radiusT, (0.68+ gaugeoffset), LiRe_T), Abbiege_z(K1[1] + i, radiusT, (0.68+ gaugeoffset), LiRe_T)),
@@ -1350,7 +1320,7 @@ namespace Weiche
                         sw.WriteLine("GenerateNormals,");
                         if (!checkBox5.Checked)
                         {
-                            sw.WriteLine("LoadTexture,railTop.{0:f4},", texture_format);
+                            sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
                             SetTexture(sw, a, 1, 1);
                             sw.WriteLine("SetColor,169,140,114,");
                         }
@@ -1376,7 +1346,7 @@ namespace Weiche
                         sw.WriteLine("GenerateNormals,");
                         if (!checkBox5.Checked)
                         {
-                            sw.WriteLine("LoadTexture,railTop.{0:f4},", texture_format);
+                            sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
                             SetTexture(sw, a, 1, 1);
                         }
 
@@ -1400,7 +1370,7 @@ namespace Weiche
 
                         a = -1;
                         sw.WriteLine("\r\r\nCreateMeshBuilder");
-                        for (int i = 0; i <= segmente; i++, a++)
+                        for (var i = 0; i <= segmente; i++, a++)
                         {
                             sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X((-0.74- gaugeoffset) * LiRe_T, (laenge * 25 / segmente) * i), trans.Z((-0.74- gaugeoffset) * LiRe_T, (laenge * 25 / segmente) * i));
                             sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((-0.74- gaugeoffset) * LiRe_T, (laenge * 25 / segmente) * i), trans.Z((-0.74- gaugeoffset) * LiRe_T, (laenge * 25 / segmente) * i));
@@ -1411,7 +1381,7 @@ namespace Weiche
                         sw.WriteLine("GenerateNormals,");
                         if (!checkBox5.Checked)
                         {
-                            sw.WriteLine("LoadTexture,railSide.{0:f4},", texture_format);
+                            sw.WriteLine("LoadTexture,railSide.{0},", texture_format);
                             SetTexture(sw, a, 1, 3);
                         }
                         else
@@ -1434,7 +1404,7 @@ namespace Weiche
                         sw.WriteLine("GenerateNormals,");
                         if (!checkBox5.Checked)
                         {
-                            sw.WriteLine("LoadTexture,railSide.{0:f4},", texture_format);
+                            sw.WriteLine("LoadTexture,railSide.{0},", texture_format);
                             SetTexture(sw, a, 1, 3);
                         }
                         else
@@ -1444,7 +1414,7 @@ namespace Weiche
 
                         // Railside Hinter Herzstück - Spielerspur
 
-                        double[] K13 = new double[2];
+                        var K13 = new double[2];
                         K13[0] = (0.74+ gaugeoffset) * LiRe_T;
                         K13[1] = Math.Sqrt((radiusT + (0.74+ gaugeoffset)) * (radiusT + (0.74+ gaugeoffset)) - (radiusT - (0.74+ gaugeoffset)) * (radiusT - (0.74+ gaugeoffset)));
 
@@ -1468,7 +1438,7 @@ namespace Weiche
                         sw.WriteLine("GenerateNormals,");
                         if (!checkBox5.Checked)
                         {
-                            sw.WriteLine("LoadTexture,railSide.{0:f4},", texture_format);
+                            sw.WriteLine("LoadTexture,railSide.{0},", texture_format);
                             SetTexture(sw, a, 1, 3);
                         }
                         else
@@ -1498,7 +1468,7 @@ namespace Weiche
                         sw.WriteLine("GenerateNormals,");
                         if (!checkBox5.Checked)
                         {
-                            sw.WriteLine("LoadTexture,railSide.{0:f4},", texture_format);
+                            sw.WriteLine("LoadTexture,railSide.{0},", texture_format);
                             SetTexture(sw, a, 1, 3);
                         }
                         else
@@ -1508,7 +1478,7 @@ namespace Weiche
 
                         // Railside Vor Herzstück - Spielerspur
 
-                        double[] K15 = new double[2];
+                        var K15 = new double[2];
                         K15[0] = (0.74+ gaugeoffset) * LiRe_T;
                         K15[1] = Math.Sqrt((radiusT + (0.65+ gaugeoffset)) * (radiusT + (0.65+ gaugeoffset)) - (radiusT - (0.74+ gaugeoffset)) * (radiusT - (0.74+ gaugeoffset)));
 
@@ -1527,7 +1497,7 @@ namespace Weiche
                         sw.WriteLine("GenerateNormals,");
                         if (!checkBox5.Checked)
                         {
-                            sw.WriteLine("LoadTexture,railSide.{0:f4},", texture_format);
+                            sw.WriteLine("LoadTexture,railSide.{0},", texture_format);
                             SetTexture(sw, a, 1, 3);
                         }
                         else
@@ -1548,7 +1518,7 @@ namespace Weiche
                         sw.WriteLine("GenerateNormals,");
                         if (!checkBox5.Checked)
                         {
-                            sw.WriteLine("LoadTexture,railSide.{0:f4},", texture_format);
+                            sw.WriteLine("LoadTexture,railSide.{0},", texture_format);
                             SetTexture(sw, a, 1, 3);
                         }
                         else
@@ -1559,7 +1529,7 @@ namespace Weiche
 
                         //Flügelrailside Gerade Spielerspur
 
-                        double[] K14 = new double[2];
+                        var K14 = new double[2];
                         K14[0] = (0.65+ gaugeoffset) * LiRe_T;
                         K14[1] = Math.Sqrt((radiusT + (0.74+ gaugeoffset)) * (radiusT + (0.74+ gaugeoffset)) - (radiusT - (0.65+ gaugeoffset)) * (radiusT - (0.65+ gaugeoffset)));
 
@@ -1574,7 +1544,7 @@ namespace Weiche
                         sw.WriteLine("GenerateNormals,");
                         if (!checkBox5.Checked)
                         {
-                            sw.WriteLine("LoadTexture,railSide.{0:f4},", texture_format);
+                            sw.WriteLine("LoadTexture,railSide.{0},", texture_format);
                             SetTexture(sw, a, 1, 3);
                         }
                         else
@@ -1584,7 +1554,7 @@ namespace Weiche
 
                         //TotspurRailside vorne
 
-                        double[] K16 = new double[2];
+                        var K16 = new double[2];
                         K16[1] = Math.Sqrt((radiusT + (0.74+ gaugeoffset)) * (radiusT + (0.74+ gaugeoffset)) - (radiusT) * (radiusT));
                         K16[0] = 0;
 
@@ -1619,7 +1589,7 @@ namespace Weiche
                         sw.WriteLine("GenerateNormals,");
                         if (!checkBox5.Checked)
                         {
-                            sw.WriteLine("LoadTexture,railSide.{0:f4},", texture_format);
+                            sw.WriteLine("LoadTexture,railSide.{0},", texture_format);
                             SetTexture(sw, a, 1, 3);
                         }
                         else
@@ -1633,7 +1603,7 @@ namespace Weiche
                         sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X((-0.64- gaugeoffset) * LiRe_T, K1[1] - (1.65+ gaugeoffset)), trans.Z((-0.64- gaugeoffset) * LiRe_T, K1[1] - 1.65));
                         sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((-0.64 - gaugeoffset) * LiRe_T, K1[1] - (1.65 + gaugeoffset)), trans.Z((-0.64 - gaugeoffset) * LiRe_T, K1[1] - 1.65));
                         a = 1;
-                        for (double i = -1.5; i <= 1.5; i = i + 1, a++)
+                        for (var i = -1.5; i <= 1.5; i = i + 1, a++)
                         {
                             sw.WriteLine("AddVertex,{0},0,{1:f4},", trans.X((-0.66- gaugeoffset) * LiRe_T, K1[1] + i), trans.Z((-0.66- gaugeoffset) * LiRe_T, K1[1] + i));
                             sw.WriteLine("AddVertex,{0},-0.15,{1:f4},", trans.X((-0.66- gaugeoffset) * LiRe_T, K1[1] + i), trans.Z((-0.66- gaugeoffset) * LiRe_T, K1[1] + i));
@@ -1646,7 +1616,7 @@ namespace Weiche
                         sw.WriteLine("GenerateNormals,");
                         if (!checkBox5.Checked)
                         {
-                            sw.WriteLine("LoadTexture,railSide.{0:f4},", texture_format);
+                            sw.WriteLine("LoadTexture,railSide.{0},", texture_format);
                             SetTexture(sw, a, 1, 3);
                         }
                         else
@@ -1660,7 +1630,7 @@ namespace Weiche
                         sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(Abbiege_x(K1[1] - 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T), Abbiege_z(K1[1] - 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T)), trans.Z(Abbiege_x(K1[1] - 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T), Abbiege_z(K1[1] - 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T)));
                         sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(Abbiege_x(K1[1] - 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T), Abbiege_z(K1[1] - 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T)), trans.Z(Abbiege_x(K1[1] - 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T), Abbiege_z(K1[1] - 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T)));
                         a = 1;
-                        for (double i = -1.5; i <= 1.5; i = i + 1, a++)
+                        for (var i = -1.5; i <= 1.5; i = i + 1, a++)
                         {
                             sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(Abbiege_x(K1[1] + i, radiusT, (0.66+ gaugeoffset), LiRe_T), Abbiege_z(K1[1] + i, radiusT, (0.66+ gaugeoffset), LiRe_T)), trans.Z(Abbiege_x(K1[1] + i, radiusT, (0.66+ gaugeoffset), LiRe_T), Abbiege_z(K1[1] + i, radiusT, (0.66+ gaugeoffset), LiRe_T)));
                             sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(Abbiege_x(K1[1] + i, radiusT, (0.66+ gaugeoffset), LiRe_T), Abbiege_z(K1[1] + i, radiusT, (0.66+ gaugeoffset), LiRe_T)), trans.Z(Abbiege_x(K1[1] + i, radiusT, (0.66+ gaugeoffset), LiRe_T), Abbiege_z(K1[1] + i, radiusT, (0.66+ gaugeoffset), LiRe_T)));
@@ -1673,7 +1643,7 @@ namespace Weiche
                         sw.WriteLine("GenerateNormals,");
                         if (!checkBox5.Checked)
                         {
-                            sw.WriteLine("LoadTexture,railSide.{0:f4},", texture_format);
+                            sw.WriteLine("LoadTexture,railSide.{0},", texture_format);
                             SetTexture(sw, a, 1, 3);
 
                         }
@@ -1703,7 +1673,7 @@ namespace Weiche
 
                         sw.WriteLine("GenerateNormals,");
                         
-                        sw.WriteLine("LoadTexture,ballast.{0:f4},", texture_format);
+                        sw.WriteLine("LoadTexture,ballast.{0},", texture_format);
                         SetTexture(sw, a, 10 * laenge, 2);
 
                         // Ballast Left
@@ -1719,7 +1689,7 @@ namespace Weiche
                         AddFace(sw, a, LiRe_T);
 
                         sw.WriteLine("GenerateNormals,");
-                        sw.WriteLine("LoadTexture,ballast.{0:f4},", texture_format);
+                        sw.WriteLine("LoadTexture,ballast.{0},", texture_format);
                         SetTexture(sw, a, 10 * laenge, 1);
 
                         if (!checkBox2.Checked)
@@ -1738,7 +1708,7 @@ namespace Weiche
                             AddFace(sw, a, LiRe_T);
 
                             sw.WriteLine("GenerateNormals,");
-                            sw.WriteLine("LoadTexture,{0:f4}.{1:f4},", embankment_file, texture_format);
+                            sw.WriteLine("LoadTexture,{0}.{1},", embankment_file, texture_format);
                             SetTexture(sw, a, 3 * laenge, 1);
 
 
@@ -1755,7 +1725,7 @@ namespace Weiche
                             AddFace(sw, a, LiRe_T);
 
                             sw.WriteLine("GenerateNormals,");
-                            sw.WriteLine("LoadTexture,{0:f4}.{1:f4},", embankment_file, texture_format);
+                            sw.WriteLine("LoadTexture,{0}.{1},", embankment_file, texture_format);
                             SetTexture(sw, a, 3 * laenge, 2);
                         }
 
@@ -1774,9 +1744,9 @@ namespace Weiche
                             {
 
                                 //New
-                                double newsleepers = trans.X((1.3 + gaugeoffset) * LiRe_T, i);
+                                var newsleepers = trans.X((1.3 + gaugeoffset) * LiRe_T, i);
                                 //Original
-                                double newsleepers1 = trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i);
+                                var newsleepers1 = trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i);
                                 sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((-1.3 - gaugeoffset) * LiRe_T, i), trans.Z((-1.3 - gaugeoffset) * LiRe_T, i));
                                 if (newsleepers - newsleepers1 <= 0.1)
                                 {
@@ -1790,9 +1760,9 @@ namespace Weiche
                             else
                             {
                                 //New
-                                double newsleepers = trans.X((1.3 + gaugeoffset) * LiRe_T, i);
+                                var newsleepers = trans.X((1.3 + gaugeoffset) * LiRe_T, i);
                                 //Original
-                                double newsleepers1 = trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i);
+                                var newsleepers1 = trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i);
                                 sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((-1.3 - gaugeoffset) * LiRe_T, i), trans.Z((-1.3 - gaugeoffset) * LiRe_T, i));
                                 if (newsleepers - newsleepers1 >= -0.1)
                                 {
@@ -1810,11 +1780,11 @@ namespace Weiche
                         AddFace(sw, a, LiRe_T);
 
                         sw.WriteLine("GenerateNormals,");
-                        sw.WriteLine("LoadTexture,{0:f4}.{1:f4},", sleeper_file, texture_format);
+                        sw.WriteLine("LoadTexture,{0}.{1},", sleeper_file, texture_format);
 
 
-                        double c = 0.5;
-                        int b = 0;
+                        double c;
+                        var b = 0;
 
                         //Do we want to invert the textures??
 
@@ -1831,7 +1801,6 @@ namespace Weiche
                         else
                         {
                             
-                            double f = 0;
                             for (double i = a; i >= 0; i--)
                             {
                                 
@@ -1865,8 +1834,8 @@ namespace Weiche
                         {
                             if (LiRe_T == 1)
                             {
-                                double newsleepers1 = (trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
-                                double newsleepers2 = (trans.X(Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
+                                var newsleepers1 = (trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
+                                var newsleepers2 = (trans.X(Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
                                 if (newsleepers2 <= newsleepers1)
                                 {
                                     sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i), trans.Z((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
@@ -1881,8 +1850,8 @@ namespace Weiche
                             }
                             else
                             {
-                                double newsleepers1 = (trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
-                                double newsleepers2 = (trans.X(Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
+                                var newsleepers1 = (trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
+                                var newsleepers2 = (trans.X(Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
                                 if (newsleepers2 >= newsleepers1)
                                 {
                                     sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i), trans.Z((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
@@ -1900,7 +1869,7 @@ namespace Weiche
                         AddFace(sw, a, LiRe_T);
 
                         sw.WriteLine("GenerateNormals,");
-                        sw.WriteLine("LoadTexture,{0:f4}.{1:f4},", sleeper_file, texture_format);
+                        sw.WriteLine("LoadTexture,{0}.{1},", sleeper_file, texture_format);
                         
                         c = 0;
                         b = 0;
@@ -1944,9 +1913,9 @@ namespace Weiche
 
                         //Increment this one if we add any verticies
                         //Needed to eliminate writing out stuff uncessarily
-                        int neededtest = 0;
+                        var neededtest = 0;
                         a = -1;
-                        int totalsegs = -1;
+                        var totalsegs = -1;
                         
 
                         for (double i = 0; i <= 25 * laenge; i = i + 25 / segmente, a++, totalsegs++)
@@ -1954,9 +1923,9 @@ namespace Weiche
                             if (LiRe_T == 1)
                             {
                                 //New
-                                double newsleepers = trans.X((1.3 + gaugeoffset) * LiRe_T, i);
+                                var newsleepers = trans.X((1.3 + gaugeoffset) * LiRe_T, i);
                                 //Original
-                                double newsleepers1 = trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i);
+                                var newsleepers1 = trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i);
 
 
                                 if (newsleepers - newsleepers1 <= 0.1)
@@ -1978,9 +1947,9 @@ namespace Weiche
                             else
                             {
                                 //New
-                                double newsleepers = trans.X((1.3 + gaugeoffset) * LiRe_T, i);
+                                var newsleepers = trans.X((1.3 + gaugeoffset) * LiRe_T, i);
                                 //Original
-                                double newsleepers1 = trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i);
+                                var newsleepers1 = trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i);
 
 
                                 if (newsleepers - newsleepers1 >= -0.1)
@@ -2006,11 +1975,11 @@ namespace Weiche
                             AddFace(sw, a, LiRe_T);
                             double texturefactor1 = a;
                             double texturefactor2 = totalsegs;
-                            double texturefactor = ((texturefactor1 / texturefactor2) * 10);
+                            var texturefactor = ((texturefactor1 / texturefactor2) * 10);
                             if (neededtest != 0)
                             {
                             sw.WriteLine("GenerateNormals,");
-                            sw.WriteLine("LoadTexture,{0:f4}.{1:f4},", ballast_file, texture_format);
+                            sw.WriteLine("LoadTexture,{0}.{1},", ballast_file, texture_format);
                             SetTexture(sw, a, texturefactor * laenge, 5);
                             }
                         //Right Branch Ballast Shoulder L
@@ -2023,8 +1992,8 @@ namespace Weiche
                         {
                             if (LiRe_T == 1)
                             {
-                                double newsleepers1 = (trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
-                                double newsleepers2 = (trans.X(Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
+                                var newsleepers1 = (trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
+                                var newsleepers2 = (trans.X(Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
                                 
 
                                 if (newsleepers2 <= newsleepers1)
@@ -2044,8 +2013,8 @@ namespace Weiche
                             }
                             else
                             {
-                                double newsleepers1 = (trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
-                                double newsleepers2 = (trans.X(Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
+                                var newsleepers1 = (trans.X((Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
+                                var newsleepers2 = (trans.X(Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
 
 
                                 if (newsleepers2 >= newsleepers1)
@@ -2074,20 +2043,16 @@ namespace Weiche
                         if (neededtest != 0)
                         {
                             sw.WriteLine("GenerateNormals,");
-                            sw.WriteLine("LoadTexture,{0:f4}.{1:f4},", ballast_file, texture_format);
+                            sw.WriteLine("LoadTexture,{0}.{1},", ballast_file, texture_format);
                             SetTexture(sw, a, texturefactor * laenge, 2);
                         }
 
 
                         //Right Branch Additional Sleeper Bit
-
-                        double d = Abw_tot / (2 * Math.Cos(winkel_tot(laenge, Abw_tot)));
-
-
                         a = -1;
                         sw.WriteLine("\r\r\nCreateMeshBuilder");
 
-                        double[] K20 = new double[2];
+                        var K20 = new double[2];
                         K20[1] = Math.Sqrt((radiusT + (0.72+ gaugeoffset)) * (radiusT + (0.72+ gaugeoffset)) - (radiusT + (0.55+ gaugeoffset)) * (radiusT + (0.55+ gaugeoffset)));
 
                         j = 0;
@@ -2105,7 +2070,7 @@ namespace Weiche
                         AddFace(sw, a, LiRe_T);
 
                         sw.WriteLine("GenerateNormals,");
-                        sw.WriteLine("LoadTexture,SchieneSpezAnf.{0:f4},", texture_format);
+                        sw.WriteLine("LoadTexture,SchieneSpezAnf.{0},", texture_format);
 
                         b = 0;
                         for (double i = 0; i <= a; i++)
@@ -2129,7 +2094,7 @@ namespace Weiche
                             k = k + segmente * laenge / 15;
                         }
 
-                        for (double i = j; i <= k; i = i + 1.25, a++)
+                        for (var i = j; i <= k; i = i + 1.25, a++)
                         {
                             sw.WriteLine("AddVertex,{0:f4},-0.14,{1:f4},", trans.X(Abbiege_x(i, radiusT, (-1.3- gaugeoffset), LiRe_T), i), trans.Z(Abbiege_x(i, radiusT, (-1.3- gaugeoffset), LiRe_T), i));
                             sw.WriteLine("AddVertex,{0:f4},-0.14,{1:f4},", trans.X(Abbiege_x(i, radiusT, (-0.325- gaugeoffset), LiRe_T), i), trans.Z(Abbiege_x(i, radiusT, (-0.325- gaugeoffset), LiRe_T), i));
@@ -2138,7 +2103,7 @@ namespace Weiche
                         AddFace(sw, a, LiRe_T);
 
                         sw.WriteLine("GenerateNormals,");
-                        sw.WriteLine("LoadTexture,SchieneSpez.{0:f4},", texture_format);
+                        sw.WriteLine("LoadTexture,SchieneSpez.{0},", texture_format);
 
                         j = b / 2 - 1;
                         b = 0;
@@ -2173,7 +2138,7 @@ namespace Weiche
                         AddFace(sw, a, -1 * LiRe_T);
 
                         sw.WriteLine("GenerateNormals,");
-                        sw.WriteLine("LoadTexture,SchieneSpezAnf.{0:f4},", texture_format);
+                        sw.WriteLine("LoadTexture,SchieneSpezAnf.{0},", texture_format);
                         
                         b = 0;
                         for (double i = 0; i <= a; i++)
@@ -2191,7 +2156,7 @@ namespace Weiche
                         a = -1;
                         sw.WriteLine("\r\r\nCreateMeshBuilder");
 
-                        for (double i = j; i <= k; i = i + 1.25, a++)
+                        for (var i = j; i <= k; i = i + 1.25, a++)
                         {
                             sw.WriteLine("AddVertex,{0:f4},-0.14,{1:f4},", trans.X((1.3+ gaugeoffset) * LiRe_T, i), trans.Z((1.3+ gaugeoffset) * LiRe_T, i));
                             sw.WriteLine("AddVertex,{0:f4},-0.14,{1:f4},", trans.X((0.325+ gaugeoffset) * LiRe_T, i), trans.Z((0.325+ gaugeoffset) * LiRe_T, i));
@@ -2200,7 +2165,7 @@ namespace Weiche
                         AddFace(sw, a, -1 * LiRe_T);
 
                         sw.WriteLine("GenerateNormals,");
-                        sw.WriteLine("LoadTexture,SchieneSpez.{0:f4},", texture_format);
+                        sw.WriteLine("LoadTexture,SchieneSpez.{0},", texture_format);
                         
                         j = b / 2 - 1;
                         b = 0;
@@ -2216,7 +2181,7 @@ namespace Weiche
                         //Weichenantrieb
                         if (checkBox1.Checked)
                         {
-                            sw.WriteLine("CreateMeshBuilder\r\r\nAddVertex,-1.8,-0.05,0.3,\r\nAddVertex,-1.2,-0.05,0.3,\r\r\nAddVertex,-1.2,-0.25,0.3,\r\r\nAddVertex,-1.8,-0.25,0.3,\r\r\nAddVertex,-1.8,0,0.35,\r\r\nAddVertex,-1.2,0,0.35,\r\r\nAddVertex,-1.8,0,0.55,\r\r\nAddVertex,-1.2,0,0.55,\r\r\nAddVertex,-1.8,-0.05,0.6,\r\r\nAddVertex,-1.2,-0.05,0.6,\r\r\nAddVertex,-1.2,-0.25,0.6,\r\r\nAddVertex,-1.8,-0.25,0.6,\r\r\nAddFace,0,1,2,3,\r\r\nAddFace,4,5,1,0,\r\r\nAddFace,6,7,5,4,\r\r\nAddFace,8,9,7,6,\r\r\nAddFace,11,10,9,8,\r\r\nGenerateNormals,\r\nLoadTexture,WeichAntrieb.{0:f4},\r\nSetTextureCoordinates,0,0,0.5,\r\nSetTextureCoordinates,1,1,0.5,\r\nSetTextureCoordinates,2,1,1,\r\nSetTextureCoordinates,3,0,1,\r\nSetTextureCoordinates,4,0,0.3,\r\nSetTextureCoordinates,5,1,0.3,\r\nSetTextureCoordinates,6,0,0,\r\nSetTextureCoordinates,7,1,0,\r\nSetTextureCoordinates,8,0,0.3,\r\nSetTextureCoordinates,9,1,0.3,\r\nSetTextureCoordinates,10,1,0.6,\r\nSetTextureCoordinates,11,0,0.6,", texture_format);
+                            sw.WriteLine("CreateMeshBuilder\r\r\nAddVertex,-1.8,-0.05,0.3,\r\nAddVertex,-1.2,-0.05,0.3,\r\r\nAddVertex,-1.2,-0.25,0.3,\r\r\nAddVertex,-1.8,-0.25,0.3,\r\r\nAddVertex,-1.8,0,0.35,\r\r\nAddVertex,-1.2,0,0.35,\r\r\nAddVertex,-1.8,0,0.55,\r\r\nAddVertex,-1.2,0,0.55,\r\r\nAddVertex,-1.8,-0.05,0.6,\r\r\nAddVertex,-1.2,-0.05,0.6,\r\r\nAddVertex,-1.2,-0.25,0.6,\r\r\nAddVertex,-1.8,-0.25,0.6,\r\r\nAddFace,0,1,2,3,\r\r\nAddFace,4,5,1,0,\r\r\nAddFace,6,7,5,4,\r\r\nAddFace,8,9,7,6,\r\r\nAddFace,11,10,9,8,\r\r\nGenerateNormals,\r\nLoadTexture,WeichAntrieb.{0},\r\nSetTextureCoordinates,0,0,0.5,\r\nSetTextureCoordinates,1,1,0.5,\r\nSetTextureCoordinates,2,1,1,\r\nSetTextureCoordinates,3,0,1,\r\nSetTextureCoordinates,4,0,0.3,\r\nSetTextureCoordinates,5,1,0.3,\r\nSetTextureCoordinates,6,0,0,\r\nSetTextureCoordinates,7,1,0,\r\nSetTextureCoordinates,8,0,0.3,\r\nSetTextureCoordinates,9,1,0.3,\r\nSetTextureCoordinates,10,1,0.6,\r\nSetTextureCoordinates,11,0,0.6,", texture_format);
 
                             sw.WriteLine("CreateMeshBuilder\r\nAddVertex,-1.8,-0.25,0.3,\r\nAddVertex,-1.8,-0.05,0.3,\r\nAddVertex,-1.8,0,0.35,\r\nAddVertex,-1.8,-0.25,0.35\r\nAddVertex,-1.8,0,0.55,\r\nAddVertex,-1.8,-0.25,0.55,\r\nAddVertex,-1.8,-0.05,0.6,\r\nAddVertex,-1.8,-0.25,0.6,\r\nAddFace,2,1,0,3,\r\nAddFace,4,2,3,5,\r\nAddFace,6,4,5,7,\r\nGenerateNormals,\r\nLoadTexture,WeichAntrieb.{0:f4},\r\nSetTextureCoordinates,0,1,1\r\nSetTextureCoordinates,1,1,0.5\r\nSetTextureCoordinates,2,0.9,0.5\r\nSetTextureCoordinates,3,0.9,1\r\nSetTextureCoordinates,4,0.7,0.5\r\nSetTextureCoordinates,5,0.7,1\r\nSetTextureCoordinates,6,0.6,0.5\r\nSetTextureCoordinates,7,0.6,1", texture_format);
 
@@ -2311,7 +2276,7 @@ namespace Weiche
 
 
                     //Main Textures
-                    string outputtype = "Tracks";
+                    const string outputtype = "Tracks";
                     ConvertAndMove(launchpath, ballast_texture, texture_format, ballast_file, outputtype);
                     ConvertAndMove(launchpath, sleeper_texture, texture_format, sleeper_file, outputtype);
 
@@ -2333,14 +2298,14 @@ namespace Weiche
 
 
                     //Write out to CSV
-                    using (StreamWriter sw = new StreamWriter(name))
+                    using (var sw = new StreamWriter(name))
                     {
 
                         //Railtop Left
 
-                        int a = -1;
+                        var a = -1;
                         sw.WriteLine("\r\nCreateMeshBuilder ;Railtop Links");
-                        for (int i = 0; i <= segmente; i++, a++)
+                        for (var i = 0; i <= segmente; i++, a++)
                         {
                             sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X((-0.72 -gaugeoffset), (25 / segmente) * i), trans.Z(-0.72, (25 / segmente) * i));
                             sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X((-0.78- gaugeoffset), (25 / segmente) * i), trans.Z(-0.78, (25 / segmente) * i));
@@ -2350,7 +2315,7 @@ namespace Weiche
                         if (!checkBox5.Checked)
                         {
                             sw.WriteLine("GenerateNormals,");
-                            sw.WriteLine("LoadTexture,railTop.{0:f4},", texture_format);
+                            sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
                             
                             SetTexture(sw, a, 1, 1);
                         }
@@ -2363,7 +2328,7 @@ namespace Weiche
 
                         a = -1;
                         sw.WriteLine("\r\nCreateMeshBuilder ;Railtop Rechts");
-                        for (int i = 0; i <= segmente; i++, a++)
+                        for (var i = 0; i <= segmente; i++, a++)
                         {
                             sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X((0.78 +gaugeoffset), (25 / segmente) * i), trans.Z(0.78, (25 / segmente) * i));
                             sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X((0.72 +gaugeoffset), (25 / segmente) * i), trans.Z(0.72, (25 / segmente) * i));
@@ -2374,7 +2339,7 @@ namespace Weiche
                         sw.WriteLine("GenerateNormals,");
                         if (!checkBox5.Checked)
                         {
-                            sw.WriteLine("LoadTexture,railTop.{0:f4},", texture_format);
+                            sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
                             SetTexture(sw, a, 1, 1);
                         }
                         else
@@ -2388,7 +2353,7 @@ namespace Weiche
 
                         a = -1;
                         sw.WriteLine("\r\nCreateMeshBuilder ;Railside Links");
-                        for (int i = 0; i <= segmente; i++, a++)
+                        for (var i = 0; i <= segmente; i++, a++)
                         {
                             sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X((-0.74 -gaugeoffset), (25 / segmente) * i), trans.Z(-0.74, (25 / segmente) * i));
                             sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((-0.74 -gaugeoffset), (25 / segmente) * i), trans.Z(-0.74, (25 / segmente) * i));
@@ -2399,7 +2364,7 @@ namespace Weiche
                         sw.WriteLine("GenerateNormals,");
                         if (!checkBox5.Checked)
                         {
-                            sw.WriteLine("LoadTexture,railside.{0:f4},", texture_format);
+                            sw.WriteLine("LoadTexture,railside.{0},", texture_format);
                             SetTexture(sw, a, 1, 3);
                         }
                         else
@@ -2411,7 +2376,7 @@ namespace Weiche
 
                         a = -1;
                         sw.WriteLine("\r\nCreateMeshBuilder ;Railside Rechts");
-                        for (int i = 0; i <= segmente; i++, a++)
+                        for (var i = 0; i <= segmente; i++, a++)
                         {
                             sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X((0.74 +gaugeoffset), (25 / segmente) * i), trans.Z(0.74, (25 / segmente) * i));
                             sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((0.74 +gaugeoffset), (25 / segmente) * i), trans.Z(0.74, (25 / segmente) * i));
@@ -2422,7 +2387,7 @@ namespace Weiche
                         sw.WriteLine("GenerateNormals,");
                         if (!checkBox5.Checked)
                         {
-                            sw.WriteLine("LoadTexture,railside.{0:f4},", texture_format);
+                            sw.WriteLine("LoadTexture,railside.{0},", texture_format);
                             SetTexture(sw, a, 1, 3);
                         }
                         else
@@ -2434,7 +2399,7 @@ namespace Weiche
 
                         a = -1;
                         sw.WriteLine("\r\nCreateMeshBuilder ;Schwellen");
-                        for (int i = 0; i <= segmente; i++, a++)
+                        for (var i = 0; i <= segmente; i++, a++)
                         {
                             sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((-1.3 -gaugeoffset), (25 / segmente) * i), trans.Z(-1.3, (25 / segmente) * i));
                             sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((1.3 +gaugeoffset), (25 / segmente) * i), trans.Z(1.3, (25 / segmente) * i));
@@ -2443,14 +2408,14 @@ namespace Weiche
                         AddFace(sw, a, LiRe_T);
 
                         sw.WriteLine("GenerateNormals,");
-                        sw.WriteLine("LoadTexture,{0:f4}.{1:f4},", sleeper_file, texture_format);
+                        sw.WriteLine("LoadTexture,{0}.{1},", sleeper_file, texture_format);
                         SetTexture(sw, a, 15, 2);
 
                         //Ballast Left
 
                         a = -1;
                         sw.WriteLine("\r\nCreateMeshBuilder ;Boeschung Links");
-                        for (int i = 0; i <= segmente; i++, a++)
+                        for (var i = 0; i <= segmente; i++, a++)
                         {
                             sw.WriteLine("AddVertex,{0:f4},-0.4,{1:f4},", trans.X((-2.8 -gaugeoffset), (25 / segmente) * i), trans.Z(-2.8, (25 / segmente) * i));
                             sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((-1.3 -gaugeoffset), (25 / segmente) * i), trans.Z(-1.3, (25 / segmente) * i));
@@ -2459,14 +2424,14 @@ namespace Weiche
                         AddFace(sw, a, LiRe_T);
 
                         sw.WriteLine("GenerateNormals,");
-                        sw.WriteLine("LoadTexture,{0:f4}.{1:f4},",ballast_file, texture_format);
+                        sw.WriteLine("LoadTexture,{0}.{1},",ballast_file, texture_format);
                         SetTexture(sw, a, 10, 2);
 
                         //Ballast Right
 
                         a = -1;
                         sw.WriteLine("\r\nCreateMeshBuilder ;Boeschung Rechts");
-                        for (int i = 0; i <= segmente; i++, a++)
+                        for (var i = 0; i <= segmente; i++, a++)
                         {
                             sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((1.3 +gaugeoffset), (25 / segmente) * i), trans.Z(1.3, (25 / segmente) * i));
                             sw.WriteLine("AddVertex,{0:f4},-0.4,{1:f4},", trans.X((2.8 +gaugeoffset), (25 / segmente) * i), trans.Z(2.8, (25 / segmente) * i));
@@ -2475,7 +2440,7 @@ namespace Weiche
                         AddFace(sw, a, LiRe_T);
 
                         sw.WriteLine("GenerateNormals,");
-                        sw.WriteLine("LoadTexture,{0:f4}.{1:f4},", ballast_file, texture_format);
+                        sw.WriteLine("LoadTexture,{0}.{1},", ballast_file, texture_format);
                         SetTexture(sw, a, 10, 1);
 
                         if (!checkBox2.Checked)
@@ -2485,7 +2450,7 @@ namespace Weiche
 
                             a = -1;
                             sw.WriteLine("\r\nCreateMeshBuilder ;Grass Links");
-                            for (int i = 0; i <= segmente; i++, a++)
+                            for (var i = 0; i <= segmente; i++, a++)
                             {
                                 sw.WriteLine("AddVertex,{0:f4},-0.3,{1:f4},", trans.X((-3.6 -gaugeoffset), (25 / segmente) * i), trans.Z(-3.6, (25 / segmente) * i));
                                 sw.WriteLine("AddVertex,{0:f4},-0.35,{1:f4},", trans.X((-2.5 -gaugeoffset), (25 / segmente) * i), trans.Z(-2.5, (25 / segmente) * i));
@@ -2494,14 +2459,14 @@ namespace Weiche
                             AddFace(sw, a, LiRe_T);
 
                             sw.WriteLine("GenerateNormals,");
-                            sw.WriteLine("LoadTexture,{0:f4}.{1:f4},", embankment_file, texture_format);
+                            sw.WriteLine("LoadTexture,{0}.{1},", embankment_file, texture_format);
                             SetTexture(sw, a, 3, 1);
 
                             //Grass Right
 
                             a = -1;
                             sw.WriteLine("\r\nCreateMeshBuilder ;Grass Rechts");
-                            for (int i = 0; i <= segmente; i++, a++)
+                            for (var i = 0; i <= segmente; i++, a++)
                             {
                                 sw.WriteLine("AddVertex,{0:f4},-0.35,{1:f4},", trans.X((2.5 +gaugeoffset), (25 / segmente) * i), trans.Z(2.5, (25 / segmente) * i));
                                 sw.WriteLine("AddVertex,{0:f4},-0.3,{1:f4},", trans.X((3.6 +gaugeoffset), (25 / segmente) * i), trans.Z(3.6, (25 / segmente) * i));
@@ -2510,7 +2475,7 @@ namespace Weiche
                             AddFace(sw, a, LiRe_T);
 
                             sw.WriteLine("GenerateNormals,");
-                            sw.WriteLine("LoadTexture,{0:f4}.{1:f4},", embankment_file, texture_format);
+                            sw.WriteLine("LoadTexture,{0}.{1},", embankment_file, texture_format);
                             SetTexture(sw, a, 3, 2);
                         }
 
@@ -2540,7 +2505,7 @@ namespace Weiche
                     }
 
                     //Main Textures
-                    string outputtype = "Tracks";
+                    const string outputtype = "Tracks";
                     ConvertAndMove(launchpath, ballast_texture, texture_format, ballast_file, outputtype);
                     ConvertAndMove(launchpath, sleeper_texture, texture_format, sleeper_file, outputtype);
 
@@ -2585,18 +2550,18 @@ namespace Weiche
 
 
                     //Write Out to CSV
-                    using (StreamWriter sw = new StreamWriter(name))
+                    using (var sw = new StreamWriter(name))
                     {
                         
                             if (!checkBox5.Checked)
                             {
-                                sw.WriteLine("CreateMeshBuilder\r\nAddVertex,{0:f4},0,25\r\nAddVertex,{1:f4},0,25\r\nAddVertex,{1:f4},0,0\r\nAddVertex,{0:f4},0,0\r\nAddFace,1,0,3,2\r\nGenerateNormals\r\nLoadTexture,railTop.{2:f4}\r\nSetTextureCoordinates,0,0,0\r\nSetTextureCoordinates,1,1,0\r\nSetTextureCoordinates,2,1,1\r\nSetTextureCoordinates,3,0,1", -0.72 - gaugeoffset, -0.78 - gaugeoffset, texture_format);
+                                sw.WriteLine("CreateMeshBuilder\r\nAddVertex,{0:f4},0,25\r\nAddVertex,{1:f4},0,25\r\nAddVertex,{1:f4},0,0\r\nAddVertex,{0:f4},0,0\r\nAddFace,1,0,3,2\r\nGenerateNormals\r\nLoadTexture,railTop.{2}\r\nSetTextureCoordinates,0,0,0\r\nSetTextureCoordinates,1,1,0\r\nSetTextureCoordinates,2,1,1\r\nSetTextureCoordinates,3,0,1", -0.72 - gaugeoffset, -0.78 - gaugeoffset, texture_format);
 
-                                sw.WriteLine("\r\nCreateMeshBuilder\r\nAddVertex,{0:f4},0,25\r\nAddVertex,{1:f4},0,25\r\nAddVertex,{1:f4},0,0\r\nAddVertex,{0:f4},0,0\r\nAddFace,0,1,2,3\r\nGenerateNormals\r\nLoadTexture,railTop.{2:f4}\r\nSetTextureCoordinates,0,0,0\r\nSetTextureCoordinates,1,1,0\r\nSetTextureCoordinates,2,1,1\r\nSetTextureCoordinates,3,0,1", 0.72 + gaugeoffset, 0.78 + gaugeoffset, texture_format);
+                                sw.WriteLine("\r\nCreateMeshBuilder\r\nAddVertex,{0:f4},0,25\r\nAddVertex,{1:f4},0,25\r\nAddVertex,{1:f4},0,0\r\nAddVertex,{0:f4},0,0\r\nAddFace,0,1,2,3\r\nGenerateNormals\r\nLoadTexture,railTop.{2}\r\nSetTextureCoordinates,0,0,0\r\nSetTextureCoordinates,1,1,0\r\nSetTextureCoordinates,2,1,1\r\nSetTextureCoordinates,3,0,1", 0.72 + gaugeoffset, 0.78 + gaugeoffset, texture_format);
 
-                                sw.WriteLine("\r\nCreateMeshBuilder\r\nAddVertex,{0:f4},0,0\r\nAddVertex,{0:f4},0,25\r\nAddVertex,{0:f4},-0.15,25\r\nAddVertex,{0:f4},-0.15,0\r\nAddFace2,0,1,2,3\r\nGenerateNormals\r\nLoadTexture,railside.{1:f4}\r\nSetTextureCoordinates,0,0,0\r\nSetTextureCoordinates,1,1,0\r\nSetTextureCoordinates,2,1,1\r\nSetTextureCoordinates,3,0,1", -0.74 - gaugeoffset, texture_format);
+                                sw.WriteLine("\r\nCreateMeshBuilder\r\nAddVertex,{0:f4},0,0\r\nAddVertex,{0:f4},0,25\r\nAddVertex,{0:f4},-0.15,25\r\nAddVertex,{0:f4},-0.15,0\r\nAddFace2,0,1,2,3\r\nGenerateNormals\r\nLoadTexture,railside.{1}\r\nSetTextureCoordinates,0,0,0\r\nSetTextureCoordinates,1,1,0\r\nSetTextureCoordinates,2,1,1\r\nSetTextureCoordinates,3,0,1", -0.74 - gaugeoffset, texture_format);
 
-                                sw.WriteLine("\r\nCreateMeshBuilder\r\nAddVertex,{0:f4},0,0\r\nAddVertex,{0:f4},0,25\r\nAddVertex,{0:f4},-0.15,25\r\nAddVertex,{0:f4},-0.15,0\r\nAddFace2,0,1,2,3\r\nGenerateNormals\r\nLoadTexture,railside.{1:f4}\r\nSetTextureCoordinates,0,0,0\r\nSetTextureCoordinates,1,1,0\r\nSetTextureCoordinates,2,1,1\r\nSetTextureCoordinates,3,0,1", 0.74 + gaugeoffset, texture_format);
+                                sw.WriteLine("\r\nCreateMeshBuilder\r\nAddVertex,{0:f4},0,0\r\nAddVertex,{0:f4},0,25\r\nAddVertex,{0:f4},-0.15,25\r\nAddVertex,{0:f4},-0.15,0\r\nAddFace2,0,1,2,3\r\nGenerateNormals\r\nLoadTexture,railside.{1}\r\nSetTextureCoordinates,0,0,0\r\nSetTextureCoordinates,1,1,0\r\nSetTextureCoordinates,2,1,1\r\nSetTextureCoordinates,3,0,1", 0.74 + gaugeoffset, texture_format);
                             }
                             else
                             {
@@ -2609,18 +2574,18 @@ namespace Weiche
                                 sw.WriteLine("\r\nCreateMeshBuilder\r\nAddVertex,{0:f4},0,0\r\nAddVertex,{0:f4},0,25\r\nAddVertex,{0:f4},-0.15,25\r\nAddVertex,{0:f4},-0.15,0\r\nAddFace2,0,1,2,3\r\nGenerateNormals\r\nSetColor,85,50,50", 0.74 + gaugeoffset);
                             }
 
-                            sw.WriteLine("\r\nCreateMeshBuilder\r\nAddVertex,{0:f4}, -0.15,25\r\nAddVertex,{1:f4},-0.15,25\r\nAddVertex,{1:f4},-0.15,0\r\nAddVertex,{0:f4},-0.15,0\r\nAddFace,0,1,2,3\r\nGenerateNormals\r\nLoadTexture,{2:f4}.{3:f4}\r\nSetTextureCoordinates,0,0.01,0\r\nSetTextureCoordinates,1,0.99,0\r\nSetTextureCoordinates,2,0.99,15\r\nSetTextureCoordinates,3,0.01,15", -1.3 - gaugeoffset, 1.3 + gaugeoffset, sleeper_file, texture_format);
+                            sw.WriteLine("\r\nCreateMeshBuilder\r\nAddVertex,{0:f4}, -0.15,25\r\nAddVertex,{1:f4},-0.15,25\r\nAddVertex,{1:f4},-0.15,0\r\nAddVertex,{0:f4},-0.15,0\r\nAddFace,0,1,2,3\r\nGenerateNormals\r\nLoadTexture,{2}.{3}\r\nSetTextureCoordinates,0,0.01,0\r\nSetTextureCoordinates,1,0.99,0\r\nSetTextureCoordinates,2,0.99,15\r\nSetTextureCoordinates,3,0.01,15", -1.3 - gaugeoffset, 1.3 + gaugeoffset, sleeper_file, texture_format);
 
-                            sw.WriteLine("\r\nCreateMeshBuilder\r\nAddVertex,{0:f4},-0.4,25\r\nAddVertex,{1:f4},-0.15,25\r\nAddVertex,{1:f4},-0.15,0\r\nAddVertex,{0:f4},-0.4,0\r\nAddFace,0,1,2,3\r\nGenerateNormals\r\nLoadTexture,{2:f4}.{3:f4}\r\nSetTextureCoordinates,2,0,0\r\nSetTextureCoordinates,3,1,0\r\nSetTextureCoordinates,0,1,10\r\nSetTextureCoordinates,1,0,10", -2.8 - gaugeoffset, -1.3 - gaugeoffset, ballast_file, texture_format);
+                            sw.WriteLine("\r\nCreateMeshBuilder\r\nAddVertex,{0:f4},-0.4,25\r\nAddVertex,{1:f4},-0.15,25\r\nAddVertex,{1:f4},-0.15,0\r\nAddVertex,{0:f4},-0.4,0\r\nAddFace,0,1,2,3\r\nGenerateNormals\r\nLoadTexture,{2}.{3}\r\nSetTextureCoordinates,2,0,0\r\nSetTextureCoordinates,3,1,0\r\nSetTextureCoordinates,0,1,10\r\nSetTextureCoordinates,1,0,10", -2.8 - gaugeoffset, -1.3 - gaugeoffset, ballast_file, texture_format);
 
-                            sw.WriteLine("\r\nCreateMeshBuilder\r\nAddVertex,{0:f4},-0.4,25\r\nAddVertex,{1:f4},-0.15,25\r\nAddVertex,{1:f4},-0.15,0\r\nAddVertex,{0:f4},-0.4,0\r\nAddFace,1,0,3,2\r\nGenerateNormals\r\nLoadTexture,{2:f4}.{3:f4}\r\nSetTextureCoordinates,2,0,0\r\nSetTextureCoordinates,3,1,0\r\nSetTextureCoordinates,0,1,10\r\nSetTextureCoordinates,1,0,10", 2.8 + gaugeoffset, 1.3 + gaugeoffset, ballast_file, texture_format);
+                            sw.WriteLine("\r\nCreateMeshBuilder\r\nAddVertex,{0:f4},-0.4,25\r\nAddVertex,{1:f4},-0.15,25\r\nAddVertex,{1:f4},-0.15,0\r\nAddVertex,{0:f4},-0.4,0\r\nAddFace,1,0,3,2\r\nGenerateNormals\r\nLoadTexture,{2}.{3}\r\nSetTextureCoordinates,2,0,0\r\nSetTextureCoordinates,3,1,0\r\nSetTextureCoordinates,0,1,10\r\nSetTextureCoordinates,1,0,10", 2.8 + gaugeoffset, 1.3 + gaugeoffset, ballast_file, texture_format);
 
                         
                         if (!checkBox2.Checked)
                         {
-                            sw.WriteLine("\r\nCreateMeshBuilder\r\nAddVertex,{0:f4},-0.35,25\r\nAddVertex,{1:f4},-0.3,25\r\nAddVertex,{1:f4},-0.3,0\r\nAddVertex,{0:f4},-0.35,0\r\nAddFace,1,0,3,2\r\nGenerateNormals\r\nLoadTexture,{2:f4}.{3:f4}\r\nSetTextureCoordinates,2,0,0\r\nSetTextureCoordinates,3,1,0\r\nSetTextureCoordinates,0,1,3\r\nSetTextureCoordinates,1,0,3", -2.5 - gaugeoffset, -3.6 - gaugeoffset, embankment_file, texture_format);
+                            sw.WriteLine("\r\nCreateMeshBuilder\r\nAddVertex,{0:f4},-0.35,25\r\nAddVertex,{1:f4},-0.3,25\r\nAddVertex,{1:f4},-0.3,0\r\nAddVertex,{0:f4},-0.35,0\r\nAddFace,1,0,3,2\r\nGenerateNormals\r\nLoadTexture,{2}.{3}\r\nSetTextureCoordinates,2,0,0\r\nSetTextureCoordinates,3,1,0\r\nSetTextureCoordinates,0,1,3\r\nSetTextureCoordinates,1,0,3", -2.5 - gaugeoffset, -3.6 - gaugeoffset, embankment_file, texture_format);
 
-                            sw.WriteLine("\r\nCreateMeshBuilder\r\nAddVertex,{0:f4},-0.35,25\r\nAddVertex,{1:f4},-0.3,25\r\nAddVertex,{1:f4},-0.3,0\r\nAddVertex,{0:f4},-0.35,0\r\nAddFace,0,1,2,3\r\nGenerateNormals\r\nLoadTexture,{2:f4}.{3:f4}\r\nSetTextureCoordinates,2,0,0\r\nSetTextureCoordinates,3,1,0\r\nSetTextureCoordinates,0,1,3\r\nSetTextureCoordinates,1,0,3", 2.5 + gaugeoffset, 3.6 + gaugeoffset, embankment_file, texture_format);
+                            sw.WriteLine("\r\nCreateMeshBuilder\r\nAddVertex,{0:f4},-0.35,25\r\nAddVertex,{1:f4},-0.3,25\r\nAddVertex,{1:f4},-0.3,0\r\nAddVertex,{0:f4},-0.35,0\r\nAddFace,0,1,2,3\r\nGenerateNormals\r\nLoadTexture,{2}.{3}\r\nSetTextureCoordinates,2,0,0\r\nSetTextureCoordinates,3,1,0\r\nSetTextureCoordinates,0,1,3\r\nSetTextureCoordinates,1,0,3", 2.5 + gaugeoffset, 3.6 + gaugeoffset, embankment_file, texture_format);
                             
 
                         }
@@ -2747,7 +2712,7 @@ namespace Weiche
                     }
 
                     //Main Textures
-                    string outputtype = "Platforms";
+                    const string outputtype = "Platforms";
                     ConvertAndMove(launchpath, platform_texture, texture_format, platform_file, outputtype);
                     if (fence_yes.Checked == true)
                     {
@@ -2897,14 +2862,13 @@ namespace Weiche
                     trans = new Transform(1, radius, LiRe, 0);
 
                     //Write Out to CSV
-                    using (StreamWriter sw = new StreamWriter(name))
+                    using (var sw = new StreamWriter(name))
                     {
                         //Left Sided Platform
                         if (radioButton5.Checked == true)
                         {
                             {
-                                int a = -1;
-                                int c = -1;
+                                var a = -1;
                                 //If radius is zero, use one segment
                                 if (radius == 0)
                                 {
@@ -2914,7 +2878,7 @@ namespace Weiche
                                         segmente = 1;
                                         //Platform Mesh
                                         sw.WriteLine("\r\nCreateMeshBuilder ;Platform Mesh");
-                                        for (int i = 0; i <= segmente; i++, a++)
+                                        for (var i = 0; i <= segmente; i++, a++)
                                         {
                                             if (platwidth_near != platwidth_far)
                                             {
@@ -2931,12 +2895,17 @@ namespace Weiche
                                             {
                                                 platwidth = platwidth_near;
                                             }
-                                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 - gaugeoffset) - platwidth), (25 / segmente) * i), platheight, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
+                                            if (i == segmente)
+                                            {
+                                                platheight += 0.01;
+                                            }
+                                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 - gaugeoffset) - platwidth), (25 / segmente) * i), platheight + 0.01, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
                                                 sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-2.55 -gaugeoffset), (25 / segmente) * i), platheight, trans.Z(-3.5, (25 / segmente) * i));
                                                 sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55- gaugeoffset), (25 / segmente) * i), platheight, trans.Z(-1.55, (25 / segmente) * i));
                                                 sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 - gaugeoffset), (25 / segmente) * i), platheight - 0.104, trans.Z(-1.55, (25 / segmente) * i));
                                                 sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.8 - gaugeoffset), (25 / segmente) * i), platheight - 0.104, trans.Z(-1.8, (25 / segmente) * i));
                                                 sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.8 - gaugeoffset), (25 / segmente) * i), -0.2, trans.Z(-1.8, (25 / segmente) * i));
+
                                         }
                                     }
                                     else if (radioButton8.Checked == true)
@@ -2945,7 +2914,7 @@ namespace Weiche
                                         segmente = 2;
                                         //Platform Mesh
                                         sw.WriteLine("\r\nCreateMeshBuilder ;Platform Mesh");
-                                        for (int i = 0; i <= segmente; i++, a++)
+                                        for (var i = 0; i <= segmente; i++, a++)
                                         {
                                             if (platwidth_near != platwidth_far)
                                             {
@@ -2963,14 +2932,17 @@ namespace Weiche
                                             {
                                                 platwidth = platwidth_near;
                                             }
-                                            double platheight_new;
-                                            platheight_new = 0;
+                                            double platheight_new = 0;
                                             if (a >= 0)
                                             {
 
                                                 platheight_new = platheight;
                                             }
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 -gaugeoffset) - platwidth), (25 / segmente) * i), platheight_new, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
+                                            if (i == segmente)
+                                            {
+                                                platheight += 0.01;
+                                            }
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 - gaugeoffset) - platwidth), (25 / segmente) * i), platheight_new + 0.01, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-2.55 -gaugeoffset), (25 / segmente) * i), platheight_new, trans.Z(-3.5, (25 / segmente) * i));
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 -gaugeoffset), (25 / segmente) * i), platheight_new, trans.Z(-1.55, (25 / segmente) * i));
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 -gaugeoffset), (25 / segmente) * i), platheight_new - 0.104, trans.Z(-1.55, (25 / segmente) * i));
@@ -2984,7 +2956,7 @@ namespace Weiche
                                         segmente = 2;
                                         //Platform Mesh
                                         sw.WriteLine("\r\nCreateMeshBuilder ;Platform Mesh");
-                                        for (int i = 0; i <= segmente; i++, a++)
+                                        for (var i = 0; i <= segmente; i++, a++)
                                         {
                                             if (platwidth_near != platwidth_far)
                                             {
@@ -3002,14 +2974,17 @@ namespace Weiche
                                             {
                                                 platwidth = platwidth_near;
                                             }
-                                            double platheight_new;
-                                            platheight_new = 0;
+                                            double platheight_new = 0;
                                             if (a < 1)
                                             {
 
                                                 platheight_new = platheight;
                                             }
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 -gaugeoffset) - platwidth), (25 / segmente) * i), platheight_new, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
+                                            if (i == segmente)
+                                            {
+                                                platheight += 0.01;
+                                            }
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 - gaugeoffset) - platwidth), (25 / segmente) * i), platheight_new + 0.01, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-2.55 -gaugeoffset), (25 / segmente) * i), platheight_new, trans.Z(-3.5, (25 / segmente) * i));
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 -gaugeoffset), (25 / segmente) * i), platheight_new, trans.Z(-1.55, (25 / segmente) * i));
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 -gaugeoffset), (25 / segmente) * i), platheight_new - 0.104, trans.Z(-1.55, (25 / segmente) * i));
@@ -3026,7 +3001,7 @@ namespace Weiche
                                         //Curved Platform No Ramp
                                         //Platform Mesh
                                         sw.WriteLine("\r\nCreateMeshBuilder ;Platform Mesh");
-                                        for (int i = 0; i <= segmente; i++, a++)
+                                        for (var i = 0; i <= segmente; i++, a++)
                                         {
                                             if (platwidth_near != platwidth_far)
                                             {
@@ -3044,7 +3019,11 @@ namespace Weiche
                                             {
                                                 platwidth = platwidth_near;
                                             }
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 -gaugeoffset) - platwidth), (25 / segmente) * i), platheight, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
+                                            if (i == segmente)
+                                            {
+                                                platheight += 0.01;
+                                            }
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 - gaugeoffset) - platwidth), (25 / segmente) * i), platheight + 0.01, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-2.55 -gaugeoffset), (25 / segmente) * i), platheight, trans.Z(-3.5, (25 / segmente) * i));
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 -gaugeoffset), (25 / segmente) * i), platheight, trans.Z(-1.55, (25 / segmente) * i));
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 -gaugeoffset), (25 / segmente) * i), platheight - 0.104, trans.Z(-1.55, (25 / segmente) * i));
@@ -3057,7 +3036,7 @@ namespace Weiche
                                         //Curved Platform Ramp Up
                                         //Platform Mesh
                                         sw.WriteLine("\r\nCreateMeshBuilder ;Platform Mesh");
-                                        for (int i = 0; i <= segmente; i++, a++)
+                                        for (var i = 0; i <= segmente; i++, a++)
                                         {
                                             if (platwidth_near != platwidth_far)
                                             {
@@ -3084,7 +3063,11 @@ namespace Weiche
                                             {
                                                 platheight_new = platheight;
                                             }
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 -gaugeoffset) - platwidth), (25 / segmente) * i), platheight_new, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
+                                            if (i == segmente)
+                                            {
+                                                platheight += 0.01;
+                                            }
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 - gaugeoffset) - platwidth), (25 / segmente) * i), platheight_new + 0.01, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-2.55 -gaugeoffset), (25 / segmente) * i), platheight_new, trans.Z(-3.5, (25 / segmente) * i));
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 -gaugeoffset), (25 / segmente) * i), platheight_new, trans.Z(-1.55, (25 / segmente) * i));
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 -gaugeoffset), (25 / segmente) * i), platheight_new - 0.104, trans.Z(-1.55, (25 / segmente) * i));
@@ -3098,8 +3081,8 @@ namespace Weiche
                                         //Curved Platform Ramp Down
                                         //Platform Mesh
                                         sw.WriteLine("\r\nCreateMeshBuilder ;Platform Mesh");
-                                        int b = 0;
-                                        for (int i = 0; i <= segmente; i++, a++)
+                                        var b = 0;
+                                        for (var i = 0; i <= segmente; i++, a++)
                                         {
                                             if (platwidth_near != platwidth_far)
                                             {
@@ -3128,7 +3111,11 @@ namespace Weiche
                                             {
                                                 platheight_new = platheight;
                                             }
-                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 -gaugeoffset) - platwidth), (25 / segmente) * i), platheight_new, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
+                                            if (i == segmente)
+                                            {
+                                                platheight += 0.01;
+                                            }
+                                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 - gaugeoffset) - platwidth), (25 / segmente) * i), platheight_new + 0.01, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-2.55 -gaugeoffset), (25 / segmente) * i), platheight_new, trans.Z(-3.5, (25 / segmente) * i));
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 -gaugeoffset), (25 / segmente) * i), platheight_new, trans.Z(-1.55, (25 / segmente) * i));
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.55 -gaugeoffset), (25 / segmente) * i), platheight_new - 0.104, trans.Z(-1.55, (25 / segmente) * i));
@@ -3141,13 +3128,13 @@ namespace Weiche
                                 PlatFace(sw, a, -LiRe_T);
                                 sw.WriteLine("GenerateNormals,");
                                                                 
-                                sw.WriteLine("LoadTexture,{0:f4}.{1:f4},", platform_file, texture_format);
+                                sw.WriteLine("LoadTexture,{0}.{1},", platform_file, texture_format);
                                 SetPlatformTexture(sw, a, 5, 1, platwidth_near, platwidth_far, segmente);
 
                                 //We've created our platform, now create the fence
                                 if (fence_yes.Checked == true)
                                 {
-                                            int d = -1;
+                                            var d = -1;
                                             //If radius is zero, use one segment
                                             if (radius == 0)
                                             {
@@ -3158,7 +3145,7 @@ namespace Weiche
                                                     //Platform Mesh
                                                     sw.WriteLine("\r\nCreateMeshBuilder ;Platform Mesh");
 
-                                                    for (int i = 0; i <= segmente; i++, d++)
+                                                    for (var i = 0; i <= segmente; i++, d++)
                                                     {
                                                         if (platwidth_near != platwidth_far)
                                                         {
@@ -3175,6 +3162,10 @@ namespace Weiche
                                                         {
                                                             platwidth = platwidth_near;
                                                         }
+                                                        if (i == segmente)
+                                                        {
+                                                            platheight += 0.01;
+                                                        }
                                                         platwidth = (platwidth - 0.3);
                                                         sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 -gaugeoffset) - platwidth), (25 / segmente) * i), platheight, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
                                                         sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 -gaugeoffset) - platwidth), (25 / segmente) * i), platheight + fenceheight, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
@@ -3186,7 +3177,7 @@ namespace Weiche
                                                     segmente = 2;
                                                     //Platform Mesh
                                                     sw.WriteLine("\r\nCreateMeshBuilder ;Platform Mesh");
-                                                    for (int i = 0; i <= segmente; i++, d++)
+                                                    for (var i = 0; i <= segmente; i++, d++)
                                                     {
                                                         if (platwidth_near != platwidth_far)
                                                         {
@@ -3204,12 +3195,15 @@ namespace Weiche
                                                         {
                                                             platwidth = platwidth_near;
                                                         }
-                                                        double platheight_new;
-                                                        platheight_new = 0;
+                                                        double platheight_new = 0;
                                                         if (d >= 0)
                                                         {
 
                                                             platheight_new = platheight;
+                                                        }
+                                                        if (i == segmente)
+                                                        {
+                                                            platheight += 0.01;
                                                         }
                                                         platwidth = (platwidth - 0.3);
                                                         sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 -gaugeoffset) - platwidth), (25 / segmente) * i), platheight_new, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
@@ -3222,7 +3216,7 @@ namespace Weiche
                                                     segmente = 2;
                                                     //Platform Mesh
                                                     sw.WriteLine("\r\nCreateMeshBuilder ;Platform Mesh");
-                                                    for (int i = 0; i <= segmente; i++, d++)
+                                                    for (var i = 0; i <= segmente; i++, d++)
                                                     {
                                                         if (platwidth_near != platwidth_far)
                                                         {
@@ -3240,12 +3234,15 @@ namespace Weiche
                                                         {
                                                             platwidth = platwidth_near;
                                                         }
-                                                        double platheight_new;
-                                                        platheight_new = 0;
+                                                        double platheight_new = 0;
                                                         if (d < 1)
                                                         {
 
                                                             platheight_new = platheight;
+                                                        }
+                                                        if (i == segmente)
+                                                        {
+                                                            platheight += 0.01;
                                                         }
                                                         platwidth = (platwidth - 0.3);
                                                         sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 -gaugeoffset) - platwidth), (25 / segmente) * i), platheight_new, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
@@ -3261,7 +3258,7 @@ namespace Weiche
                                                     //Curved Platform No Ramp
                                                     //Platform Mesh
                                                     sw.WriteLine("\r\nCreateMeshBuilder ;Platform Mesh");
-                                                    for (int i = 0; i <= segmente; i++, d++)
+                                                    for (var i = 0; i <= segmente; i++, d++)
                                                     {
                                                         if (platwidth_near != platwidth_far)
                                                         {
@@ -3279,6 +3276,10 @@ namespace Weiche
                                                         {
                                                             platwidth = platwidth_near;
                                                         }
+                                                        if (i == segmente)
+                                                        {
+                                                            platheight += 0.01;
+                                                        }
                                                         platwidth = (platwidth - 0.3);
                                                         sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 -gaugeoffset) - platwidth), (25 / segmente) * i), platheight, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
                                                         sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 -gaugeoffset) - platwidth), (25 / segmente) * i), platheight+ fenceheight, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
@@ -3289,7 +3290,7 @@ namespace Weiche
                                                     //Curved Platform Ramp Up
                                                     //Platform Mesh
                                                     sw.WriteLine("\r\nCreateMeshBuilder ;Platform Mesh");
-                                                    for (int i = 0; i <= segmente; i++, d++)
+                                                    for (var i = 0; i <= segmente; i++, d++)
                                                     {
                                                         if (platwidth_near != platwidth_far)
                                                         {
@@ -3316,6 +3317,10 @@ namespace Weiche
                                                         {
                                                             platheight_new = platheight;
                                                         }
+                                                        if (i == segmente)
+                                                        {
+                                                            platheight += 0.01;
+                                                        }
                                                         platwidth = (platwidth - 0.3);
                                                         sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 -gaugeoffset) - platwidth), (25 / segmente) * i), platheight_new, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
                                                         sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 -gaugeoffset) - platwidth), (25 / segmente) * i), platheight_new + fenceheight, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
@@ -3326,8 +3331,8 @@ namespace Weiche
                                                     //Curved Platform Ramp Down
                                                     //Platform Mesh
                                                     sw.WriteLine("\r\nCreateMeshBuilder ;Platform Mesh");
-                                                    int b = 0;
-                                                    for (int i = 0; i <= segmente; i++, d++)
+                                                    var b = 0;
+                                                    for (var i = 0; i <= segmente; i++, d++)
                                                     {
                                                         if (platwidth_near != platwidth_far)
                                                         {
@@ -3356,6 +3361,10 @@ namespace Weiche
                                                         {
                                                             platheight_new = platheight;
                                                         }
+                                                        if (i == segmente)
+                                                        {
+                                                            platheight += 0.01;
+                                                        }
                                                         platwidth = (platwidth - 0.3);
                                                         sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 -gaugeoffset) - platwidth), (25 / segmente) * i), platheight_new, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
                                                         sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 -gaugeoffset) - platwidth), (25 / segmente) * i), platheight_new + fenceheight, trans.Z((-1.55 - platwidth), (25 / segmente) * i));
@@ -3367,7 +3376,7 @@ namespace Weiche
                                             AddFace2_New(sw, d, -LiRe_T);
                                             sw.WriteLine("GenerateNormals,");
                                             //Load texture & set-cordinates
-                                            sw.WriteLine("LoadTexture,{0:f4}.{1:f4},", fence_file, texture_format);
+                                            sw.WriteLine("LoadTexture,{0}.{1},", fence_file, texture_format);
                                             SetTexture(sw, d, 10, 4);
                                             sw.WriteLine("SetDecalTransparentColor,0,0,255,");
 
@@ -3383,7 +3392,7 @@ namespace Weiche
                         else if (radioButton6.Checked == true)
                         {
                             {
-                                int a = -1;
+                                var a = -1;
                                 //If radius is zero, use one segment
                                 if (radius == 0)
                                 {
@@ -3393,7 +3402,7 @@ namespace Weiche
                                         segmente = 1;
                                         //Platform Mesh
                                         sw.WriteLine("\r\nCreateMeshBuilder ;Platform Mesh");
-                                        for (int i = 0; i <= segmente; i++, a++)
+                                        for (var i = 0; i <= segmente; i++, a++)
                                         {
                                             if (platwidth_near != platwidth_far)
                                             {
@@ -3410,6 +3419,10 @@ namespace Weiche
                                             {
                                                 platwidth = platwidth_near;
                                             }
+                                            if (i == segmente)
+                                            {
+                                                platheight += 0.01;
+                                            }
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((1.55 +gaugeoffset)+ platwidth), (25 / segmente) * i), platheight, trans.Z((1.55 + platwidth), (25 / segmente) * i));
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((2.55 +gaugeoffset), (25 / segmente) * i), platheight, trans.Z(3.5, (25 / segmente) * i));
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.55 +gaugeoffset), (25 / segmente) * i), platheight, trans.Z(1.55, (25 / segmente) * i));
@@ -3424,7 +3437,7 @@ namespace Weiche
                                         segmente = 2;
                                         //Platform Mesh
                                         sw.WriteLine("\r\nCreateMeshBuilder ;Platform Mesh");
-                                        for (int i = 0; i <= segmente; i++, a++)
+                                        for (var i = 0; i <= segmente; i++, a++)
                                         {
                                             if (platwidth_near != platwidth_far)
                                             {
@@ -3442,12 +3455,15 @@ namespace Weiche
                                             {
                                                 platwidth = platwidth_near;
                                             }
-                                            double platheight_new;
-                                            platheight_new = 0;
+                                            double platheight_new = 0;
                                             if (a >= 0)
                                             {
 
                                                 platheight_new = platheight;
+                                            }
+                                            if (i == segmente)
+                                            {
+                                                platheight += 0.01;
                                             }
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((1.55 + gaugeoffset) + platwidth), (25 / segmente) * i), platheight_new, trans.Z((1.55 + platwidth), (25 / segmente) * i));
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((2.55 + gaugeoffset), (25 / segmente) * i), platheight_new, trans.Z(3.5, (25 / segmente) * i));
@@ -3463,7 +3479,7 @@ namespace Weiche
                                         segmente = 2;
                                         //Platform Mesh
                                         sw.WriteLine("\r\nCreateMeshBuilder ;Platform Mesh");
-                                        for (int i = 0; i <= segmente; i++, a++)
+                                        for (var i = 0; i <= segmente; i++, a++)
                                         {
                                             if (platwidth_near != platwidth_far)
                                             {
@@ -3481,12 +3497,15 @@ namespace Weiche
                                             {
                                                 platwidth = platwidth_near;
                                             }
-                                            double platheight_new;
-                                            platheight_new = 0;
+                                            double platheight_new = 0;
                                             if (a < 1)
                                             {
 
                                                 platheight_new = platheight;
+                                            }
+                                            if (i == segmente)
+                                            {
+                                                platheight += 0.01;
                                             }
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((1.55 + gaugeoffset) + platwidth), (25 / segmente) * i), platheight_new, trans.Z((1.55 + platwidth), (25 / segmente) * i));
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((2.55 + gaugeoffset), (25 / segmente) * i), platheight_new, trans.Z(3.5, (25 / segmente) * i));
@@ -3505,7 +3524,7 @@ namespace Weiche
                                         //Curved Platform No Ramp
                                         //Platform Mesh
                                         sw.WriteLine("\r\nCreateMeshBuilder ;Platform Mesh");
-                                        for (int i = 0; i <= segmente; i++, a++)
+                                        for (var i = 0; i <= segmente; i++, a++)
                                         {
                                             if (platwidth_near != platwidth_far)
                                             {
@@ -3523,6 +3542,10 @@ namespace Weiche
                                             {
                                                 platwidth = platwidth_near;
                                             }
+                                            if (i == segmente)
+                                            {
+                                                platheight += 0.01;
+                                            }
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((1.55 + gaugeoffset) + platwidth), (25 / segmente) * i), platheight, trans.Z((1.55 + platwidth), (25 / segmente) * i));
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((2.55 + gaugeoffset), (25 / segmente) * i), platheight, trans.Z(3.5, (25 / segmente) * i));
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.55 + gaugeoffset), (25 / segmente) * i), platheight, trans.Z(1.55, (25 / segmente) * i));
@@ -3536,7 +3559,7 @@ namespace Weiche
                                         //Curved Platform Ramp Up
                                         //Platform Mesh
                                         sw.WriteLine("\r\nCreateMeshBuilder ;Platform Mesh");
-                                        for (int i = 0; i <= segmente; i++, a++)
+                                        for (var i = 0; i <= segmente; i++, a++)
                                         {
                                             if (platwidth_near != platwidth_far)
                                             {
@@ -3563,6 +3586,10 @@ namespace Weiche
                                             {
                                                 platheight_new = platheight;
                                             }
+                                            if (i == segmente)
+                                            {
+                                                platheight += 0.01;
+                                            }
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((1.55 + gaugeoffset) + platwidth), (25 / segmente) * i), platheight_new, trans.Z((1.55 + platwidth), (25 / segmente) * i));
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((2.55 + gaugeoffset), (25 / segmente) * i), platheight_new, trans.Z(3.5, (25 / segmente) * i));
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.55 + gaugeoffset), (25 / segmente) * i), platheight_new, trans.Z(1.55, (25 / segmente) * i));
@@ -3577,8 +3604,8 @@ namespace Weiche
                                         //Curved Platform Ramp Down
                                         //Platform Mesh
                                         sw.WriteLine("\r\nCreateMeshBuilder ;Platform Mesh");
-                                        int b = 0;
-                                        for (int i = 0; i <= segmente; i++, a++)
+                                        var b = 0;
+                                        for (var i = 0; i <= segmente; i++, a++)
                                         {
                                             if (platwidth_near != platwidth_far)
                                             {
@@ -3607,6 +3634,10 @@ namespace Weiche
                                             {
                                                 platheight_new = platheight;
                                             }
+                                            if (i == segmente)
+                                            {
+                                                platheight += 0.01;
+                                            }
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((1.55 + gaugeoffset) + platwidth), (25 / segmente) * i), platheight_new, trans.Z((1.55 + platwidth), (25 / segmente) * i));
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((2.55 + gaugeoffset), (25 / segmente) * i), platheight_new, trans.Z(3.5, (25 / segmente) * i));
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.55 + gaugeoffset), (25 / segmente) * i), platheight_new, trans.Z(1.55, (25 / segmente) * i));
@@ -3620,7 +3651,7 @@ namespace Weiche
                                 PlatFace(sw, a, LiRe_T);
                                 sw.WriteLine("GenerateNormals,");
 
-                                sw.WriteLine("LoadTexture,{0:f4}.{1:f4},", platform_file, texture_format);
+                                sw.WriteLine("LoadTexture,{0}.{1},", platform_file, texture_format);
                                 
 
                                 SetPlatformTexture(sw, a, 5, 1, platwidth_near, platwidth_far, segmente);
@@ -3628,7 +3659,7 @@ namespace Weiche
                                 //We've created our platform, now create the fence
                                 if (fence_yes.Checked == true)
                                 {
-                                            int d = -1;
+                                            var d = -1;
                                             //If radius is zero, use one segment
                                             if (radius == 0)
                                             {
@@ -3639,7 +3670,7 @@ namespace Weiche
                                                     //Platform Mesh
                                                     sw.WriteLine("\r\nCreateMeshBuilder ;Platform Mesh");
 
-                                                    for (int i = 0; i <= segmente; i++, d++)
+                                                    for (var i = 0; i <= segmente; i++, d++)
                                                     {
                                                         if (platwidth_near != platwidth_far)
                                                         {
@@ -3657,6 +3688,10 @@ namespace Weiche
                                                             platwidth = platwidth_near;
                                                         }
                                                         platwidth = (platwidth - 0.3);
+                                                        if (i == segmente)
+                                                        {
+                                                            platheight += 0.01;
+                                                        }
                                                         sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((1.55 + gaugeoffset) + platwidth), (25 / segmente) * i), platheight, trans.Z((1.55 + platwidth), (25 / segmente) * i));
                                                         sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((1.55 + gaugeoffset) + platwidth), (25 / segmente) * i), platheight + fenceheight, trans.Z((1.55 + platwidth), (25 / segmente) * i));
                                                     }
@@ -3667,7 +3702,7 @@ namespace Weiche
                                                     segmente = 2;
                                                     //Platform Mesh
                                                     sw.WriteLine("\r\nCreateMeshBuilder ;Platform Mesh");
-                                                    for (int i = 0; i <= segmente; i++, d++)
+                                                    for (var i = 0; i <= segmente; i++, d++)
                                                     {
                                                         if (platwidth_near != platwidth_far)
                                                         {
@@ -3685,12 +3720,15 @@ namespace Weiche
                                                         {
                                                             platwidth = platwidth_near;
                                                         }
-                                                        double platheight_new;
-                                                        platheight_new = 0;
+                                                        double platheight_new = 0;
                                                         if (d >= 0)
                                                         {
 
                                                             platheight_new = platheight;
+                                                        }
+                                                        if (i == segmente)
+                                                        {
+                                                            platheight += 0.01;
                                                         }
                                                         platwidth = (platwidth - 0.3);
                                                         sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((1.55 + gaugeoffset) + platwidth), (25 / segmente) * i), platheight_new, trans.Z((1.55 + platwidth), (25 / segmente) * i));
@@ -3703,7 +3741,7 @@ namespace Weiche
                                                     segmente = 2;
                                                     //Platform Mesh
                                                     sw.WriteLine("\r\nCreateMeshBuilder ;Platform Mesh");
-                                                    for (int i = 0; i <= segmente; i++, d++)
+                                                    for (var i = 0; i <= segmente; i++, d++)
                                                     {
                                                         if (platwidth_near != platwidth_far)
                                                         {
@@ -3721,12 +3759,15 @@ namespace Weiche
                                                         {
                                                             platwidth = platwidth_near;
                                                         }
-                                                        double platheight_new;
-                                                        platheight_new = 0;
+                                                        double platheight_new = 0;
                                                         if (d < 1)
                                                         {
 
                                                             platheight_new = platheight;
+                                                        }
+                                                        if (i == segmente)
+                                                        {
+                                                            platheight += 0.01;
                                                         }
                                                         platwidth = (platwidth - 0.3);
                                                         sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((1.55 + gaugeoffset) + platwidth), (25 / segmente) * i), platheight_new, trans.Z((1.55 + platwidth), (25 / segmente) * i));
@@ -3742,7 +3783,7 @@ namespace Weiche
                                                     //Curved Platform No Ramp
                                                     //Platform Mesh
                                                     sw.WriteLine("\r\nCreateMeshBuilder ;Platform Mesh");
-                                                    for (int i = 0; i <= segmente; i++, d++)
+                                                    for (var i = 0; i <= segmente; i++, d++)
                                                     {
                                                         if (platwidth_near != platwidth_far)
                                                         {
@@ -3761,6 +3802,10 @@ namespace Weiche
                                                             platwidth = platwidth_near;
                                                         }
                                                         platwidth = (platwidth - 0.3);
+                                                        if (i == segmente)
+                                                        {
+                                                            platheight += 0.01;
+                                                        }
                                                         sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((1.55 + gaugeoffset) + platwidth), (25 / segmente) * i), platheight, trans.Z((-1.55 + platwidth), (25 / segmente) * i));
                                                         sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((1.55 + gaugeoffset) + platwidth), (25 / segmente) * i), platheight + fenceheight, trans.Z((1.55 + platwidth), (25 / segmente) * i));
                                                     }
@@ -3770,7 +3815,7 @@ namespace Weiche
                                                     //Curved Platform Ramp Up
                                                     //Platform Mesh
                                                     sw.WriteLine("\r\nCreateMeshBuilder ;Platform Mesh");
-                                                    for (int i = 0; i <= segmente; i++, d++)
+                                                    for (var i = 0; i <= segmente; i++, d++)
                                                     {
                                                         if (platwidth_near != platwidth_far)
                                                         {
@@ -3798,6 +3843,10 @@ namespace Weiche
                                                             platheight_new = platheight;
                                                         }
                                                         platwidth = (platwidth - 0.3);
+                                                        if (i == segmente)
+                                                        {
+                                                            platheight += 0.01;
+                                                        }
                                                         sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((1.55 + gaugeoffset) + platwidth), (25 / segmente) * i), platheight_new, trans.Z((1.55 + platwidth), (25 / segmente) * i));
                                                         sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((1.55 + gaugeoffset) + platwidth), (25 / segmente) * i), platheight_new + fenceheight, trans.Z((1.55 + platwidth), (25 / segmente) * i));
                                                     }
@@ -3807,8 +3856,8 @@ namespace Weiche
                                                     //Curved Platform Ramp Down
                                                     //Platform Mesh
                                                     sw.WriteLine("\r\nCreateMeshBuilder ;Platform Mesh");
-                                                    int b = 0;
-                                                    for (int i = 0; i <= segmente; i++, d++)
+                                                    var b = 0;
+                                                    for (var i = 0; i <= segmente; i++, d++)
                                                     {
                                                         if (platwidth_near != platwidth_far)
                                                         {
@@ -3838,6 +3887,10 @@ namespace Weiche
                                                             platheight_new = platheight;
                                                         }
                                                         platwidth = (platwidth - 0.3);
+                                                        if (i == segmente)
+                                                        {
+                                                            platheight += 0.01;
+                                                        }
                                                         sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((1.55 + gaugeoffset) + platwidth), (25 / segmente) * i), platheight_new, trans.Z((1.55 + platwidth), (25 / segmente) * i));
                                                         sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((1.55 + gaugeoffset) + platwidth), (25 / segmente) * i), platheight_new + fenceheight, trans.Z((1.55 + platwidth), (25 / segmente) * i));
                                                     }
@@ -3848,7 +3901,7 @@ namespace Weiche
                                             AddFace2_New(sw, d, -LiRe_T);
                                             sw.WriteLine("GenerateNormals,");
                                             //Load texture & set-cordinates
-                                            sw.WriteLine("LoadTexture,{0:f4}.{1:f4},", fence_file, texture_format);
+                                            sw.WriteLine("LoadTexture,{0}.{1},", fence_file, texture_format);
                                             SetTexture(sw, d, 10, 4);
                                             sw.WriteLine("SetDecalTransparentColor,0,0,255,");
                                 }
@@ -3942,16 +3995,6 @@ namespace Weiche
 
         }
 
-        private void checkBox3_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void checkBox4_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void checkBox4_CheckedChanged_1(object sender, EventArgs e)
         {
             if (checkBox4.Checked == false)
@@ -3971,78 +4014,72 @@ namespace Weiche
             }
         }
 
-        private void checkBox5_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void pictureEN_Click_1(object sender, EventArgs e)
         {
-            label_radius.Text = "Curve radius for player's track OR deviation (In meters)";
-            label_tot.Text = "Deviation for diverging track (In meters)";
-            radioButton1.Text = "Switch";
-            radioButton2.Text = "Curve";
-            radioButton3.Text = "Straight";
-            label_laenge.Text = "Switch Length Multiplication (25,50,75,..) ";
-            label_segmente.Text = "Number of segments";
-            groupBox1.Text = "Advanced options";
-            checkBox5.Text = "Do not texture rails";
-            checkBox4.Text = "Use PNG textures";
-            checkBox3.Text = "Invert textures";
-            checkBox2.Text = "Without embankment";
-            checkBox1.Text = "Add point motor";
-            label_z.Text = "Z - adjustment";
-            folderPath.Text = "Path";
-            button.Text = "Create";
-            label3.Text = "Platform Side";
-            label4.Text = "Platform height (in m)";
-            label5.Text = "Platform Width (Near)";
-            label7.Text = "Plarform Width (Far)";
-            label6.Text = "Platform Ramp";
-            label8.Text = "Platform Fence";
-            radioButton5.Text = "Left";
-            radioButton6.Text = "Right";
-            texturebutton.Text = "Choose Textures...";
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en-GB");
+            label_radius.Text = Resources.radius;
+            label_tot.Text = Resources.deviation;
+            radioButton1.Text = Resources.pointswitch;
+            radioButton2.Text = Resources.curve;
+            radioButton3.Text = Resources.straight;
+            label_laenge.Text = Resources.lengthmultiplier;
+            label_segmente.Text = Resources.segments;
+            groupBox1.Text = Resources.advanced;
+            checkBox5.Text = Resources.railtexture;
+            checkBox4.Text = Resources.pngtexture;
+            checkBox3.Text = Resources.invertexture;
+            checkBox2.Text = Resources.embankment;
+            checkBox1.Text = Resources.pointmotor;
+            label_z.Text = Resources.zadjust;
+            folderPath.Text = Resources.path;
+            button.Text = Resources.createbutton;
+            label3.Text = Resources.platformside;
+            label4.Text = Resources.platformheight;
+            label5.Text = Resources.platformwidth_n;
+            label7.Text = Resources.platformwidth_f;
+            label6.Text = Resources.platformramp;
+            label8.Text = Resources.platformfence;
+            radioButton5.Text = Resources.left;
+            radioButton6.Text = Resources.right;
+            texturebutton.Text = Resources.choosetexture;
             using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Trackgen",true))
             {
 
                     key.SetValue("Language", "en");
-
             }
         }
 
         private void pictureBox2_Click(object sender, EventArgs e)
         {
-            label_radius.Text = "Radius/Abweichung der eigenen Spur (in m) ";
-            label_tot.Text = "Abweichung der Totspur (in m) ";
-            radioButton1.Text = "Weiche";
-            radioButton2.Text = "Kurve";
-            radioButton3.Text = "Gerade";
-            label_laenge.Text = "Weichenlänge (25,50,75,..) ";
-            label_segmente.Text = "Anzahl Segmente";
-            groupBox1.Text = "Erweiterte Optionen";
-            checkBox5.Text = "Nicht Textur Schiene";
-            checkBox4.Text = "PNG Textur";
-            checkBox3.Text = "Textur Invertieren";
-            checkBox2.Text = "Ohne Böschung";
-            checkBox1.Text = "Weichenantrieb";
-            label_z.Text = "z - Verschiebung";
-            folderPath.Text = "Pfad";
-            button.Text = "Erstellen";
-            label3.Text = "Bahnsteigseite";
-            label4.Text = "Plattformhöhe (in m)";
-            label5.Text = "Plattformbreite (Nahe)";
-            label7.Text = "Plattformbreite (Weit)";
-            label6.Text = "Plattform Rampe";
-            label8.Text = "Plattform Zaun";
-            texturebutton.Text = "Texturen Wählen...";
-            radioButton5.Text = "Links";
-            radioButton6.Text = "Recht";
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("de-DE");
+            label_radius.Text = Resources.radius;
+            label_tot.Text = Resources.deviation;
+            radioButton1.Text = Resources.pointswitch;
+            radioButton2.Text = Resources.curve;
+            radioButton3.Text = Resources.straight;
+            label_laenge.Text = Resources.lengthmultiplier;
+            label_segmente.Text = Resources.segments;
+            groupBox1.Text = Resources.advanced;
+            checkBox5.Text = Resources.railtexture;
+            checkBox4.Text = Resources.pngtexture;
+            checkBox3.Text = Resources.invertexture;
+            checkBox2.Text = Resources.embankment;
+            checkBox1.Text = Resources.pointmotor;
+            label_z.Text = Resources.zadjust;
+            folderPath.Text = Resources.path;
+            button.Text = Resources.createbutton;
+            label3.Text = Resources.platformside;
+            label4.Text = Resources.platformheight;
+            label5.Text = Resources.platformwidth_n;
+            label7.Text = Resources.platformwidth_f;
+            label6.Text = Resources.platformramp;
+            label8.Text = Resources.platformfence;
+            radioButton5.Text = Resources.left;
+            radioButton6.Text = Resources.right;
+            texturebutton.Text = Resources.choosetexture;
             using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Trackgen",true))
             {
-
                     key.SetValue("Language", "de");
-
             }
         }
 
@@ -4066,23 +4103,18 @@ namespace Weiche
 
 
 
-        private void groupBox2_Enter(object sender, EventArgs e)
-        {
-
-        }
-
         private void texturebutton_Click(object sender, EventArgs e)
         {
             if (radioButton4.Checked == true)
             {
-                using (platformtexture childform = new platformtexture(launchpath))
+                using (var childform = new platformtexture(launchpath))
                 {
                     childform.ShowDialog(this);
                 }
             }
             else
             {
-                using (texturepicker childform = new texturepicker(launchpath))
+                using (var childform = new texturepicker(launchpath))
                 {
                     childform.ShowDialog(this);
                 }

@@ -117,79 +117,79 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="radius" xml:space="preserve">
-    <value>Curve radius for player's track OR deviation (In meters)</value>
-  </data>
-  <data name="deviation" xml:space="preserve">
-    <value>Deviation for diverging track (In meters)</value>
-  </data>
-  <data name="pointswitch" xml:space="preserve">
-    <value>Switch</value>
-  </data>
-  <data name="curve" xml:space="preserve">
-    <value>Curve</value>
-  </data>
-  <data name="straight" xml:space="preserve">
-    <value>Straight</value>
-  </data>
-  <data name="lengthmultiplier" xml:space="preserve">
-    <value>Switch Length Multiplication (25,50,75,..) </value>
-  </data>
-  <data name="segments" xml:space="preserve">
-    <value>Number of segments</value>
-  </data>
   <data name="advanced" xml:space="preserve">
-    <value>Advanced options</value>
-  </data>
-  <data name="railtexture" xml:space="preserve">
-    <value>Do not texture rails</value>
-  </data>
-  <data name="pngtexture" xml:space="preserve">
-    <value>Use PNG textures</value>
-  </data>
-  <data name="invertexture" xml:space="preserve">
-    <value>Invert textures</value>
-  </data>
-  <data name="embankment" xml:space="preserve">
-    <value>Without embankment</value>
-  </data>
-  <data name="pointmotor" xml:space="preserve">
-    <value>Add point motor</value>
-  </data>
-  <data name="zadjust" xml:space="preserve">
-    <value>Z - adjustment</value>
-  </data>
-  <data name="path" xml:space="preserve">
-    <value>Path</value>
-  </data>
-  <data name="createbutton" xml:space="preserve">
-    <value>Create</value>
-  </data>
-  <data name="platformside" xml:space="preserve">
-    <value>Platform Side</value>
-  </data>
-  <data name="platformheight" xml:space="preserve">
-    <value>Platform height (in m)</value>
-  </data>
-  <data name="platformwidth_n" xml:space="preserve">
-    <value>Platform Width (Near)</value>
-  </data>
-  <data name="platformwidth_f" xml:space="preserve">
-    <value>Plarform Width (Far)</value>
-  </data>
-  <data name="platformramp" xml:space="preserve">
-    <value>Platform Ramp</value>
-  </data>
-  <data name="platformfence" xml:space="preserve">
-    <value>Platform Fence</value>
+    <value>Erweiterte Optionen</value>
   </data>
   <data name="choosetexture" xml:space="preserve">
-    <value>Choose Textures...</value>
+    <value>Texturen Wählen...</value>
+  </data>
+  <data name="createbutton" xml:space="preserve">
+    <value>Erstellen</value>
+  </data>
+  <data name="curve" xml:space="preserve">
+    <value>Kurve</value>
+  </data>
+  <data name="deviation" xml:space="preserve">
+    <value>Abweichung der Totspur (in m)</value>
+  </data>
+  <data name="embankment" xml:space="preserve">
+    <value>Ohne Böschung</value>
+  </data>
+  <data name="invertexture" xml:space="preserve">
+    <value>Textur Invertieren</value>
   </data>
   <data name="left" xml:space="preserve">
-    <value>Left</value>
+    <value>Links</value>
+  </data>
+  <data name="lengthmultiplier" xml:space="preserve">
+    <value>Weichenlänge (25,50,75,..)</value>
+  </data>
+  <data name="path" xml:space="preserve">
+    <value>Pfad</value>
+  </data>
+  <data name="platformfence" xml:space="preserve">
+    <value>Plattform Zaun</value>
+  </data>
+  <data name="platformheight" xml:space="preserve">
+    <value>Plattformhöhe (in m)</value>
+  </data>
+  <data name="platformramp" xml:space="preserve">
+    <value>Plattform Rampe</value>
+  </data>
+  <data name="platformside" xml:space="preserve">
+    <value>Bahnsteigseite</value>
+  </data>
+  <data name="platformwidth_f" xml:space="preserve">
+    <value>Plattformbreite (Weit)</value>
+  </data>
+  <data name="platformwidth_n" xml:space="preserve">
+    <value>Plattformbreite (Nahe)</value>
+  </data>
+  <data name="pngtexture" xml:space="preserve">
+    <value>PNG Textur</value>
+  </data>
+  <data name="pointmotor" xml:space="preserve">
+    <value>Weichenantrieb</value>
+  </data>
+  <data name="pointswitch" xml:space="preserve">
+    <value>Weiche</value>
+  </data>
+  <data name="radius" xml:space="preserve">
+    <value>Radius/Abweichung der eigenen Spur (in m)</value>
+  </data>
+  <data name="railtexture" xml:space="preserve">
+    <value>Nicht Textur Schiene</value>
   </data>
   <data name="right" xml:space="preserve">
-    <value>Right</value>
+    <value>Recht</value>
+  </data>
+  <data name="segments" xml:space="preserve">
+    <value>Anzahl Segmente</value>
+  </data>
+  <data name="straight" xml:space="preserve">
+    <value>Gerade</value>
+  </data>
+  <data name="zadjust" xml:space="preserve">
+    <value>z - Verschiebung</value>
   </data>
 </root>

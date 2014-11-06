@@ -289,7 +289,6 @@
             this.checkBox3.TabIndex = 2;
             this.checkBox3.Text = "Textur Invertieren";
             this.checkBox3.UseVisualStyleBackColor = true;
-            this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
             // 
             // checkBox2
             // 
