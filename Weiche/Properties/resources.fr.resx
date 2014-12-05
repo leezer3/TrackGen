@@ -118,81 +118,81 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="advanced" xml:space="preserve">
-    <value>Erweiterte Optionen</value>
+    <value>Options avancées</value>
   </data>
   <data name="choosetexture" xml:space="preserve">
-    <value>Texturen Wählen...</value>
+    <value>Chosir des textures...</value>
   </data>
   <data name="createbutton" xml:space="preserve">
-    <value>Erstellen</value>
+    <value>Début</value>
   </data>
   <data name="curve" xml:space="preserve">
-    <value>Kurve</value>
+    <value>Courbes</value>
   </data>
   <data name="deviation" xml:space="preserve">
-    <value>Abweichung der Totspur (in m)</value>
+    <value>Déviation de voie déviée (En m)</value>
   </data>
   <data name="embankment" xml:space="preserve">
-    <value>Ohne Böschung</value>
+    <value>Sans rembli</value>
   </data>
   <data name="invertexture" xml:space="preserve">
-    <value>Textur Invertieren</value>
+    <value>Inverti des textures</value>
   </data>
   <data name="left" xml:space="preserve">
-    <value>Links</value>
+    <value>Gauche</value>
   </data>
   <data name="lengthmultiplier" xml:space="preserve">
-    <value>Weichenlänge (25,50,75,..)</value>
+    <value>Longueur multiplication (25,50,75,..) </value>
   </data>
   <data name="path" xml:space="preserve">
-    <value>Pfad</value>
+    <value>Path</value>
   </data>
-  <data name="Platform" xml:space="preserve">
-    <value>Plattform</value>
+  <data name="platform" xml:space="preserve">
+    <value>Plate-forme</value>
   </data>
   <data name="platformfence" xml:space="preserve">
-    <value>Plattform Zaun</value>
+    <value>Plate-forme clôture</value>
   </data>
   <data name="platformheight" xml:space="preserve">
-    <value>Plattformhöhe (in m)</value>
+    <value>Hauteur de plate-forme (En m)</value>
   </data>
   <data name="platformramp" xml:space="preserve">
-    <value>Plattform Rampe</value>
+    <value>Rampe de plate-forme</value>
   </data>
   <data name="platformside" xml:space="preserve">
-    <value>Bahnsteigseite</value>
+    <value>Côté de la plate-forme</value>
   </data>
   <data name="platformwidth_f" xml:space="preserve">
-    <value>Plattformbreite (Weit)</value>
+    <value>Largeur de la plate-forme (Avoir)</value>
   </data>
   <data name="platformwidth_n" xml:space="preserve">
-    <value>Plattformbreite (Nahe)</value>
+    <value>Largeur de la plate-forme (Près)</value>
   </data>
   <data name="pngtexture" xml:space="preserve">
-    <value>PNG Textur</value>
+    <value>Utilisier des textures PNG</value>
   </data>
   <data name="pointmotor" xml:space="preserve">
-    <value>Weichenantrieb</value>
+    <value>Ajouter un point moteur</value>
   </data>
   <data name="pointswitch" xml:space="preserve">
-    <value>Weiche</value>
+    <value>Interrupteur</value>
   </data>
   <data name="radius" xml:space="preserve">
-    <value>Radius/Abweichung der eigenen Spur (in m)</value>
+    <value>Rayon piste incurvée pour le joueur OU déviation (En m)</value>
   </data>
   <data name="railtexture" xml:space="preserve">
-    <value>Nicht Textur Schiene</value>
+    <value>Ne pas texturer rails</value>
   </data>
   <data name="right" xml:space="preserve">
-    <value>Recht</value>
+    <value>Droit</value>
   </data>
   <data name="segments" xml:space="preserve">
-    <value>Anzahl Segmente</value>
+    <value>Nombre de segments</value>
   </data>
   <data name="straight" xml:space="preserve">
-    <value>Gerade</value>
+    <value>Rectiligne</value>
   </data>
   <data name="zadjust" xml:space="preserve">
-    <value>z - Verschiebung</value>
+    <value>Z - ajustement</value>
   </data>
 </root>

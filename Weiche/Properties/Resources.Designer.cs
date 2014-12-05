@@ -151,6 +151,15 @@ namespace Weiche.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Platform.
+        /// </summary>
+        internal static string platform {
+            get {
+                return ResourceManager.GetString("platform", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Platform Fence.
         /// </summary>
         internal static string platformfence {

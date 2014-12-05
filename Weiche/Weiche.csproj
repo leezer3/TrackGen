@@ -62,18 +62,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CurvedTrack.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Platforms.cs" />
     <Compile Include="platformtexture.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="platformtexture.Designer.cs">
       <DependentUpon>platformtexture.cs</DependentUpon>
     </Compile>
+    <Compile Include="StraightTrack.cs" />
+    <Compile Include="Switch.cs" />
     <Compile Include="texturepicker.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -83,7 +87,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
-      <SubType>Designer</SubType>
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="platformtexture.resx">
@@ -100,6 +103,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.de.resx" />
+    <EmbeddedResource Include="Properties\resources.fr.resx" />
     <EmbeddedResource Include="texturepicker.resx">
       <DependentUpon>texturepicker.cs</DependentUpon>
     </EmbeddedResource>

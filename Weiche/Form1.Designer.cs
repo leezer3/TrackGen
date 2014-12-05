@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Weichengenerator));
             this.label_radius = new System.Windows.Forms.Label();
             this.label_tot = new System.Windows.Forms.Label();
             this.label_laenge = new System.Windows.Forms.Label();
@@ -55,8 +54,6 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.textBox_z = new System.Windows.Forms.TextBox();
             this.label_z = new System.Windows.Forms.Label();
-            this.pictureEN = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.radioButton4 = new System.Windows.Forms.RadioButton();
@@ -81,10 +78,9 @@
             this.fence_no = new System.Windows.Forms.RadioButton();
             this.fence_yes = new System.Windows.Forms.RadioButton();
             this.fenceheight_tb = new System.Windows.Forms.TextBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureEN)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -336,45 +332,26 @@
             this.label_z.TabIndex = 18;
             this.label_z.Text = "z - Verschiebung";
             // 
-            // pictureEN
-            // 
-            this.pictureEN.Image = ((System.Drawing.Image)(resources.GetObject("pictureEN.Image")));
-            this.pictureEN.Location = new System.Drawing.Point(70, 504);
-            this.pictureEN.Name = "pictureEN";
-            this.pictureEN.Size = new System.Drawing.Size(33, 16);
-            this.pictureEN.TabIndex = 19;
-            this.pictureEN.TabStop = false;
-            this.pictureEN.Click += new System.EventHandler(this.pictureEN_Click_1);
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(109, 504);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(31, 16);
-            this.pictureBox2.TabIndex = 20;
-            this.pictureBox2.TabStop = false;
-            this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
             this.label2.Location = new System.Drawing.Point(16, 523);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(254, 13);
+            this.label2.Size = new System.Drawing.Size(260, 13);
             this.label2.TabIndex = 21;
-            this.label2.Text = "v 1.5 ALPHA 9  © N.Busch and C. Lees 2008- 2014";
+            this.label2.Text = "v 1.5 ALPHA 11  © N.Busch and C. Lees 2008- 2014";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label1.Location = new System.Drawing.Point(16, 507);
+            this.label1.Location = new System.Drawing.Point(9, 486);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(55, 13);
+            this.label1.Size = new System.Drawing.Size(67, 13);
             this.label1.TabIndex = 22;
-            this.label1.Text = "Language";
+            this.label1.Text = "Language:";
             // 
             // radioButton4
             // 
@@ -540,9 +517,9 @@
             // 
             // texturebutton
             // 
-            this.texturebutton.Location = new System.Drawing.Point(290, 486);
+            this.texturebutton.Location = new System.Drawing.Point(229, 486);
             this.texturebutton.Name = "texturebutton";
-            this.texturebutton.Size = new System.Drawing.Size(107, 23);
+            this.texturebutton.Size = new System.Drawing.Size(168, 23);
             this.texturebutton.TabIndex = 35;
             this.texturebutton.Text = "Choose Textures...";
             this.texturebutton.UseVisualStyleBackColor = true;
@@ -597,12 +574,27 @@
             this.fenceheight_tb.TabIndex = 38;
             this.fenceheight_tb.Text = "Height (in m)";
             // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "English",
+            "Deutsch",
+            "Français"});
+            this.comboBox1.Location = new System.Drawing.Point(12, 502);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 21);
+            this.comboBox1.TabIndex = 40;
+            this.comboBox1.Text = "English";
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
             // Weichengenerator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(417, 560);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.fenceheight_tb);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.label8);
@@ -620,8 +612,6 @@
             this.Controls.Add(this.radioButton4);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.pictureBox2);
-            this.Controls.Add(this.pictureEN);
             this.Controls.Add(this.textBox_z);
             this.Controls.Add(this.label_z);
             this.Controls.Add(this.groupBox1);
@@ -641,14 +631,11 @@
             this.Controls.Add(this.label_radius);
             this.Controls.Add(this.pictureBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Weichengenerator";
             this.Text = "TrackGen";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureEN)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -679,13 +666,11 @@
         private System.Windows.Forms.Label label_segmente;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.CheckBox checkBox2;
+        public System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.TextBox textBox_z;
         private System.Windows.Forms.Label label_z;
         private System.Windows.Forms.CheckBox checkBox3;
-        private System.Windows.Forms.PictureBox pictureEN;
-        private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.CheckBox checkBox4;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
@@ -714,6 +699,7 @@
         private System.Windows.Forms.TextBox fenceheight_tb;
         private System.Windows.Forms.TextBox trackgauge_inp;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ComboBox comboBox1;
 
 
     }

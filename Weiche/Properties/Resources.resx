@@ -192,4 +192,7 @@
   <data name="right" xml:space="preserve">
     <value>Right</value>
   </data>
+  <data name="platform" xml:space="preserve">
+    <value>Platform</value>
+  </data>
 </root>
