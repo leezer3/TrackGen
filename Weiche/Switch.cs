@@ -1,4 +1,8 @@
-﻿using System;
+﻿/*
+ * Switch Generation
+ */
+
+using System;
 using System.Windows.Forms;
 using System.IO;
 
@@ -39,7 +43,7 @@ namespace Weiche
                 string spezanf_file = inputStrings[22];
                 string motor_texture = inputStrings[23];
                 string motor_file = inputStrings[24];
-                Weichengenerator.Transform trans;
+                MathFunctions.Transform trans;
                 bool EingabeOK;
 
                 //Check radius/ deviation is a valid number
@@ -178,12 +182,12 @@ namespace Weiche
                     radius = 12.5 * 25 * laenge * laenge / radius;
                 }
 
-                trans = new Weichengenerator.Transform(laenge, radius, LiRe, z);
+                trans = new MathFunctions.Transform(laenge, radius, LiRe, z);
 
 
                 //Calculate Frog
 
-                radiusT = Weichengenerator.radius_tot(laenge, Abw_tot);
+                radiusT = MathFunctions.radius_tot(laenge, Abw_tot);
 
                 // Co-ordinates 1- Top of switch
                 /*
@@ -205,7 +209,7 @@ namespace Weiche
 
                 //Co-ordinate 3- Right End
                 var K3 = new double[2];
-                K3[1] = K2[1] + Math.Tan(Weichengenerator.winkel_tot(laenge, Abw_tot)) * (K2[0] * LiRe_T - (0.72 + gaugeoffset));
+                K3[1] = K2[1] + Math.Tan(MathFunctions.winkel_tot(laenge, Abw_tot)) * (K2[0] * LiRe_T - (0.72 + gaugeoffset));
                 K3[0] = (0.72 + gaugeoffset) * LiRe_T;
 
                 //Co-ordinates 4- Toe of point
@@ -296,17 +300,17 @@ namespace Weiche
                     for (; j <= 25 * laenge; j = j + 25 / segmente, a++)
                     {
 
-                        sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(Weichengenerator.Abbiege_x(j, radiusT, (-0.78 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(j, radiusT, (-0.78 - gaugeoffset), LiRe_T)), trans.Z(Weichengenerator.Abbiege_x(j, radiusT, (-0.78 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(j, radiusT, (-0.78 - gaugeoffset), LiRe_T)));
-                        sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(Weichengenerator.Abbiege_x(j, radiusT, (-0.72 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(j, radiusT, (-0.72 - gaugeoffset), LiRe_T)), trans.Z(Weichengenerator.Abbiege_x(j, radiusT, (-0.72 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(j, radiusT, (-0.72 - gaugeoffset), LiRe_T)));
+                        sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(MathFunctions.Abbiege_x(j, radiusT, (-0.78 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(j, radiusT, (-0.78 - gaugeoffset), LiRe_T)), trans.Z(MathFunctions.Abbiege_x(j, radiusT, (-0.78 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(j, radiusT, (-0.78 - gaugeoffset), LiRe_T)));
+                        sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(MathFunctions.Abbiege_x(j, radiusT, (-0.72 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(j, radiusT, (-0.72 - gaugeoffset), LiRe_T)), trans.Z(MathFunctions.Abbiege_x(j, radiusT, (-0.72 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(j, radiusT, (-0.72 - gaugeoffset), LiRe_T)));
                     }
 
-                    Weichengenerator.AddFace(sw, a, LiRe_T);
+                    Constructors.AddFace(sw, a, LiRe_T);
 
                     sw.WriteLine("GenerateNormals,");
                     if (inputcheckboxes[4] == false)
                     {
                         sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
-                        Weichengenerator.SetTexture(sw, a, 1, 1);
+                        Constructors.SetTexture(sw, a, 1, 1);
                     }
                     else
                     {
@@ -335,13 +339,13 @@ namespace Weiche
                         sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X((0.72 + gaugeoffset) * LiRe_T, j), trans.Z((0.72 + gaugeoffset) * LiRe_T, j));
                     }
 
-                    Weichengenerator.AddFace(sw, a, -LiRe_T);
+                    Constructors.AddFace(sw, a, -LiRe_T);
 
                     sw.WriteLine("GenerateNormals,");
                     if (inputcheckboxes[4] == false)
                     {
                         sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
-                        Weichengenerator.SetTexture(sw, a, 1, 1);
+                        Constructors.SetTexture(sw, a, 1, 1);
                     }
                     else
                     {
@@ -369,13 +373,13 @@ namespace Weiche
                     sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(K5[0], K5[1]), trans.Z(K5[0], K5[1]));
                     sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(K6[0], K6[1]), trans.Z(K6[0], K6[1]));
 
-                    Weichengenerator.AddFace(sw, a, LiRe_T);
+                    Constructors.AddFace(sw, a, LiRe_T);
 
                     sw.WriteLine("GenerateNormals,");
                     if (inputcheckboxes[4] == false)
                     {
                         sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
-                        Weichengenerator.SetTexture(sw, a, 1, 1);
+                        Constructors.SetTexture(sw, a, 1, 1);
                     }
                     else
                     {
@@ -396,8 +400,8 @@ namespace Weiche
                     K11[1] = Math.Sqrt((radiusT + (0.78 + gaugeoffset)) * (radiusT + (0.78 + gaugeoffset)) - (radiusT + 0) * (radiusT + 0));
                     K11[0] = 0;
                     var K12 = new double[2];
-                    K12[0] = Weichengenerator.Abbiege_x(K11[1], radiusT, (-0.72 - gaugeoffset), LiRe_T);
-                    K12[1] = Weichengenerator.Abbiege_z(Math.Sqrt((radiusT + (0.78 + gaugeoffset)) * (radiusT + (0.78 + gaugeoffset)) - (radiusT + 0) * (radiusT + 0)), radiusT, (-0.72 - gaugeoffset), LiRe_T);
+                    K12[0] = MathFunctions.Abbiege_x(K11[1], radiusT, (-0.72 - gaugeoffset), LiRe_T);
+                    K12[1] = MathFunctions.Abbiege_z(Math.Sqrt((radiusT + (0.78 + gaugeoffset)) * (radiusT + (0.78 + gaugeoffset)) - (radiusT + 0) * (radiusT + 0)), radiusT, (-0.72 - gaugeoffset), LiRe_T);
 
 
                     sw.WriteLine("\r\r\nCreateMeshBuilder ;Totspur vorne");
@@ -405,8 +409,8 @@ namespace Weiche
                     a = 1;
                     for (double i = 0; i <= K11[1]; i = i + 25 / segmente, a++)
                     {
-                        sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(Weichengenerator.Abbiege_x(i, radiusT, (-0.72 - gaugeoffset), LiRe_T) + Weichengenerator.x_Weichenoefnung(4200, i, K11[1]) * LiRe_T, Weichengenerator.Abbiege_z(i, radiusT, (-0.72 - gaugeoffset), LiRe_T)), trans.Z(Weichengenerator.Abbiege_x(i, radiusT, (-0.72 - gaugeoffset), LiRe_T) + Weichengenerator.x_Weichenoefnung(4200, i, K11[1]) * LiRe_T, Weichengenerator.Abbiege_z(i, radiusT, (-0.72 - gaugeoffset), LiRe_T)));
-                        sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(Weichengenerator.Abbiege_x(i, radiusT, (-0.78 - gaugeoffset), LiRe_T) + Weichengenerator.x_Weichenoefnung(3000, i, K11[1]) * LiRe_T, Weichengenerator.Abbiege_z(i, radiusT, (-0.78 - gaugeoffset), LiRe_T)), trans.Z(Weichengenerator.Abbiege_x(i, radiusT, (-0.78 - gaugeoffset), LiRe_T) + Weichengenerator.x_Weichenoefnung(3000, i, K11[1]) * LiRe_T, Weichengenerator.Abbiege_z(i, radiusT, (-0.78 - gaugeoffset), LiRe_T)));
+                        sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(MathFunctions.Abbiege_x(i, radiusT, (-0.72 - gaugeoffset), LiRe_T) + MathFunctions.x_Weichenoefnung(4200, i, K11[1]) * LiRe_T, MathFunctions.Abbiege_z(i, radiusT, (-0.72 - gaugeoffset), LiRe_T)), trans.Z(MathFunctions.Abbiege_x(i, radiusT, (-0.72 - gaugeoffset), LiRe_T) + MathFunctions.x_Weichenoefnung(4200, i, K11[1]) * LiRe_T, MathFunctions.Abbiege_z(i, radiusT, (-0.72 - gaugeoffset), LiRe_T)));
+                        sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(MathFunctions.Abbiege_x(i, radiusT, (-0.78 - gaugeoffset), LiRe_T) + MathFunctions.x_Weichenoefnung(3000, i, K11[1]) * LiRe_T, MathFunctions.Abbiege_z(i, radiusT, (-0.78 - gaugeoffset), LiRe_T)), trans.Z(MathFunctions.Abbiege_x(i, radiusT, (-0.78 - gaugeoffset), LiRe_T) + MathFunctions.x_Weichenoefnung(3000, i, K11[1]) * LiRe_T, MathFunctions.Abbiege_z(i, radiusT, (-0.78 - gaugeoffset), LiRe_T)));
                     }
 
 
@@ -421,19 +425,19 @@ namespace Weiche
                     sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(K11[0], K11[1]), trans.Z(K11[0], K11[1]));
                     for (; j <= K7[1]; j = j + 25 / segmente, a++)
                     {
-                        sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(Weichengenerator.Abbiege_x(j, radiusT, (-0.72 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(j, radiusT, (-0.72 - gaugeoffset), LiRe_T)), trans.Z(Weichengenerator.Abbiege_x(j, radiusT, (-0.72 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(j, radiusT, (-0.72 - gaugeoffset), LiRe_T)));
-                        sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(Weichengenerator.Abbiege_x(j, radiusT, (-0.78 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(j, radiusT, (-0.78 - gaugeoffset), LiRe_T)), trans.Z(Weichengenerator.Abbiege_x(j, radiusT, (-0.78 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(j, radiusT, (-0.78 - gaugeoffset), LiRe_T)));
+                        sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(MathFunctions.Abbiege_x(j, radiusT, (-0.72 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(j, radiusT, (-0.72 - gaugeoffset), LiRe_T)), trans.Z(MathFunctions.Abbiege_x(j, radiusT, (-0.72 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(j, radiusT, (-0.72 - gaugeoffset), LiRe_T)));
+                        sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(MathFunctions.Abbiege_x(j, radiusT, (-0.78 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(j, radiusT, (-0.78 - gaugeoffset), LiRe_T)), trans.Z(MathFunctions.Abbiege_x(j, radiusT, (-0.78 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(j, radiusT, (-0.78 - gaugeoffset), LiRe_T)));
                     }
                     sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(K8[0], K8[1]), trans.Z(K8[0], K8[1]));
                     sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(K7[0], K7[1]), trans.Z(K7[0], K7[1]));
 
-                    Weichengenerator.AddFace(sw, a, -LiRe_T);
+                    Constructors.AddFace(sw, a, -LiRe_T);
 
                     sw.WriteLine("GenerateNormals,");
                     if (inputcheckboxes[4] == false)
                     {
                         sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
-                        Weichengenerator.SetTexture(sw, a, 1, 1);
+                        Constructors.SetTexture(sw, a, 1, 1);
                     }
                     else
                     {
@@ -473,16 +477,16 @@ namespace Weiche
                     sw.WriteLine("\r\r\nCreateMeshBuilder ;Flügelschiene Spielerspur");
                     sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(K18[0], K18[1]), trans.Z(K18[0], K18[1]));
                     sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(K6[0], K6[1]), trans.Z(K6[0], K6[1]));
-                    sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(Weichengenerator.Abbiege_x(K3[1], radiusT, (-0.67 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(K3[1], radiusT, (-0.67 - gaugeoffset), LiRe_T)), trans.Z(Weichengenerator.Abbiege_x(K3[1], radiusT, (-0.67 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(K3[1], radiusT, (-0.67 - gaugeoffset), LiRe_T)));
-                    sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(Weichengenerator.Abbiege_x(K3[1], radiusT, (-0.62 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(K3[1], radiusT, (-0.62 - gaugeoffset), LiRe_T)), trans.Z(Weichengenerator.Abbiege_x(K3[1], radiusT, (-0.62 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(K3[1], radiusT, (-0.62 - gaugeoffset), LiRe_T)));
+                    sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(MathFunctions.Abbiege_x(K3[1], radiusT, (-0.67 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(K3[1], radiusT, (-0.67 - gaugeoffset), LiRe_T)), trans.Z(MathFunctions.Abbiege_x(K3[1], radiusT, (-0.67 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(K3[1], radiusT, (-0.67 - gaugeoffset), LiRe_T)));
+                    sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(MathFunctions.Abbiege_x(K3[1], radiusT, (-0.62 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(K3[1], radiusT, (-0.62 - gaugeoffset), LiRe_T)), trans.Z(MathFunctions.Abbiege_x(K3[1], radiusT, (-0.62 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(K3[1], radiusT, (-0.62 - gaugeoffset), LiRe_T)));
                     a = 1;
-                    Weichengenerator.AddFace(sw, a, LiRe_T);
+                    Constructors.AddFace(sw, a, LiRe_T);
 
                     sw.WriteLine("GenerateNormals,");
                     if (inputcheckboxes[4] == false)
                     {
                         sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
-                        Weichengenerator.SetTexture(sw, a, 1, 1);
+                        Constructors.SetTexture(sw, a, 1, 1);
                         sw.WriteLine("SetColor,169,140,114,");
                     }
                     else
@@ -525,16 +529,16 @@ namespace Weiche
                     sw.WriteLine("\r\r\nCreateMeshBuilder ;Fluegelschiene Spielerspur");
                     sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(K7[0], K7[1]), trans.Z(K7[0], K7[1]));
                     sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(K17[0], K17[1]), trans.Z(K17[0], K17[1]));
-                    sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X((0.62 + gaugeoffset) * LiRe_T, Weichengenerator.Abbiege_z(K3[1], radiusT, (-0.67 - gaugeoffset), LiRe_T)), trans.Z((0.62 + gaugeoffset) * LiRe_T, Weichengenerator.Abbiege_z(K3[1], radiusT, (-0.67 - gaugeoffset), LiRe_T)));
-                    sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X((0.67 + gaugeoffset) * LiRe_T, Weichengenerator.Abbiege_z(K3[1], radiusT, (-0.67 - gaugeoffset), LiRe_T)), trans.Z((0.67 + gaugeoffset) * LiRe_T, Weichengenerator.Abbiege_z(K3[1], radiusT, (-0.67 - gaugeoffset), LiRe_T)));
+                    sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X((0.62 + gaugeoffset) * LiRe_T, MathFunctions.Abbiege_z(K3[1], radiusT, (-0.67 - gaugeoffset), LiRe_T)), trans.Z((0.62 + gaugeoffset) * LiRe_T, MathFunctions.Abbiege_z(K3[1], radiusT, (-0.67 - gaugeoffset), LiRe_T)));
+                    sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X((0.67 + gaugeoffset) * LiRe_T, MathFunctions.Abbiege_z(K3[1], radiusT, (-0.67 - gaugeoffset), LiRe_T)), trans.Z((0.67 + gaugeoffset) * LiRe_T, MathFunctions.Abbiege_z(K3[1], radiusT, (-0.67 - gaugeoffset), LiRe_T)));
                     a = 1;
-                    Weichengenerator.AddFace(sw, a, LiRe_T);
+                    Constructors.AddFace(sw, a, LiRe_T);
 
                     sw.WriteLine("GenerateNormals,");
                     if (inputcheckboxes[4] == false)
                     {
                         sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
-                        Weichengenerator.SetTexture(sw, a, 1, 1);
+                        Constructors.SetTexture(sw, a, 1, 1);
                         sw.WriteLine("SetColor,169,140,114,");
                     }
                     else
@@ -554,13 +558,13 @@ namespace Weiche
                         sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X((-0.78 - gaugeoffset) * LiRe_T, (25 / segmente) * i), trans.Z((-0.78 - gaugeoffset) * LiRe_T, (25 / segmente) * i));
                     }
 
-                    Weichengenerator.AddFace(sw, a, -LiRe_T);
+                    Constructors.AddFace(sw, a, -LiRe_T);
 
                     sw.WriteLine("GenerateNormals,");
                     if (inputcheckboxes[4] == false)
                     {
                         sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
-                        Weichengenerator.SetTexture(sw, a, 1, 1);
+                        Constructors.SetTexture(sw, a, 1, 1);
                     }
                     else
                     {
@@ -585,13 +589,13 @@ namespace Weiche
                     sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X((-0.66 - gaugeoffset) * LiRe_T, K1[1] + 1.65), trans.Z((-0.66 - gaugeoffset) * LiRe_T, K1[1] + 1.65));
                     sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X((-0.62 - gaugeoffset) * LiRe_T, K1[1] + 1.65), trans.Z((-0.62 - gaugeoffset) * LiRe_T, K1[1] + 1.65));
 
-                    Weichengenerator.AddFace(sw, a, LiRe_T);
+                    Constructors.AddFace(sw, a, LiRe_T);
 
                     sw.WriteLine("GenerateNormals,");
                     if (inputcheckboxes[4] == false)
                     {
                         sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
-                        Weichengenerator.SetTexture(sw, a, 1, 1);
+                        Constructors.SetTexture(sw, a, 1, 1);
                         sw.WriteLine("SetColor,169,140,114,");
                     }
                     else
@@ -604,35 +608,35 @@ namespace Weiche
 
                     sw.WriteLine("\r\r\nCreateMeshBuilder ;Radlenker Totspur");
                     sw.WriteLine("AddVertex,{0:f4},0,{1:f4},",
-                        trans.X(Weichengenerator.Abbiege_x(K1[1] - 1.65, radiusT, (0.66 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(K1[1] - 1.65, radiusT, (0.66 + gaugeoffset), LiRe_T)),
-                        trans.Z(Weichengenerator.Abbiege_x(K1[1] - 1.65, radiusT, (0.66 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(K1[1] - 1.65, radiusT, (0.66 + gaugeoffset), LiRe_T)));
+                        trans.X(MathFunctions.Abbiege_x(K1[1] - 1.65, radiusT, (0.66 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(K1[1] - 1.65, radiusT, (0.66 + gaugeoffset), LiRe_T)),
+                        trans.Z(MathFunctions.Abbiege_x(K1[1] - 1.65, radiusT, (0.66 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(K1[1] - 1.65, radiusT, (0.66 + gaugeoffset), LiRe_T)));
                     sw.WriteLine("AddVertex,{0:f4},0,{1:f4},",
-                        trans.X(Weichengenerator.Abbiege_x(K1[1] - 1.65, radiusT, (0.62 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(K1[1] - 1.65, radiusT, (0.62 + gaugeoffset), LiRe_T)),
-                        trans.Z(Weichengenerator.Abbiege_x(K1[1] - 1.65, radiusT, (0.62 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(K1[1] - 1.65, radiusT, (0.62 + gaugeoffset), LiRe_T)));
+                        trans.X(MathFunctions.Abbiege_x(K1[1] - 1.65, radiusT, (0.62 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(K1[1] - 1.65, radiusT, (0.62 + gaugeoffset), LiRe_T)),
+                        trans.Z(MathFunctions.Abbiege_x(K1[1] - 1.65, radiusT, (0.62 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(K1[1] - 1.65, radiusT, (0.62 + gaugeoffset), LiRe_T)));
                     a = 1;
                     for (var i = -1.5; i <= 1.5; i = i + 1, a++)
                     {
                         sw.WriteLine("AddVertex,{0:f4},0,{1:f4},",
-                            trans.X(Weichengenerator.Abbiege_x(K1[1] + i, radiusT, (0.68 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(K1[1] + i, radiusT, (0.68 + gaugeoffset), LiRe_T)),
-                            trans.Z(Weichengenerator.Abbiege_x(K1[1] + i, radiusT, (0.68 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(K1[1] + i, radiusT, (0.68 + gaugeoffset), LiRe_T)));
+                            trans.X(MathFunctions.Abbiege_x(K1[1] + i, radiusT, (0.68 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(K1[1] + i, radiusT, (0.68 + gaugeoffset), LiRe_T)),
+                            trans.Z(MathFunctions.Abbiege_x(K1[1] + i, radiusT, (0.68 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(K1[1] + i, radiusT, (0.68 + gaugeoffset), LiRe_T)));
                         sw.WriteLine("AddVertex,{0:f4},0,{1:f4},",
-                            trans.X(Weichengenerator.Abbiege_x(K1[1] + i, radiusT, (0.64 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(K1[1] + i, radiusT, (0.64 + gaugeoffset), LiRe_T)),
-                            trans.Z(Weichengenerator.Abbiege_x(K1[1] + i, radiusT, (0.64 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(K1[1] + i, radiusT, (0.64 + gaugeoffset), LiRe_T)));
+                            trans.X(MathFunctions.Abbiege_x(K1[1] + i, radiusT, (0.64 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(K1[1] + i, radiusT, (0.64 + gaugeoffset), LiRe_T)),
+                            trans.Z(MathFunctions.Abbiege_x(K1[1] + i, radiusT, (0.64 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(K1[1] + i, radiusT, (0.64 + gaugeoffset), LiRe_T)));
                     }
                     sw.WriteLine("AddVertex,{0:f4},0,{1:f4},",
-                        trans.X(Weichengenerator.Abbiege_x(K1[1] + 1.65, radiusT, (0.66 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(K1[1] + 1.65, radiusT, (0.66 + gaugeoffset), LiRe_T)),
-                        trans.Z(Weichengenerator.Abbiege_x(K1[1] + 1.65, radiusT, (0.66 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(K1[1] + 1.65, radiusT, (0.66 + gaugeoffset), LiRe_T)));
+                        trans.X(MathFunctions.Abbiege_x(K1[1] + 1.65, radiusT, (0.66 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(K1[1] + 1.65, radiusT, (0.66 + gaugeoffset), LiRe_T)),
+                        trans.Z(MathFunctions.Abbiege_x(K1[1] + 1.65, radiusT, (0.66 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(K1[1] + 1.65, radiusT, (0.66 + gaugeoffset), LiRe_T)));
                     sw.WriteLine("AddVertex,{0:f4},0,{1:f4},",
-                        trans.X(Weichengenerator.Abbiege_x(K1[1] + 1.65, radiusT, (0.62 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(K1[1] + 1.65, radiusT, (0.62 + gaugeoffset), LiRe_T)),
-                        trans.Z(Weichengenerator.Abbiege_x(K1[1] + 1.65, radiusT, (0.62 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(K1[1] + 1.65, radiusT, (0.62 + gaugeoffset), LiRe_T)));
+                        trans.X(MathFunctions.Abbiege_x(K1[1] + 1.65, radiusT, (0.62 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(K1[1] + 1.65, radiusT, (0.62 + gaugeoffset), LiRe_T)),
+                        trans.Z(MathFunctions.Abbiege_x(K1[1] + 1.65, radiusT, (0.62 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(K1[1] + 1.65, radiusT, (0.62 + gaugeoffset), LiRe_T)));
 
-                    Weichengenerator.AddFace(sw, a, -LiRe_T);
+                    Constructors.AddFace(sw, a, -LiRe_T);
 
                     sw.WriteLine("GenerateNormals,");
                     if (inputcheckboxes[4] == false)
                     {
                         sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
-                        Weichengenerator.SetTexture(sw, a, 1, 1);
+                        Constructors.SetTexture(sw, a, 1, 1);
                         sw.WriteLine("SetColor,169,140,114,");
                     }
                     else
@@ -648,17 +652,17 @@ namespace Weiche
                     sw.WriteLine("\r\r\nCreateMeshBuilder; Abbiegende Schiene Aussen (Totspur)");
                     for (double i = 0; i <= 25 * laenge; i = i + 25 / segmente, a++)
                     {
-                        sw.WriteLine("AddVertex,{0:f4},0.001,{1:f4},", trans.X(Weichengenerator.Abbiege_x(i, radiusT, (0.72 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(i, radiusT, (0.72 + gaugeoffset), LiRe_T)), trans.Z(Weichengenerator.Abbiege_x(i, radiusT, (0.72 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(i, radiusT, (0.72 + gaugeoffset), LiRe_T)));
-                        sw.WriteLine("AddVertex,{0:f4},0.001,{1:f4},", trans.X(Weichengenerator.Abbiege_x(i, radiusT, (0.78 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(i, radiusT, (0.78 + gaugeoffset), LiRe_T)), trans.Z(Weichengenerator.Abbiege_x(i, radiusT, (0.78 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(i, radiusT, (0.78 + gaugeoffset), LiRe_T)));
+                        sw.WriteLine("AddVertex,{0:f4},0.001,{1:f4},", trans.X(MathFunctions.Abbiege_x(i, radiusT, (0.72 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(i, radiusT, (0.72 + gaugeoffset), LiRe_T)), trans.Z(MathFunctions.Abbiege_x(i, radiusT, (0.72 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(i, radiusT, (0.72 + gaugeoffset), LiRe_T)));
+                        sw.WriteLine("AddVertex,{0:f4},0.001,{1:f4},", trans.X(MathFunctions.Abbiege_x(i, radiusT, (0.78 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(i, radiusT, (0.78 + gaugeoffset), LiRe_T)), trans.Z(MathFunctions.Abbiege_x(i, radiusT, (0.78 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(i, radiusT, (0.78 + gaugeoffset), LiRe_T)));
                     }
 
-                    Weichengenerator.AddFace(sw, a, LiRe_T);
+                    Constructors.AddFace(sw, a, LiRe_T);
 
                     sw.WriteLine("GenerateNormals,");
                     if (inputcheckboxes[4] == false)
                     {
                         sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
-                        Weichengenerator.SetTexture(sw, a, 1, 1);
+                        Constructors.SetTexture(sw, a, 1, 1);
                     }
 
                     else
@@ -687,13 +691,13 @@ namespace Weiche
                         sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((-0.74 - gaugeoffset) * LiRe_T, (laenge * 25 / segmente) * i), trans.Z((-0.74 - gaugeoffset) * LiRe_T, (laenge * 25 / segmente) * i));
                     }
 
-                    Weichengenerator.AddFace2(sw, a);
+                    Constructors.AddFace2(sw, a);
 
                     sw.WriteLine("GenerateNormals,");
                     if (inputcheckboxes[4] == false)
                     {
                         sw.WriteLine("LoadTexture,railSide.{0},", texture_format);
-                        Weichengenerator.SetTexture(sw, a, 1, 3);
+                        Constructors.SetTexture(sw, a, 1, 3);
                     }
                     else
                     {
@@ -706,17 +710,17 @@ namespace Weiche
                     sw.WriteLine("\r\r\nCreateMeshBuilder");
                     for (double i = 0; i <= 25 * laenge; i = i + 25 / segmente, a++)
                     {
-                        sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(Weichengenerator.Abbiege_x(i, radiusT, (0.74 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(i, radiusT, (0.74 + gaugeoffset), LiRe_T)), trans.Z(Weichengenerator.Abbiege_x(i, radiusT, (0.74 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(i, radiusT, (0.74 + gaugeoffset), LiRe_T)));
-                        sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(Weichengenerator.Abbiege_x(i, radiusT, (0.74 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(i, radiusT, (0.74 + gaugeoffset), LiRe_T)), trans.Z(Weichengenerator.Abbiege_x(i, radiusT, (0.74 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(i, radiusT, (0.74 + gaugeoffset), LiRe_T)));
+                        sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(MathFunctions.Abbiege_x(i, radiusT, (0.74 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(i, radiusT, (0.74 + gaugeoffset), LiRe_T)), trans.Z(MathFunctions.Abbiege_x(i, radiusT, (0.74 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(i, radiusT, (0.74 + gaugeoffset), LiRe_T)));
+                        sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(MathFunctions.Abbiege_x(i, radiusT, (0.74 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(i, radiusT, (0.74 + gaugeoffset), LiRe_T)), trans.Z(MathFunctions.Abbiege_x(i, radiusT, (0.74 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(i, radiusT, (0.74 + gaugeoffset), LiRe_T)));
                     }
 
-                    Weichengenerator.AddFace2(sw, a);
+                    Constructors.AddFace2(sw, a);
 
                     sw.WriteLine("GenerateNormals,");
                     if (inputcheckboxes[4] == false)
                     {
                         sw.WriteLine("LoadTexture,railSide.{0},", texture_format);
-                        Weichengenerator.SetTexture(sw, a, 1, 3);
+                        Constructors.SetTexture(sw, a, 1, 3);
                     }
                     else
                     {
@@ -744,13 +748,13 @@ namespace Weiche
                         sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((0.74 + gaugeoffset) * LiRe_T, j), trans.Z((0.74 + gaugeoffset) * LiRe_T, j));
                     }
 
-                    Weichengenerator.AddFace2(sw, a);
+                    Constructors.AddFace2(sw, a);
 
                     sw.WriteLine("GenerateNormals,");
                     if (inputcheckboxes[4] == false)
                     {
                         sw.WriteLine("LoadTexture,railSide.{0},", texture_format);
-                        Weichengenerator.SetTexture(sw, a, 1, 3);
+                        Constructors.SetTexture(sw, a, 1, 3);
                     }
                     else
                     {
@@ -770,17 +774,17 @@ namespace Weiche
 
                     for (; j <= 25 * laenge; j = j + 25 / segmente, a++)
                     {
-                        sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(Weichengenerator.Abbiege_x(j, radiusT, (-0.74 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(j, radiusT, (-0.74 - gaugeoffset), LiRe_T)), trans.Z(Weichengenerator.Abbiege_x(j, radiusT, (-0.74 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(j, radiusT, (-0.74 - gaugeoffset), LiRe_T)));
-                        sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(Weichengenerator.Abbiege_x(j, radiusT, (-0.74 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(j, radiusT, (-0.74 - gaugeoffset), LiRe_T)), trans.Z(Weichengenerator.Abbiege_x(j, radiusT, (-0.74 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(j, radiusT, (-0.74 - gaugeoffset), LiRe_T)));
+                        sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(MathFunctions.Abbiege_x(j, radiusT, (-0.74 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(j, radiusT, (-0.74 - gaugeoffset), LiRe_T)), trans.Z(MathFunctions.Abbiege_x(j, radiusT, (-0.74 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(j, radiusT, (-0.74 - gaugeoffset), LiRe_T)));
+                        sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(MathFunctions.Abbiege_x(j, radiusT, (-0.74 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(j, radiusT, (-0.74 - gaugeoffset), LiRe_T)), trans.Z(MathFunctions.Abbiege_x(j, radiusT, (-0.74 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(j, radiusT, (-0.74 - gaugeoffset), LiRe_T)));
                     }
 
-                    Weichengenerator.AddFace2(sw, a);
+                    Constructors.AddFace2(sw, a);
 
                     sw.WriteLine("GenerateNormals,");
                     if (inputcheckboxes[4] == false)
                     {
                         sw.WriteLine("LoadTexture,railSide.{0},", texture_format);
-                        Weichengenerator.SetTexture(sw, a, 1, 3);
+                        Constructors.SetTexture(sw, a, 1, 3);
                     }
                     else
                     {
@@ -803,13 +807,13 @@ namespace Weiche
                     sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(K15[0], K15[1]), trans.Z(K15[0], K15[1]));
                     sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(K15[0], K15[1]), trans.Z(K15[0], K15[1]));
 
-                    Weichengenerator.AddFace2(sw, a);
+                    Constructors.AddFace2(sw, a);
 
                     sw.WriteLine("GenerateNormals,");
                     if (inputcheckboxes[4] == false)
                     {
                         sw.WriteLine("LoadTexture,railSide.{0},", texture_format);
-                        Weichengenerator.SetTexture(sw, a, 1, 3);
+                        Constructors.SetTexture(sw, a, 1, 3);
                     }
                     else
                     {
@@ -821,16 +825,16 @@ namespace Weiche
                     sw.WriteLine("\r\r\nCreateMeshBuilder");
                     sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(K15[0], K15[1]), trans.Z(K15[0], K15[1]));
                     sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(K15[0], K15[1]), trans.Z(K15[0], K15[1]));
-                    sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(Weichengenerator.Abbiege_x(K3[1], radiusT, (-0.65 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(K3[1], radiusT, (-0.65 - gaugeoffset), LiRe_T)), trans.Z(Weichengenerator.Abbiege_x(K3[1], radiusT, (-0.65 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(K3[1], radiusT, (-0.65 - gaugeoffset), LiRe_T)));
-                    sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(Weichengenerator.Abbiege_x(K3[1], radiusT, (-0.65 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(K3[1], radiusT, (-0.65 - gaugeoffset), LiRe_T)), trans.Z(Weichengenerator.Abbiege_x(K3[1], radiusT, (-0.65 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(K3[1], radiusT, (-0.65 - gaugeoffset), LiRe_T)));
+                    sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(MathFunctions.Abbiege_x(K3[1], radiusT, (-0.65 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(K3[1], radiusT, (-0.65 - gaugeoffset), LiRe_T)), trans.Z(MathFunctions.Abbiege_x(K3[1], radiusT, (-0.65 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(K3[1], radiusT, (-0.65 - gaugeoffset), LiRe_T)));
+                    sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(MathFunctions.Abbiege_x(K3[1], radiusT, (-0.65 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(K3[1], radiusT, (-0.65 - gaugeoffset), LiRe_T)), trans.Z(MathFunctions.Abbiege_x(K3[1], radiusT, (-0.65 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(K3[1], radiusT, (-0.65 - gaugeoffset), LiRe_T)));
                     a = 1;
-                    Weichengenerator.AddFace2(sw, a);
+                    Constructors.AddFace2(sw, a);
 
                     sw.WriteLine("GenerateNormals,");
                     if (inputcheckboxes[4] == false)
                     {
                         sw.WriteLine("LoadTexture,railSide.{0},", texture_format);
-                        Weichengenerator.SetTexture(sw, a, 1, 3);
+                        Constructors.SetTexture(sw, a, 1, 3);
                     }
                     else
                     {
@@ -847,16 +851,16 @@ namespace Weiche
                     sw.WriteLine("\r\r\nCreateMeshBuilder");
                     sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(K14[0], K14[1]), trans.Z(K14[0], K14[1]));
                     sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(K14[0], K14[1]), trans.Z(K14[0], K14[1]));
-                    sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X((0.65 + gaugeoffset) * LiRe_T, Weichengenerator.Abbiege_z(K3[1], radiusT, (-0.65 + gaugeoffset), LiRe_T)), trans.Z((0.65 + gaugeoffset) * LiRe_T, Weichengenerator.Abbiege_z(K3[1], radiusT, (-0.65 - gaugeoffset), LiRe_T)));
-                    sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((0.65 + gaugeoffset) * LiRe_T, Weichengenerator.Abbiege_z(K3[1], radiusT, (-0.65 - gaugeoffset), LiRe_T)), trans.Z((0.65 + gaugeoffset) * LiRe_T, Weichengenerator.Abbiege_z(K3[1], radiusT, (-0.65 - gaugeoffset), LiRe_T)));
+                    sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X((0.65 + gaugeoffset) * LiRe_T, MathFunctions.Abbiege_z(K3[1], radiusT, (-0.65 + gaugeoffset), LiRe_T)), trans.Z((0.65 + gaugeoffset) * LiRe_T, MathFunctions.Abbiege_z(K3[1], radiusT, (-0.65 - gaugeoffset), LiRe_T)));
+                    sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((0.65 + gaugeoffset) * LiRe_T, MathFunctions.Abbiege_z(K3[1], radiusT, (-0.65 - gaugeoffset), LiRe_T)), trans.Z((0.65 + gaugeoffset) * LiRe_T, MathFunctions.Abbiege_z(K3[1], radiusT, (-0.65 - gaugeoffset), LiRe_T)));
                     a = 1;
-                    Weichengenerator.AddFace2(sw, a);
+                    Constructors.AddFace2(sw, a);
 
                     sw.WriteLine("GenerateNormals,");
                     if (inputcheckboxes[4] == false)
                     {
                         sw.WriteLine("LoadTexture,railSide.{0},", texture_format);
-                        Weichengenerator.SetTexture(sw, a, 1, 3);
+                        Constructors.SetTexture(sw, a, 1, 3);
                     }
                     else
                     {
@@ -875,8 +879,8 @@ namespace Weiche
                     a = 1;
                     for (double i = 0; i <= K16[1]; i = i + 25 / segmente, a++)
                     {
-                        sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(Weichengenerator.Abbiege_x(i, radiusT, (-0.74 - gaugeoffset), LiRe_T) + Weichengenerator.x_Weichenoefnung(3600, i, K16[1]) * LiRe_T, Weichengenerator.Abbiege_z(i, radiusT, (-0.74 - gaugeoffset), LiRe_T)), trans.Z(Weichengenerator.Abbiege_x(i, radiusT, (-0.74 - gaugeoffset), LiRe_T) + Weichengenerator.x_Weichenoefnung(3600, i, K16[1]) * LiRe_T, Weichengenerator.Abbiege_z(i, radiusT, (-0.74 - gaugeoffset), LiRe_T)));
-                        sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(Weichengenerator.Abbiege_x(i, radiusT, (-0.74 - gaugeoffset), LiRe_T) + Weichengenerator.x_Weichenoefnung(3600, i, K16[1]) * LiRe_T, Weichengenerator.Abbiege_z(i, radiusT, (-0.74 - gaugeoffset), LiRe_T)), trans.Z(Weichengenerator.Abbiege_x(i, radiusT, (-0.74 - gaugeoffset), LiRe_T) + Weichengenerator.x_Weichenoefnung(3600, i, K16[1]) * LiRe_T, Weichengenerator.Abbiege_z(i, radiusT, (-0.74 - gaugeoffset), LiRe_T)));
+                        sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(MathFunctions.Abbiege_x(i, radiusT, (-0.74 - gaugeoffset), LiRe_T) + MathFunctions.x_Weichenoefnung(3600, i, K16[1]) * LiRe_T, MathFunctions.Abbiege_z(i, radiusT, (-0.74 - gaugeoffset), LiRe_T)), trans.Z(MathFunctions.Abbiege_x(i, radiusT, (-0.74 - gaugeoffset), LiRe_T) + MathFunctions.x_Weichenoefnung(3600, i, K16[1]) * LiRe_T, MathFunctions.Abbiege_z(i, radiusT, (-0.74 - gaugeoffset), LiRe_T)));
+                        sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(MathFunctions.Abbiege_x(i, radiusT, (-0.74 - gaugeoffset), LiRe_T) + MathFunctions.x_Weichenoefnung(3600, i, K16[1]) * LiRe_T, MathFunctions.Abbiege_z(i, radiusT, (-0.74 - gaugeoffset), LiRe_T)), trans.Z(MathFunctions.Abbiege_x(i, radiusT, (-0.74 - gaugeoffset), LiRe_T) + MathFunctions.x_Weichenoefnung(3600, i, K16[1]) * LiRe_T, MathFunctions.Abbiege_z(i, radiusT, (-0.74 - gaugeoffset), LiRe_T)));
                     }
 
                     j = 0;
@@ -889,19 +893,19 @@ namespace Weiche
                     sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(K16[0], K16[1]), trans.Z(K16[0], K16[1]));
                     for (; j <= K14[1]; j = j + 25 / segmente, a++)
                     {
-                        sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(Weichengenerator.Abbiege_x(j, radiusT, (-0.74 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(j, radiusT, (-0.74 - gaugeoffset), LiRe_T)), trans.Z(Weichengenerator.Abbiege_x(j, radiusT, (-0.74 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(j, radiusT, (-0.74 - gaugeoffset), LiRe_T)));
-                        sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(Weichengenerator.Abbiege_x(j, radiusT, (-0.74 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(j, radiusT, (-0.74 - gaugeoffset), LiRe_T)), trans.Z(Weichengenerator.Abbiege_x(j, radiusT, (-0.74 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(j, radiusT, (-0.74 - gaugeoffset), LiRe_T)));
+                        sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(MathFunctions.Abbiege_x(j, radiusT, (-0.74 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(j, radiusT, (-0.74 - gaugeoffset), LiRe_T)), trans.Z(MathFunctions.Abbiege_x(j, radiusT, (-0.74 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(j, radiusT, (-0.74 - gaugeoffset), LiRe_T)));
+                        sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(MathFunctions.Abbiege_x(j, radiusT, (-0.74 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(j, radiusT, (-0.74 - gaugeoffset), LiRe_T)), trans.Z(MathFunctions.Abbiege_x(j, radiusT, (-0.74 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(j, radiusT, (-0.74 - gaugeoffset), LiRe_T)));
                     }
                     sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(K14[0], K14[1]), trans.Z(K14[0], K14[1]));
                     sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(K14[0], K14[1]), trans.Z(K14[0], K14[1]));
 
-                    Weichengenerator.AddFace2(sw, a);
+                    Constructors.AddFace2(sw, a);
 
                     sw.WriteLine("GenerateNormals,");
                     if (inputcheckboxes[4] == false)
                     {
                         sw.WriteLine("LoadTexture,railSide.{0},", texture_format);
-                        Weichengenerator.SetTexture(sw, a, 1, 3);
+                        Constructors.SetTexture(sw, a, 1, 3);
                     }
                     else
                     {
@@ -922,13 +926,13 @@ namespace Weiche
                     sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X((-0.64 - gaugeoffset) * LiRe_T, K1[1] + (1.65 + gaugeoffset)), trans.Z((-0.64 - gaugeoffset) * LiRe_T, K1[1] + 1.65));
                     sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((-0.64 - gaugeoffset) * LiRe_T, K1[1] + (1.65 + gaugeoffset)), trans.Z((-0.64 - gaugeoffset) * LiRe_T, K1[1] + 1.65));
 
-                    Weichengenerator.AddFace2(sw, a);
+                    Constructors.AddFace2(sw, a);
 
                     sw.WriteLine("GenerateNormals,");
                     if (inputcheckboxes[4] == false)
                     {
                         sw.WriteLine("LoadTexture,railSide.{0},", texture_format);
-                        Weichengenerator.SetTexture(sw, a, 1, 3);
+                        Constructors.SetTexture(sw, a, 1, 3);
                     }
                     else
                     {
@@ -938,24 +942,24 @@ namespace Weiche
                     //Radlenker Railside Totspur
 
                     sw.WriteLine("\r\r\nCreateMeshBuilder");
-                    sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(Weichengenerator.Abbiege_x(K1[1] - 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(K1[1] - 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T)), trans.Z(Weichengenerator.Abbiege_x(K1[1] - 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(K1[1] - 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T)));
-                    sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(Weichengenerator.Abbiege_x(K1[1] - 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(K1[1] - 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T)), trans.Z(Weichengenerator.Abbiege_x(K1[1] - 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(K1[1] - 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T)));
+                    sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(MathFunctions.Abbiege_x(K1[1] - 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(K1[1] - 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T)), trans.Z(MathFunctions.Abbiege_x(K1[1] - 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(K1[1] - 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T)));
+                    sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(MathFunctions.Abbiege_x(K1[1] - 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(K1[1] - 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T)), trans.Z(MathFunctions.Abbiege_x(K1[1] - 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(K1[1] - 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T)));
                     a = 1;
                     for (var i = -1.5; i <= 1.5; i = i + 1, a++)
                     {
-                        sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(Weichengenerator.Abbiege_x(K1[1] + i, radiusT, (0.66 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(K1[1] + i, radiusT, (0.66 + gaugeoffset), LiRe_T)), trans.Z(Weichengenerator.Abbiege_x(K1[1] + i, radiusT, (0.66 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(K1[1] + i, radiusT, (0.66 + gaugeoffset), LiRe_T)));
-                        sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(Weichengenerator.Abbiege_x(K1[1] + i, radiusT, (0.66 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(K1[1] + i, radiusT, (0.66 + gaugeoffset), LiRe_T)), trans.Z(Weichengenerator.Abbiege_x(K1[1] + i, radiusT, (0.66 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(K1[1] + i, radiusT, (0.66 + gaugeoffset), LiRe_T)));
+                        sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(MathFunctions.Abbiege_x(K1[1] + i, radiusT, (0.66 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(K1[1] + i, radiusT, (0.66 + gaugeoffset), LiRe_T)), trans.Z(MathFunctions.Abbiege_x(K1[1] + i, radiusT, (0.66 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(K1[1] + i, radiusT, (0.66 + gaugeoffset), LiRe_T)));
+                        sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(MathFunctions.Abbiege_x(K1[1] + i, radiusT, (0.66 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(K1[1] + i, radiusT, (0.66 + gaugeoffset), LiRe_T)), trans.Z(MathFunctions.Abbiege_x(K1[1] + i, radiusT, (0.66 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(K1[1] + i, radiusT, (0.66 + gaugeoffset), LiRe_T)));
                     }
-                    sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(Weichengenerator.Abbiege_x(K1[1] + 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(K1[1] + 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T)), trans.Z(Weichengenerator.Abbiege_x(K1[1] + 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(K1[1] + 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T)));
-                    sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(Weichengenerator.Abbiege_x(K1[1] + 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(K1[1] + 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T)), trans.Z(Weichengenerator.Abbiege_x(K1[1] + 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(K1[1] + 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T)));
+                    sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X(MathFunctions.Abbiege_x(K1[1] + 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(K1[1] + 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T)), trans.Z(MathFunctions.Abbiege_x(K1[1] + 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(K1[1] + 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T)));
+                    sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(MathFunctions.Abbiege_x(K1[1] + 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(K1[1] + 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T)), trans.Z(MathFunctions.Abbiege_x(K1[1] + 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(K1[1] + 1.65, radiusT, (0.64 + gaugeoffset), LiRe_T)));
 
-                    Weichengenerator.AddFace2(sw, a);
+                    Constructors.AddFace2(sw, a);
 
                     sw.WriteLine("GenerateNormals,");
                     if (inputcheckboxes[4] == false)
                     {
                         sw.WriteLine("LoadTexture,railSide.{0},", texture_format);
-                        Weichengenerator.SetTexture(sw, a, 1, 3);
+                        Constructors.SetTexture(sw, a, 1, 3);
 
                     }
                     else
@@ -980,12 +984,12 @@ namespace Weiche
                         sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((-1.3 - gaugeoffset) * LiRe_T, i), trans.Z((-1.3 - gaugeoffset) * LiRe_T, i));
                     }
 
-                    Weichengenerator.AddFace(sw, a, LiRe_T);
+                    Constructors.AddFace(sw, a, LiRe_T);
 
                     sw.WriteLine("GenerateNormals,");
 
                     sw.WriteLine("LoadTexture,ballast.{0},", texture_format);
-                    Weichengenerator.SetTexture(sw, a, 10 * laenge, 2);
+                    Constructors.SetTexture(sw, a, 10 * laenge, 2);
 
                     // Ballast Left
 
@@ -993,15 +997,15 @@ namespace Weiche
                     sw.WriteLine("\r\r\nCreateMeshBuilder");
                     for (double i = 0; i <= 25 * laenge; i = i + 25 / segmente, a++)
                     {
-                        sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(Weichengenerator.Abbiege_x(i, radiusT, (1.3 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(i, radiusT, (1.3 + gaugeoffset), LiRe_T)), trans.Z(Weichengenerator.Abbiege_x(i, radiusT, (1.3 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(i, radiusT, (1.3 + gaugeoffset), LiRe_T)));
-                        sw.WriteLine("AddVertex,{0:f4},-0.4,{1:f4},", trans.X(Weichengenerator.Abbiege_x(i, radiusT, (2.8 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(i, radiusT, (2.8 + gaugeoffset), LiRe_T)), trans.Z(Weichengenerator.Abbiege_x(i, radiusT, (2.8 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(i, radiusT, (2.8 + gaugeoffset), LiRe_T)));
+                        sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(MathFunctions.Abbiege_x(i, radiusT, (1.3 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(i, radiusT, (1.3 + gaugeoffset), LiRe_T)), trans.Z(MathFunctions.Abbiege_x(i, radiusT, (1.3 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(i, radiusT, (1.3 + gaugeoffset), LiRe_T)));
+                        sw.WriteLine("AddVertex,{0:f4},-0.4,{1:f4},", trans.X(MathFunctions.Abbiege_x(i, radiusT, (2.8 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(i, radiusT, (2.8 + gaugeoffset), LiRe_T)), trans.Z(MathFunctions.Abbiege_x(i, radiusT, (2.8 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(i, radiusT, (2.8 + gaugeoffset), LiRe_T)));
                     }
 
-                    Weichengenerator.AddFace(sw, a, LiRe_T);
+                    Constructors.AddFace(sw, a, LiRe_T);
 
                     sw.WriteLine("GenerateNormals,");
                     sw.WriteLine("LoadTexture,ballast.{0},", texture_format);
-                    Weichengenerator.SetTexture(sw, a, 10 * laenge, 1);
+                    Constructors.SetTexture(sw, a, 10 * laenge, 1);
 
                     if (inputcheckboxes[1])
                     {
@@ -1016,11 +1020,11 @@ namespace Weiche
                             sw.WriteLine("AddVertex,{0:f4},-0.35,{1:f4},", trans.X((-2.5 - gaugeoffset) * LiRe_T, i), trans.Z((-2.5 - gaugeoffset) * LiRe_T, i));
                         }
 
-                        Weichengenerator.AddFace(sw, a, LiRe_T);
+                        Constructors.AddFace(sw, a, LiRe_T);
 
                         sw.WriteLine("GenerateNormals,");
                         sw.WriteLine("LoadTexture,{0}.{1},", embankment_file, texture_format);
-                        Weichengenerator.SetTexture(sw, a, 3 * laenge, 1);
+                        Constructors.SetTexture(sw, a, 3 * laenge, 1);
 
 
                         // Embankment Left
@@ -1029,15 +1033,15 @@ namespace Weiche
                         sw.WriteLine("\r\r\nCreateMeshBuilder");
                         for (double i = 0; i <= 25 * laenge; i = i + 25 / segmente, a++)
                         {
-                            sw.WriteLine("AddVertex,{0:f4},-0.35,{1:f4},", trans.X(Weichengenerator.Abbiege_x(i, radiusT, (2.5 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(i, radiusT, (2.5 + gaugeoffset), LiRe_T)), trans.Z(Weichengenerator.Abbiege_x(i, radiusT, (2.5 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(i, radiusT, (2.5 + gaugeoffset), LiRe_T)));
-                            sw.WriteLine("AddVertex,{0:f4},-0.3,{1:f4},", trans.X(Weichengenerator.Abbiege_x(i, radiusT, (3.6 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(i, radiusT, (3.6 + gaugeoffset), LiRe_T)), trans.Z(Weichengenerator.Abbiege_x(i, radiusT, (3.6 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(i, radiusT, (3.6 + gaugeoffset), LiRe_T)));
+                            sw.WriteLine("AddVertex,{0:f4},-0.35,{1:f4},", trans.X(MathFunctions.Abbiege_x(i, radiusT, (2.5 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(i, radiusT, (2.5 + gaugeoffset), LiRe_T)), trans.Z(MathFunctions.Abbiege_x(i, radiusT, (2.5 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(i, radiusT, (2.5 + gaugeoffset), LiRe_T)));
+                            sw.WriteLine("AddVertex,{0:f4},-0.3,{1:f4},", trans.X(MathFunctions.Abbiege_x(i, radiusT, (3.6 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(i, radiusT, (3.6 + gaugeoffset), LiRe_T)), trans.Z(MathFunctions.Abbiege_x(i, radiusT, (3.6 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(i, radiusT, (3.6 + gaugeoffset), LiRe_T)));
                         }
 
-                        Weichengenerator.AddFace(sw, a, LiRe_T);
+                        Constructors.AddFace(sw, a, LiRe_T);
 
                         sw.WriteLine("GenerateNormals,");
                         sw.WriteLine("LoadTexture,{0}.{1},", embankment_file, texture_format);
-                        Weichengenerator.SetTexture(sw, a, 3 * laenge, 2);
+                        Constructors.SetTexture(sw, a, 3 * laenge, 2);
                     }
 
                     //Sleepers for left branch
@@ -1057,7 +1061,7 @@ namespace Weiche
                             //New
                             var newsleepers = trans.X((1.3 + gaugeoffset) * LiRe_T, i);
                             //Original
-                            var newsleepers1 = trans.X((Weichengenerator.Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i);
+                            var newsleepers1 = trans.X((MathFunctions.Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i);
                             sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((-1.3 - gaugeoffset) * LiRe_T, i), trans.Z((-1.3 - gaugeoffset) * LiRe_T, i));
                             if (newsleepers - newsleepers1 <= 0.1)
                             {
@@ -1065,7 +1069,7 @@ namespace Weiche
                             }
                             else
                             {
-                                sw.WriteLine("AddVertex,{0:f4},-0.151,{1:f4},", trans.X((Weichengenerator.Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i), trans.Z((Weichengenerator.Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
+                                sw.WriteLine("AddVertex,{0:f4},-0.151,{1:f4},", trans.X((MathFunctions.Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i), trans.Z((MathFunctions.Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
                             }
                         }
                         else
@@ -1073,7 +1077,7 @@ namespace Weiche
                             //New
                             var newsleepers = trans.X((1.3 + gaugeoffset) * LiRe_T, i);
                             //Original
-                            var newsleepers1 = trans.X((Weichengenerator.Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i);
+                            var newsleepers1 = trans.X((MathFunctions.Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i);
                             sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((-1.3 - gaugeoffset) * LiRe_T, i), trans.Z((-1.3 - gaugeoffset) * LiRe_T, i));
                             if (newsleepers - newsleepers1 >= -0.1)
                             {
@@ -1081,14 +1085,14 @@ namespace Weiche
                             }
                             else
                             {
-                                sw.WriteLine("AddVertex,{0:f4},-0.151,{1:f4},", trans.X((Weichengenerator.Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i), trans.Z((Weichengenerator.Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
+                                sw.WriteLine("AddVertex,{0:f4},-0.151,{1:f4},", trans.X((MathFunctions.Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i), trans.Z((MathFunctions.Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
                             }
                         }
 
                     }
 
 
-                    Weichengenerator.AddFace(sw, a, LiRe_T);
+                    Constructors.AddFace(sw, a, LiRe_T);
 
                     sw.WriteLine("GenerateNormals,");
                     sw.WriteLine("LoadTexture,{0}.{1},", sleeper_file, texture_format);
@@ -1115,7 +1119,7 @@ namespace Weiche
                         for (double i = a; i >= 0; i--)
                         {
 
-                            c = (Weichengenerator.Abbiege_x(25 * laenge * (a - i) / a, radiusT, 0, LiRe_T * LiRe_T) / 2 + (1.3 + gaugeoffset)) / (2.6 + (gaugeoffset * 2));
+                            c = (MathFunctions.Abbiege_x(25 * laenge * (a - i) / a, radiusT, 0, LiRe_T * LiRe_T) / 2 + (1.3 + gaugeoffset)) / (2.6 + (gaugeoffset * 2));
 
                             double newcoords;
                             if (c < 1)
@@ -1145,39 +1149,39 @@ namespace Weiche
                     {
                         if (LiRe_T == 1)
                         {
-                            var newsleepers1 = (trans.X((Weichengenerator.Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
-                            var newsleepers2 = (trans.X(Weichengenerator.Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
+                            var newsleepers1 = (trans.X((MathFunctions.Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
+                            var newsleepers2 = (trans.X(MathFunctions.Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
                             if (newsleepers2 <= newsleepers1)
                             {
-                                sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((Weichengenerator.Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i), trans.Z((Weichengenerator.Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
+                                sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((MathFunctions.Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i), trans.Z((MathFunctions.Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
                             }
                             else
                             {
-                                sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(Weichengenerator.Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)), trans.Z(Weichengenerator.Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
+                                sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(MathFunctions.Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)), trans.Z(MathFunctions.Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
                             }
 
 
-                            sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(Weichengenerator.Abbiege_x(i, radiusT, (1.3 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(i, radiusT, (1.3 + gaugeoffset), LiRe_T)), trans.Z(Weichengenerator.Abbiege_x(i, radiusT, (1.3 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(i, radiusT, (1.3 + gaugeoffset), LiRe_T)));
+                            sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(MathFunctions.Abbiege_x(i, radiusT, (1.3 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(i, radiusT, (1.3 + gaugeoffset), LiRe_T)), trans.Z(MathFunctions.Abbiege_x(i, radiusT, (1.3 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(i, radiusT, (1.3 + gaugeoffset), LiRe_T)));
                         }
                         else
                         {
-                            var newsleepers1 = (trans.X((Weichengenerator.Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
-                            var newsleepers2 = (trans.X(Weichengenerator.Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
+                            var newsleepers1 = (trans.X((MathFunctions.Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
+                            var newsleepers2 = (trans.X(MathFunctions.Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
                             if (newsleepers2 >= newsleepers1)
                             {
-                                sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((Weichengenerator.Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i), trans.Z((Weichengenerator.Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
+                                sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((MathFunctions.Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i), trans.Z((MathFunctions.Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
                             }
                             else
                             {
-                                sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(Weichengenerator.Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)), trans.Z(Weichengenerator.Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
+                                sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(MathFunctions.Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)), trans.Z(MathFunctions.Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
                             }
 
 
-                            sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(Weichengenerator.Abbiege_x(i, radiusT, (1.3 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(i, radiusT, (1.3 + gaugeoffset), LiRe_T)), trans.Z(Weichengenerator.Abbiege_x(i, radiusT, (1.3 + gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(i, radiusT, (1.3 + gaugeoffset), LiRe_T)));
+                            sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(MathFunctions.Abbiege_x(i, radiusT, (1.3 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(i, radiusT, (1.3 + gaugeoffset), LiRe_T)), trans.Z(MathFunctions.Abbiege_x(i, radiusT, (1.3 + gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(i, radiusT, (1.3 + gaugeoffset), LiRe_T)));
                         }
                     }
 
-                    Weichengenerator.AddFace(sw, a, LiRe_T);
+                    Constructors.AddFace(sw, a, LiRe_T);
 
                     sw.WriteLine("GenerateNormals,");
                     sw.WriteLine("LoadTexture,{0}.{1},", sleeper_file, texture_format);
@@ -1191,7 +1195,7 @@ namespace Weiche
 
                         for (double i = a; i >= 0; i--)
                         {
-                            c = 1 - (Weichengenerator.Abbiege_x(25 * laenge * (a - i) / a, radiusT, 0, LiRe_T * LiRe_T) / 2 + (1.3 + gaugeoffset)) / (2.6 + (gaugeoffset * 2));
+                            c = 1 - (MathFunctions.Abbiege_x(25 * laenge * (a - i) / a, radiusT, 0, LiRe_T * LiRe_T) / 2 + (1.3 + gaugeoffset)) / (2.6 + (gaugeoffset * 2));
                             sw.WriteLine("SetTextureCoordinates,{0:f4},0,{1:f4},", b, 15 - (i * 15 * laenge / a));
                             sw.WriteLine("SetTextureCoordinates,{0:f4},1,{1:f4},", b + 1, 15 - (i * 15 * laenge / a));
                             b = b + 2;
@@ -1202,7 +1206,7 @@ namespace Weiche
                         for (double i = a; i >= 0; i--)
                         {
                             double newcoords;
-                            c = 1 - (Weichengenerator.Abbiege_x(25 * laenge * (a - i) / a, radiusT, 0, LiRe_T * LiRe_T) / 2 + (1.3 + gaugeoffset)) / (2.6 + (gaugeoffset * 2));
+                            c = 1 - (MathFunctions.Abbiege_x(25 * laenge * (a - i) / a, radiusT, 0, LiRe_T * LiRe_T) / 2 + (1.3 + gaugeoffset)) / (2.6 + (gaugeoffset * 2));
                             if (c > 0)
                             {
                                 newcoords = c;
@@ -1236,7 +1240,7 @@ namespace Weiche
                             //New
                             var newsleepers = trans.X((1.3 + gaugeoffset) * LiRe_T, i);
                             //Original
-                            var newsleepers1 = trans.X((Weichengenerator.Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i);
+                            var newsleepers1 = trans.X((MathFunctions.Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i);
 
 
                             if (newsleepers - newsleepers1 <= 0.1)
@@ -1260,7 +1264,7 @@ namespace Weiche
                             //New
                             var newsleepers = trans.X((1.3 + gaugeoffset) * LiRe_T, i);
                             //Original
-                            var newsleepers1 = trans.X((Weichengenerator.Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i);
+                            var newsleepers1 = trans.X((MathFunctions.Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i);
 
 
                             if (newsleepers - newsleepers1 >= -0.1)
@@ -1283,7 +1287,7 @@ namespace Weiche
                     }
 
 
-                    Weichengenerator.AddFace(sw, a, LiRe_T);
+                    Constructors.AddFace(sw, a, LiRe_T);
                     double texturefactor1 = a;
                     double texturefactor2 = totalsegs;
                     var texturefactor = ((texturefactor1 / texturefactor2) * 10);
@@ -1291,7 +1295,7 @@ namespace Weiche
                     {
                         sw.WriteLine("GenerateNormals,");
                         sw.WriteLine("LoadTexture,{0}.{1},", ballast_file, texture_format);
-                        Weichengenerator.SetTexture(sw, a, texturefactor * laenge, 5);
+                        Constructors.SetTexture(sw, a, texturefactor * laenge, 5);
                     }
                     //Right Branch Ballast Shoulder L
                     neededtest = 0;
@@ -1303,8 +1307,8 @@ namespace Weiche
                     {
                         if (LiRe_T == 1)
                         {
-                            var newsleepers1 = (trans.X((Weichengenerator.Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
-                            var newsleepers2 = (trans.X(Weichengenerator.Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
+                            var newsleepers1 = (trans.X((MathFunctions.Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
+                            var newsleepers2 = (trans.X(MathFunctions.Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
 
 
                             if (newsleepers2 <= newsleepers1)
@@ -1317,15 +1321,15 @@ namespace Weiche
                                 {
                                     sw.WriteLine("\r\r\nCreateMeshBuilder ;Shoulder L Branch R");
                                 }
-                                sw.WriteLine("AddVertex,{0:f4},-0.4,{1:f4},", trans.X(Weichengenerator.Abbiege_x(i, radiusT, (-2.8 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(i, radiusT, (-2.8 - gaugeoffset), LiRe_T)), trans.Z(Weichengenerator.Abbiege_x(i, radiusT, (-2.8 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(i, radiusT, (-2.8 - gaugeoffset), LiRe_T)));
-                                sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(Weichengenerator.Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)), trans.Z(Weichengenerator.Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
+                                sw.WriteLine("AddVertex,{0:f4},-0.4,{1:f4},", trans.X(MathFunctions.Abbiege_x(i, radiusT, (-2.8 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(i, radiusT, (-2.8 - gaugeoffset), LiRe_T)), trans.Z(MathFunctions.Abbiege_x(i, radiusT, (-2.8 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(i, radiusT, (-2.8 - gaugeoffset), LiRe_T)));
+                                sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(MathFunctions.Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)), trans.Z(MathFunctions.Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
                                 neededtest++;
                             }
                         }
                         else
                         {
-                            var newsleepers1 = (trans.X((Weichengenerator.Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
-                            var newsleepers2 = (trans.X(Weichengenerator.Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
+                            var newsleepers1 = (trans.X((MathFunctions.Abbiege_x(i, radiusT, 0, LiRe_T)) / 2, i));
+                            var newsleepers2 = (trans.X(MathFunctions.Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
 
 
                             if (newsleepers2 >= newsleepers1)
@@ -1338,8 +1342,8 @@ namespace Weiche
                                 {
                                     sw.WriteLine("\r\r\nCreateMeshBuilder ;Shoulder L Branch R");
                                 }
-                                sw.WriteLine("AddVertex,{0:f4},-0.4,{1:f4},", trans.X(Weichengenerator.Abbiege_x(i, radiusT, (-2.8 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(i, radiusT, (-2.8 - gaugeoffset), LiRe_T)), trans.Z(Weichengenerator.Abbiege_x(i, radiusT, (-2.8 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(i, radiusT, (-2.8 - gaugeoffset), LiRe_T)));
-                                sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(Weichengenerator.Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)), trans.Z(Weichengenerator.Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), Weichengenerator.Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
+                                sw.WriteLine("AddVertex,{0:f4},-0.4,{1:f4},", trans.X(MathFunctions.Abbiege_x(i, radiusT, (-2.8 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(i, radiusT, (-2.8 - gaugeoffset), LiRe_T)), trans.Z(MathFunctions.Abbiege_x(i, radiusT, (-2.8 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(i, radiusT, (-2.8 - gaugeoffset), LiRe_T)));
+                                sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X(MathFunctions.Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)), trans.Z(MathFunctions.Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), MathFunctions.Abbiege_z(i, radiusT, (-1.3 - gaugeoffset), LiRe_T)));
                                 neededtest++;
                             }
                         }
@@ -1347,7 +1351,7 @@ namespace Weiche
                     }
 
 
-                    Weichengenerator.AddFace(sw, a, LiRe_T);
+                    Constructors.AddFace(sw, a, LiRe_T);
                     texturefactor1 = a;
                     texturefactor2 = totalsegs;
                     texturefactor = ((texturefactor1 / texturefactor2) * 10);
@@ -1355,7 +1359,7 @@ namespace Weiche
                     {
                         sw.WriteLine("GenerateNormals,");
                         sw.WriteLine("LoadTexture,{0}.{1},", ballast_file, texture_format);
-                        Weichengenerator.SetTexture(sw, a, texturefactor * laenge, 2);
+                        Constructors.SetTexture(sw, a, texturefactor * laenge, 2);
                     }
 
 
@@ -1378,7 +1382,7 @@ namespace Weiche
                         sw.WriteLine("AddVertex,{0:f4},-0.14,{1:f4},", trans.X((-0.325 - gaugeoffset) * LiRe_T, i), trans.Z((-0.325 - gaugeoffset) * LiRe_T, i));
                     }
 
-                    Weichengenerator.AddFace(sw, a, LiRe_T);
+                    Constructors.AddFace(sw, a, LiRe_T);
 
                     sw.WriteLine("GenerateNormals,");
                     sw.WriteLine("LoadTexture,SchieneSpezAnf.{0},", texture_format);
@@ -1407,11 +1411,11 @@ namespace Weiche
 
                     for (var i = j; i <= k; i = i + 1.25, a++)
                     {
-                        sw.WriteLine("AddVertex,{0:f4},-0.14,{1:f4},", trans.X(Weichengenerator.Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), i), trans.Z(Weichengenerator.Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), i));
-                        sw.WriteLine("AddVertex,{0:f4},-0.14,{1:f4},", trans.X(Weichengenerator.Abbiege_x(i, radiusT, (-0.325 - gaugeoffset), LiRe_T), i), trans.Z(Weichengenerator.Abbiege_x(i, radiusT, (-0.325 - gaugeoffset), LiRe_T), i));
+                        sw.WriteLine("AddVertex,{0:f4},-0.14,{1:f4},", trans.X(MathFunctions.Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), i), trans.Z(MathFunctions.Abbiege_x(i, radiusT, (-1.3 - gaugeoffset), LiRe_T), i));
+                        sw.WriteLine("AddVertex,{0:f4},-0.14,{1:f4},", trans.X(MathFunctions.Abbiege_x(i, radiusT, (-0.325 - gaugeoffset), LiRe_T), i), trans.Z(MathFunctions.Abbiege_x(i, radiusT, (-0.325 - gaugeoffset), LiRe_T), i));
                     }
 
-                    Weichengenerator.AddFace(sw, a, LiRe_T);
+                    Constructors.AddFace(sw, a, LiRe_T);
 
                     sw.WriteLine("GenerateNormals,");
                     sw.WriteLine("LoadTexture,SchieneSpez.{0},", texture_format);
@@ -1442,11 +1446,11 @@ namespace Weiche
 
                     for (double i = 0; i <= j; i = i + 1.25, a++)
                     {
-                        sw.WriteLine("AddVertex,{0:f4},-0.14,{1:f4},", trans.X(Weichengenerator.Abbiege_x(i, radiusT, (1.3 + gaugeoffset), LiRe_T), i), trans.Z(Weichengenerator.Abbiege_x(i, radiusT, (1.3 + gaugeoffset), LiRe_T), i));
-                        sw.WriteLine("AddVertex,{0:f4},-0.14,{1:f4},", trans.X(Weichengenerator.Abbiege_x(i, radiusT, (0.325 + gaugeoffset), LiRe_T), i), trans.Z(Weichengenerator.Abbiege_x(i, radiusT, (0.325 + gaugeoffset), LiRe_T), i));
+                        sw.WriteLine("AddVertex,{0:f4},-0.14,{1:f4},", trans.X(MathFunctions.Abbiege_x(i, radiusT, (1.3 + gaugeoffset), LiRe_T), i), trans.Z(MathFunctions.Abbiege_x(i, radiusT, (1.3 + gaugeoffset), LiRe_T), i));
+                        sw.WriteLine("AddVertex,{0:f4},-0.14,{1:f4},", trans.X(MathFunctions.Abbiege_x(i, radiusT, (0.325 + gaugeoffset), LiRe_T), i), trans.Z(MathFunctions.Abbiege_x(i, radiusT, (0.325 + gaugeoffset), LiRe_T), i));
                     }
 
-                    Weichengenerator.AddFace(sw, a, -1 * LiRe_T);
+                    Constructors.AddFace(sw, a, -1 * LiRe_T);
 
                     sw.WriteLine("GenerateNormals,");
                     sw.WriteLine("LoadTexture,SchieneSpezAnf.{0},", texture_format);
@@ -1473,7 +1477,7 @@ namespace Weiche
                         sw.WriteLine("AddVertex,{0:f4},-0.14,{1:f4},", trans.X((0.325 + gaugeoffset) * LiRe_T, i), trans.Z((0.325 + gaugeoffset) * LiRe_T, i));
                     }
 
-                    Weichengenerator.AddFace(sw, a, -1 * LiRe_T);
+                    Constructors.AddFace(sw, a, -1 * LiRe_T);
 
                     sw.WriteLine("GenerateNormals,");
                     sw.WriteLine("LoadTexture,SchieneSpez.{0},", texture_format);

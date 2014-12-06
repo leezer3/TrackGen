@@ -1,4 +1,8 @@
-﻿using System.IO;
+﻿/*
+ * Straight Track Generation
+ */
+
+using System.IO;
 using System.Windows.Forms;
 
 namespace Weiche

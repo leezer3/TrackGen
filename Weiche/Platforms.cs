@@ -1,4 +1,7 @@
-﻿using System;
+﻿/*
+ * Platform Generation
+ */
+
 using System.Windows.Forms;
 using System.IO;
 
@@ -30,7 +33,7 @@ namespace Weiche
                 string fence_file = inputStrings[28];
 
                 bool EingabeOK;
-                Weichengenerator.Transform trans;
+                MathFunctions.Transform trans;
                 //Initialise
 
                 //Check that radius is a valid number
@@ -293,7 +296,7 @@ namespace Weiche
                 }
 
                 //Calculate the track width to move the platforms as appropriate
-                trans = new Weichengenerator.Transform(1, radius, LiRe, 0);
+                trans = new MathFunctions.Transform(1, radius, LiRe, 0);
 
                 //Write Out to CSV
                 using (var sw = new StreamWriter(name))
@@ -559,11 +562,11 @@ namespace Weiche
                                 }
                             }
 
-                            Weichengenerator.PlatFace(sw, a, -LiRe_T);
+                            Constructors.PlatFace(sw, a, -LiRe_T);
                             sw.WriteLine("GenerateNormals,");
 
                             sw.WriteLine("LoadTexture,{0}.{1},", platform_file, texture_format);
-                            Weichengenerator.SetPlatformTexture(sw, a, 5, 1, platwidth_near, platwidth_far, segmente);
+                            Constructors.SetPlatformTexture(sw, a, 5, 1, platwidth_near, platwidth_far, segmente);
 
                             //We've created our platform, now create the fence
                             if (inputcheckboxes[9] == true)
@@ -807,11 +810,11 @@ namespace Weiche
                                 }
 
                                 //Use new Face2 method
-                                Weichengenerator.AddFace2_New(sw, d, -LiRe_T);
+                                Constructors.AddFace2_New(sw, d, -LiRe_T);
                                 sw.WriteLine("GenerateNormals,");
                                 //Load texture & set-cordinates
                                 sw.WriteLine("LoadTexture,{0}.{1},", fence_file, texture_format);
-                                Weichengenerator.SetTexture(sw, d, 10, 4);
+                                Constructors.SetTexture(sw, d, 10, 4);
                                 sw.WriteLine("SetDecalTransparentColor,0,0,255,");
 
                             }
@@ -1082,13 +1085,13 @@ namespace Weiche
                                 }
                             }
 
-                            Weichengenerator.PlatFace(sw, a, LiRe_T);
+                            Constructors.PlatFace(sw, a, LiRe_T);
                             sw.WriteLine("GenerateNormals,");
 
                             sw.WriteLine("LoadTexture,{0}.{1},", platform_file, texture_format);
 
 
-                            Weichengenerator.SetPlatformTexture(sw, a, 5, 1, platwidth_near, platwidth_far, segmente);
+                            Constructors.SetPlatformTexture(sw, a, 5, 1, platwidth_near, platwidth_far, segmente);
 
                             //We've created our platform, now create the fence
                             if (inputcheckboxes[9] == true)
@@ -1332,11 +1335,11 @@ namespace Weiche
                                 }
 
                                 //Use new Face2 method
-                                Weichengenerator.AddFace2_New(sw, d, -LiRe_T);
+                                Constructors.AddFace2_New(sw, d, -LiRe_T);
                                 sw.WriteLine("GenerateNormals,");
                                 //Load texture & set-cordinates
                                 sw.WriteLine("LoadTexture,{0}.{1},", fence_file, texture_format);
-                                Weichengenerator.SetTexture(sw, d, 10, 4);
+                                Constructors.SetTexture(sw, d, 10, 4);
                                 sw.WriteLine("SetDecalTransparentColor,0,0,255,");
                             }
                         }

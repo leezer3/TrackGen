@@ -1,4 +1,8 @@
-﻿using System.IO;
+﻿/*
+ * Curve Generation
+ */
+
+using System.IO;
 using System.Windows.Forms;
 
 namespace Weiche
@@ -27,7 +31,7 @@ namespace Weiche
                 string embankment_texture = inputStrings[13];
                 string embankment_file = inputStrings[14];
                 string texture_format = inputStrings[15];
-                Weichengenerator.Transform trans;
+                MathFunctions.Transform trans;
                 /*
                  Curves
                  */
@@ -124,7 +128,7 @@ namespace Weiche
                 }
 
 
-                trans = new Weichengenerator.Transform(1, radius, LiRe, 0);
+                trans = new MathFunctions.Transform(1, radius, LiRe, 0);
 
 
                 //Write out to CSV
@@ -141,13 +145,13 @@ namespace Weiche
                         sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X((-0.78 - gaugeoffset), (25 / segmente) * i), trans.Z(-0.78, (25 / segmente) * i));
                     }
 
-                    Weichengenerator.AddFace(sw, a, -LiRe_T);
+                    Constructors.AddFace(sw, a, -LiRe_T);
                     if (inputcheckboxes[4] == false)
                     {
                         sw.WriteLine("GenerateNormals,");
                         sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
 
-                        Weichengenerator.SetTexture(sw, a, 1, 1);
+                        Constructors.SetTexture(sw, a, 1, 1);
                     }
                     else
                     {
@@ -164,13 +168,13 @@ namespace Weiche
                         sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X((0.72 + gaugeoffset), (25 / segmente) * i), trans.Z(0.72, (25 / segmente) * i));
                     }
 
-                    Weichengenerator.AddFace(sw, a, -LiRe_T);
+                    Constructors.AddFace(sw, a, -LiRe_T);
 
                     sw.WriteLine("GenerateNormals,");
                     if (inputcheckboxes[4] == false)
                     {
                         sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
-                        Weichengenerator.SetTexture(sw, a, 1, 1);
+                        Constructors.SetTexture(sw, a, 1, 1);
                     }
                     else
                     {
@@ -189,13 +193,13 @@ namespace Weiche
                         sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((-0.74 - gaugeoffset), (25 / segmente) * i), trans.Z(-0.74, (25 / segmente) * i));
                     }
 
-                    Weichengenerator.AddFace2(sw, a);
+                    Constructors.AddFace2(sw, a);
 
                     sw.WriteLine("GenerateNormals,");
                     if (inputcheckboxes[4] == false)
                     {
                         sw.WriteLine("LoadTexture,railside.{0},", texture_format);
-                        Weichengenerator.SetTexture(sw, a, 1, 3);
+                        Constructors.SetTexture(sw, a, 1, 3);
                     }
                     else
                     {
@@ -212,13 +216,13 @@ namespace Weiche
                         sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((0.74 + gaugeoffset), (25 / segmente) * i), trans.Z(0.74, (25 / segmente) * i));
                     }
 
-                    Weichengenerator.AddFace2(sw, a);
+                    Constructors.AddFace2(sw, a);
 
                     sw.WriteLine("GenerateNormals,");
                     if (inputcheckboxes[4] == false)
                     {
                         sw.WriteLine("LoadTexture,railside.{0},", texture_format);
-                        Weichengenerator.SetTexture(sw, a, 1, 3);
+                        Constructors.SetTexture(sw, a, 1, 3);
                     }
                     else
                     {
@@ -235,11 +239,11 @@ namespace Weiche
                         sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((1.3 + gaugeoffset), (25 / segmente) * i), trans.Z(1.3, (25 / segmente) * i));
                     }
 
-                    Weichengenerator.AddFace(sw, a, LiRe_T);
+                    Constructors.AddFace(sw, a, LiRe_T);
 
                     sw.WriteLine("GenerateNormals,");
                     sw.WriteLine("LoadTexture,{0}.{1},", sleeper_file, texture_format);
-                    Weichengenerator.SetTexture(sw, a, 15, 2);
+                    Constructors.SetTexture(sw, a, 15, 2);
 
                     //Ballast Left
 
@@ -251,11 +255,11 @@ namespace Weiche
                         sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((-1.3 - gaugeoffset), (25 / segmente) * i), trans.Z(-1.3, (25 / segmente) * i));
                     }
 
-                    Weichengenerator.AddFace(sw, a, LiRe_T);
+                    Constructors.AddFace(sw, a, LiRe_T);
 
                     sw.WriteLine("GenerateNormals,");
                     sw.WriteLine("LoadTexture,{0}.{1},", ballast_file, texture_format);
-                    Weichengenerator.SetTexture(sw, a, 10, 2);
+                    Constructors.SetTexture(sw, a, 10, 2);
 
                     //Ballast Right
 
@@ -267,11 +271,11 @@ namespace Weiche
                         sw.WriteLine("AddVertex,{0:f4},-0.4,{1:f4},", trans.X((2.8 + gaugeoffset), (25 / segmente) * i), trans.Z(2.8, (25 / segmente) * i));
                     }
 
-                    Weichengenerator.AddFace(sw, a, LiRe_T);
+                    Constructors.AddFace(sw, a, LiRe_T);
 
                     sw.WriteLine("GenerateNormals,");
                     sw.WriteLine("LoadTexture,{0}.{1},", ballast_file, texture_format);
-                    Weichengenerator.SetTexture(sw, a, 10, 1);
+                    Constructors.SetTexture(sw, a, 10, 1);
 
                     if (inputcheckboxes[1] == false)
                     {
@@ -286,11 +290,11 @@ namespace Weiche
                             sw.WriteLine("AddVertex,{0:f4},-0.35,{1:f4},", trans.X((-2.5 - gaugeoffset), (25 / segmente) * i), trans.Z(-2.5, (25 / segmente) * i));
                         }
 
-                        Weichengenerator.AddFace(sw, a, LiRe_T);
+                        Constructors.AddFace(sw, a, LiRe_T);
 
                         sw.WriteLine("GenerateNormals,");
                         sw.WriteLine("LoadTexture,{0}.{1},", embankment_file, texture_format);
-                        Weichengenerator.SetTexture(sw, a, 3, 1);
+                        Constructors.SetTexture(sw, a, 3, 1);
 
                         //Grass Right
 
@@ -302,11 +306,11 @@ namespace Weiche
                             sw.WriteLine("AddVertex,{0:f4},-0.3,{1:f4},", trans.X((3.6 + gaugeoffset), (25 / segmente) * i), trans.Z(3.6, (25 / segmente) * i));
                         }
 
-                        Weichengenerator.AddFace(sw, a, LiRe_T);
+                        Constructors.AddFace(sw, a, LiRe_T);
 
                         sw.WriteLine("GenerateNormals,");
                         sw.WriteLine("LoadTexture,{0}.{1},", embankment_file, texture_format);
-                        Weichengenerator.SetTexture(sw, a, 3, 2);
+                        Constructors.SetTexture(sw, a, 3, 2);
                     }
 
 
