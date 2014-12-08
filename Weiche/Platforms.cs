@@ -9,131 +9,34 @@ namespace Weiche
 {
     class Platforms
     {
-        internal static void BuildPlatform(string[] inputStrings, bool[] inputcheckboxes)
+        internal static void BuildPlatform()
         {
             {
-
-                double radius;
-                double segmente;
-                double trackgauge;
-                double gaugeoffset;
-                double fenceheight = 0;
-                double platwidth_near;
-                double platwidth_far;
-                double platheight;
+                string name;
+                double radius = Weichengenerator.radius;
+                int segmente = Weichengenerator.segmente;
+                double gaugeoffset = Weichengenerator.gaugeoffset;
+                string launchpath = Weichengenerator.launchpath;
+                string texture_format = Weichengenerator.texture_format;
+                double fenceheight = Weichengenerator.fenceheight;
+                double platwidth_near = Weichengenerator.platwidth_near;
+                double platwidth_far = Weichengenerator.platwidth_far;
+                double platheight = Weichengenerator.platheight;
+                string platform_texture = Weichengenerator.platform_texture;
+                string platform_file = Weichengenerator.platform_file;
+                string fence_texture = Weichengenerator.fence_texture;
+                string fence_file = Weichengenerator.fence_file;
+                bool hasfence = Weichengenerator.hasfence;
                 double platwidth;
+                PlatformType CurrentPlatformType = Weichengenerator.CurrentPlatformType;
+                
                 var LiRe = 1;
                 var LiRe_T = 1;
-                string name;
-                string launchpath = inputStrings[4];
-                string texture_format = inputStrings[15];
-                string platform_texture = inputStrings[25];
-                string platform_file = inputStrings[26];
-                string fence_texture = inputStrings[27];
-                string fence_file = inputStrings[28];
 
-                bool EingabeOK;
+                
+
                 MathFunctions.Transform trans;
-                //Initialise
 
-                //Check that radius is a valid number
-                EingabeOK = double.TryParse(inputStrings[0], out radius);
-                if (EingabeOK == false)
-                {
-                    MessageBox.Show("Eingabefehler Radius!");
-                    return;
-                }
-                //Have we selected a platform side?
-                if (inputcheckboxes[5] != true && inputcheckboxes[6] != true)
-                {
-                    MessageBox.Show("Please select a Left or Right Platform!");
-                    return;
-                }
-                if ((radius != 0) && (radius <= 49) && (radius >= -49))
-                {
-                    MessageBox.Show("Radius for platforms should either be 0 for Straight or greater than 50m!");
-                    return;
-                }
-
-                EingabeOK = double.TryParse(inputStrings[1], out segmente);
-                if (EingabeOK == false)
-                {
-                    MessageBox.Show("Invalid number of segments!");
-                    return;
-                }
-
-                //Check platform height is a valid number
-                EingabeOK = double.TryParse(inputStrings[29], out platheight);
-                if (EingabeOK == false)
-                {
-                    MessageBox.Show("Invalid Platform Height!");
-                    return;
-                }
-
-                //Check platform widths are valid numbers
-                EingabeOK = double.TryParse(inputStrings[30], out platwidth_near);
-                if (EingabeOK == false)
-                {
-                    MessageBox.Show("Invalid Platform Width (Near)!");
-                    return;
-                }
-
-                EingabeOK = double.TryParse(inputStrings[31], out platwidth_far);
-                if (EingabeOK == false)
-                {
-                    MessageBox.Show("Invalid Platform Width (Far)!");
-                    return;
-                }
-
-                //Parse fence height into number
-                if (inputcheckboxes[9] == true)
-                {
-                    EingabeOK = double.TryParse(inputStrings[32], out fenceheight);
-                    if (EingabeOK == false)
-                    {
-                        MessageBox.Show("Invalid Fence Height!");
-                        return;
-                    }
-                    if (fenceheight == 0)
-                    {
-                        MessageBox.Show("Fence Height should not be zero!");
-                        return;
-                    }
-                }
-
-                //Check that track gauge is a valid number
-                EingabeOK = double.TryParse(inputStrings[2], out trackgauge);
-                if (EingabeOK == false)
-                {
-                    MessageBox.Show("Invalid Track Gauge!");
-                    return;
-                }
-                else
-                {
-                    //Is the track gauge standard?
-                    if (trackgauge != 1.44)
-                    {
-                        gaugeoffset = ((trackgauge - 1.44) / 2);
-                    }
-                    else
-                    {
-                        gaugeoffset = 0;
-                    }
-                }
-
-
-                //Check platform widths are over 1m
-                if (platwidth_near < 1 | platwidth_far < 1)
-                {
-                    MessageBox.Show("Minimum platform width is 1m!");
-                    return;
-                }
-
-                if (inputStrings[3].Length == 0)
-                {
-                    MessageBox.Show("Please select a valid path!");
-                    return;
-                }
 
                 //Left or right definition
                 if (radius < 0)
@@ -143,15 +46,15 @@ namespace Weiche
                 }
 
                 //Create Output directory
-                if (!System.IO.Directory.Exists(inputStrings[3] + "\\Output\\Platforms"))
+                if (!System.IO.Directory.Exists(launchpath + "\\Output\\Platforms"))
                 {
-                    System.IO.Directory.CreateDirectory(inputStrings[3] + "\\Output\\Platforms");
+                    System.IO.Directory.CreateDirectory(launchpath + "\\Output\\Platforms");
                 }
 
                 //Main Textures
                 const string outputtype = "Platforms";
                 Weichengenerator.ConvertAndMove(launchpath, platform_texture, texture_format, platform_file, outputtype);
-                if (inputcheckboxes[9] == true)
+                if (hasfence == true)
                 {
                     Weichengenerator.ConvertAndMove(launchpath, fence_texture, texture_format, fence_file, outputtype);
                 }
@@ -160,139 +63,94 @@ namespace Weiche
 
 
 
-                if (LiRe == -1)
+                switch(CurrentPlatformType)
                 {
-                    //Left Handed Platforms
-                    if (inputcheckboxes[5] == true)
-                    {
+                    case PlatformType.RightLevel:
                         if (radius == 0)
                         {
-                            if (inputcheckboxes[7] == true)
-                            {
-                                name = inputStrings[3] + "\\Output\\Platforms\\PlatformRight_Straight.csv";
-                            }
-                            else if (inputcheckboxes[8] == true)
-                            {
-                                name = inputStrings[3] + "\\Output\\Platforms\\PlatformRight_RU_Straight.csv";
-                            }
-                            else
-                            {
-                                name = inputStrings[3] + "\\Output\\Platforms\\PlatformRight_RD_Straight.csv";
-                            }
+                            name = launchpath + "\\Output\\Platforms\\PlatformRight_Straight.csv";
+                        }
+                        else if (LiRe == -1)
+                        {
+                            name = launchpath + "\\Output\\Platforms\\PlatformRight_L" + radius + ".csv";
                         }
                         else
                         {
-                            if (inputcheckboxes[7] == true)
-                            {
-                                name = inputStrings[3] + "\\Output\\Platforms\\PlatformLeft_L" + radius + ".csv";
-                            }
-                            else if (inputcheckboxes[8] == true)
-                            {
-                                name = inputStrings[3] + "\\Output\\Platforms\\PlatformLeft_RU_L" + radius + ".csv";
-                            }
-                            else
-                                name = inputStrings[3] + "\\Output\\Platforms\\PlatformLeft_RD_L" + radius + ".csv";
+                            name = launchpath + "\\Output\\Platforms\\PlatformRight_R" + radius + ".csv";
                         }
-
-
-                    }
-                    else
-                    {
+                        break;
+                    case PlatformType.RightRU:
                         if (radius == 0)
                         {
-                            if (inputcheckboxes[7] == true)
-                            {
-                                name = inputStrings[3] + "\\Output\\Platforms\\PlatformLeft_Straight.csv";
-                            }
-                            else if (inputcheckboxes[8] == true)
-                            {
-                                name = inputStrings[3] + "\\Output\\Platforms\\PlatformLeft_RU_Straight.csv";
-                            }
-                            else
-                            {
-                                name = inputStrings[3] + "\\Output\\Platforms\\PlatformLeft_RD_Straight.csv";
-                            }
+                            name = launchpath + "\\Output\\Platforms\\PlatformRight_RU_Straight.csv";
+                        }
+                        else if (LiRe == -1)
+                        {
+                            name = launchpath + "\\Output\\Platforms\\PlatformRight_RU_L" + radius + ".csv";
                         }
                         else
                         {
-                            if (inputcheckboxes[7] == true)
-                            {
-                                name = inputStrings[3] + "\\Output\\Platforms\\PlatformRight_L" + radius + ".csv";
-                            }
-                            else if (inputcheckboxes[8] == true)
-                            {
-                                name = inputStrings[3] + "\\Output\\Platforms\\PlatformRight_RU_L" + radius + ".csv";
-                            }
-                            else
-                                name = inputStrings[3] + "\\Output\\Platforms\\PlatformRight_RD_L" + radius + ".csv";
+                            name = launchpath + "\\Output\\Platforms\\PlatformRight_RU_R" + radius + ".csv";
                         }
-                    }
-                }
-                else
-                {
-                    //Right Handed Platforms
-                    if (inputcheckboxes[6] == true)
-                    {
+                        break;
+                    case PlatformType.RightRD:
                         if (radius == 0)
                         {
-                            if (inputcheckboxes[7] == true)
-                            {
-                                name = inputStrings[3] + "\\Output\\Platforms\\PlatformRight_Straight.csv";
-                            }
-                            else if (inputcheckboxes[8] == true)
-                            {
-                                name = inputStrings[3] + "\\Output\\Platforms\\PlatformRight_RU_Straight.csv";
-                            }
-                            else
-                            {
-                                name = inputStrings[3] + "\\Output\\Platforms\\PlatformRight_RD_Straight.csv";
-                            }
+                            name = launchpath + "\\Output\\Platforms\\PlatformRight_RD_Straight.csv";
+                        }
+                        else if (LiRe == -1)
+                        {
+                            name = launchpath + "\\Output\\Platforms\\PlatformRight_RD_L" + radius + ".csv";
                         }
                         else
                         {
-                            if (inputcheckboxes[7] == true)
-                            {
-                                name = inputStrings[3] + "\\Output\\Platforms\\PlatformRight_R" + radius + ".csv";
-                            }
-                            else if (inputcheckboxes[8] == true)
-                            {
-                                name = inputStrings[3] + "\\Output\\Platforms\\PlatformRight_RU_R" + radius + ".csv";
-                            }
-                            else
-                                name = inputStrings[3] + "\\Output\\Platforms\\PlatformRight_RD_R" + radius + ".csv";
+                            name = launchpath + "\\Output\\Platforms\\PlatformRight_RD_R" + radius + ".csv";
                         }
-                    }
-                    else
-                    {
+                        break;
+                    case PlatformType.LeftLevel:
                         if (radius == 0)
                         {
-                            if (inputcheckboxes[7] == true)
-                            {
-                                name = inputStrings[3] + "\\Output\\Platforms\\PlatformLeft_Straight.csv";
-                            }
-                            else if (inputcheckboxes[8] == true)
-                            {
-                                name = inputStrings[3] + "\\Output\\Platforms\\PlatformLeft_RU_Straight.csv";
-                            }
-                            else
-                            {
-                                name = inputStrings[3] + "\\Output\\Platforms\\PlatformLeft_RD_Straight.csv";
-                            }
+                            name = launchpath + "\\Output\\Platforms\\PlatformLeft_Straight.csv";
+                        }
+                        else if (LiRe == -1)
+                        {
+                            name = launchpath + "\\Output\\Platforms\\PlatformLeft_L" + radius + ".csv";
                         }
                         else
                         {
-                            if (inputcheckboxes[7] == true)
-                            {
-                                name = inputStrings[3] + "\\Output\\Platforms\\PlatformLeft_R" + radius + ".csv";
-                            }
-                            else if (inputcheckboxes[8] == true)
-                            {
-                                name = inputStrings[3] + "\\Output\\Platforms\\PlatformLeft_RU_R" + radius + ".csv";
-                            }
-                            else
-                                name = inputStrings[3] + "\\Output\\Platforms\\PlatformLeft_RD_R" + radius + ".csv";
+                            name = launchpath + "\\Output\\Platforms\\PlatformLeft_R" + radius + ".csv";
                         }
-                    }
+                        break;
+                    case PlatformType.LeftRU:
+                        if (radius == 0)
+                        {
+                            name = launchpath + "\\Output\\Platforms\\PlatformLeft_RU_Straight.csv";
+                        }
+                        else if (LiRe == -1)
+                        {
+                            name = launchpath + "\\Output\\Platforms\\PlatformLeft_RU_L" + radius + ".csv";
+                        }
+                        else
+                        {
+                            name = launchpath + "\\Output\\Platforms\\PlatformLeft_RU_R" + radius + ".csv";
+                        }
+                        break;
+                    case PlatformType.LeftRD:
+                        if (radius == 0)
+                        {
+                            name = launchpath + "\\Output\\Platforms\\PlatformLeft_RD_Straight.csv";
+                        }
+                        else if (LiRe == -1)
+                        {
+                            name = launchpath + "\\Output\\Platforms\\PlatformLeft_RD_L" + radius + ".csv";
+                        }
+                        else
+                        {
+                            name = launchpath + "\\Output\\Platforms\\PlatformLeft_RD_R" + radius + ".csv";
+                        }
+                        break;
+                    default:
+                        return;
                 }
 
                 //Calculate the track width to move the platforms as appropriate
@@ -301,15 +159,14 @@ namespace Weiche
                 //Write Out to CSV
                 using (var sw = new StreamWriter(name))
                 {
-                    //Left Sided Platform
-                    if (inputcheckboxes[5] == true)
-                    {
+                    
+                        //Left Sided Platform
                         {
                             var a = -1;
                             //If radius is zero, use one segment
                             if (radius == 0)
                             {
-                                if (inputcheckboxes[7] == true)
+                                if (CurrentPlatformType== PlatformType.LeftLevel)
                                 {
                                     //Straight Platform No Ramp
                                     segmente = 1;
@@ -345,7 +202,7 @@ namespace Weiche
 
                                     }
                                 }
-                                else if (inputcheckboxes[8] == true)
+                                else if (CurrentPlatformType == PlatformType.LeftRU)
                                 {
                                     //Straight Platform Ramp Up
                                     segmente = 2;
@@ -387,7 +244,7 @@ namespace Weiche
                                         sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.8 - gaugeoffset), (25.3 / segmente) * i), -0.2, trans.Z(-1.8, (25.3 / segmente) * i));
                                     }
                                 }
-                                else
+                                else if(CurrentPlatformType == PlatformType.LeftRD)
                                 {
                                     //Straight Platform Ramp Down
                                     segmente = 2;
@@ -433,7 +290,7 @@ namespace Weiche
                             else
                             //Otherwise, use number of segments specified by user for curved platforms
                             {
-                                if (inputcheckboxes[7] == true)
+                                if (CurrentPlatformType == PlatformType.LeftLevel)
                                 {
                                     //Curved Platform No Ramp
                                     //Platform Mesh
@@ -468,7 +325,7 @@ namespace Weiche
                                         sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((-1.8 - gaugeoffset), (25.3 / segmente) * i), -0.2, trans.Z(-1.8, (25.3 / segmente) * i));
                                     }
                                 }
-                                else if (inputcheckboxes[8] == true)
+                                else if (CurrentPlatformType == PlatformType.LeftRU)
                                 {
                                     //Curved Platform Ramp Up
                                     //Platform Mesh
@@ -513,7 +370,7 @@ namespace Weiche
                                     }
                                 }
 
-                                else
+                                else if (CurrentPlatformType == PlatformType.LeftRD)
                                 {
                                     //Curved Platform Ramp Down
                                     //Platform Mesh
@@ -569,13 +426,13 @@ namespace Weiche
                             Constructors.SetPlatformTexture(sw, a, 5, 1, platwidth_near, platwidth_far, segmente);
 
                             //We've created our platform, now create the fence
-                            if (inputcheckboxes[9] == true)
+                            if (hasfence == true)
                             {
                                 var d = -1;
                                 //If radius is zero, use one segment
                                 if (radius == 0)
                                 {
-                                    if (inputcheckboxes[7] == true)
+                                    if (CurrentPlatformType == PlatformType.LeftLevel)
                                     {
                                         //Straight Platform No Ramp
                                         segmente = 1;
@@ -608,7 +465,7 @@ namespace Weiche
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 - gaugeoffset) - platwidth), (25.3 / segmente) * i), platheight + fenceheight, trans.Z((-1.55 - platwidth), (25.3 / segmente) * i));
                                         }
                                     }
-                                    else if (inputcheckboxes[8] == true)
+                                    else if (CurrentPlatformType == PlatformType.LeftRU)
                                     {
                                         //Straight Platform Ramp Up
                                         segmente = 2;
@@ -647,7 +504,7 @@ namespace Weiche
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 - gaugeoffset) - platwidth), (25.3 / segmente) * i), platheight_new + fenceheight, trans.Z((-1.55 - platwidth), (25.3 / segmente) * i));
                                         }
                                     }
-                                    else
+                                    else if (CurrentPlatformType == PlatformType.LeftRD)
                                     {
                                         //Straight Platform Ramp Down
                                         segmente = 2;
@@ -690,7 +547,7 @@ namespace Weiche
                                 else
                                 //Otherwise, use number of segments specified by user for curved platforms
                                 {
-                                    if (inputcheckboxes[7] == true)
+                                    if (CurrentPlatformType == PlatformType.LeftLevel)
                                     {
                                         //Curved Platform No Ramp
                                         //Platform Mesh
@@ -722,7 +579,7 @@ namespace Weiche
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 - gaugeoffset) - platwidth), (25.3 / segmente) * i), platheight + fenceheight, trans.Z((-1.55 - platwidth), (25.3 / segmente) * i));
                                         }
                                     }
-                                    else if (inputcheckboxes[8] == true)
+                                    else if (CurrentPlatformType == PlatformType.LeftRU)
                                     {
                                         //Curved Platform Ramp Up
                                         //Platform Mesh
@@ -763,7 +620,7 @@ namespace Weiche
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((-1.55 - gaugeoffset) - platwidth), (25.3 / segmente) * i), platheight_new + fenceheight, trans.Z((-1.55 - platwidth), (25.3 / segmente) * i));
                                         }
                                     }
-                                    else
+                                    else if (CurrentPlatformType == PlatformType.LeftRD)
                                     {
                                         //Curved Platform Ramp Down
                                         //Platform Mesh
@@ -819,21 +676,21 @@ namespace Weiche
 
                             }
                         }
-                    }
+                    
 
 
 
 
 
                     //Right Sided Platforms
-                    else if (inputcheckboxes[6] == true)
-                    {
+                    
+                    
                         {
                             var a = -1;
                             //If radius is zero, use one segment
                             if (radius == 0)
                             {
-                                if (inputcheckboxes[7] == true)
+                                if (CurrentPlatformType == PlatformType.RightLevel)
                                 {
                                     //Straight Platform No Ramp
                                     segmente = 1;
@@ -868,7 +725,7 @@ namespace Weiche
                                         sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.8 + gaugeoffset), (25.3 / segmente) * i), -0.2, trans.Z(1.8, (25.3 / segmente) * i));
                                     }
                                 }
-                                else if (inputcheckboxes[8] == true)
+                                else if (CurrentPlatformType == PlatformType.RightRU)
                                 {
                                     //Straight Platform Ramp Up
                                     segmente = 2;
@@ -910,7 +767,7 @@ namespace Weiche
                                         sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.8 + gaugeoffset), (25.3 / segmente) * i), -0.2, trans.Z(1.8, (25.3 / segmente) * i));
                                     }
                                 }
-                                else
+                                else if (CurrentPlatformType == PlatformType.RightRD)
                                 {
                                     //Straight Platform Ramp Down
                                     segmente = 2;
@@ -956,7 +813,7 @@ namespace Weiche
                             else
                             //Otherwise, use number of segments specified by user for curved platforms
                             {
-                                if (inputcheckboxes[7] == true)
+                                if (CurrentPlatformType == PlatformType.RightLevel)
                                 {
                                     //Curved Platform No Ramp
                                     //Platform Mesh
@@ -991,7 +848,7 @@ namespace Weiche
                                         sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((1.8 + gaugeoffset), (25.3 / segmente) * i), -0.2, trans.Z(1.8, (25.3 / segmente) * i));
                                     }
                                 }
-                                else if (inputcheckboxes[8] == true)
+                                else if (CurrentPlatformType == PlatformType.RightRU)
                                 {
                                     //Curved Platform Ramp Up
                                     //Platform Mesh
@@ -1036,7 +893,7 @@ namespace Weiche
                                     }
                                 }
 
-                                else
+                                else if (CurrentPlatformType == PlatformType.RightRD)
                                 {
                                     //Curved Platform Ramp Down
                                     //Platform Mesh
@@ -1094,13 +951,13 @@ namespace Weiche
                             Constructors.SetPlatformTexture(sw, a, 5, 1, platwidth_near, platwidth_far, segmente);
 
                             //We've created our platform, now create the fence
-                            if (inputcheckboxes[9] == true)
+                            if (hasfence == true)
                             {
                                 var d = -1;
                                 //If radius is zero, use one segment
                                 if (radius == 0)
                                 {
-                                    if (inputcheckboxes[7] == true)
+                                    if (CurrentPlatformType == PlatformType.RightLevel)
                                     {
                                         //Straight Platform No Ramp
                                         segmente = 1;
@@ -1133,7 +990,7 @@ namespace Weiche
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((1.55 + gaugeoffset) + platwidth), (25.3 / segmente) * i), platheight + fenceheight, trans.Z((1.55 + platwidth), (25.3 / segmente) * i));
                                         }
                                     }
-                                    else if (inputcheckboxes[8] == true)
+                                    else if (CurrentPlatformType == PlatformType.RightRU)
                                     {
                                         //Straight Platform Ramp Up
                                         segmente = 2;
@@ -1172,7 +1029,7 @@ namespace Weiche
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((1.55 + gaugeoffset) + platwidth), (25.3 / segmente) * i), platheight_new + fenceheight, trans.Z((1.55 + platwidth), (25.3 / segmente) * i));
                                         }
                                     }
-                                    else
+                                    else if (CurrentPlatformType == PlatformType.RightRD)
                                     {
                                         //Straight Platform Ramp Down
                                         segmente = 2;
@@ -1215,7 +1072,7 @@ namespace Weiche
                                 else
                                 //Otherwise, use number of segments specified by user for curved platforms
                                 {
-                                    if (inputcheckboxes[7] == true)
+                                    if (CurrentPlatformType == PlatformType.RightLevel)
                                     {
                                         //Curved Platform No Ramp
                                         //Platform Mesh
@@ -1247,7 +1104,7 @@ namespace Weiche
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((1.55 + gaugeoffset) + platwidth), (25.3 / segmente) * i), platheight + fenceheight, trans.Z((1.55 + platwidth), (25.3 / segmente) * i));
                                         }
                                     }
-                                    else if (inputcheckboxes[8] == true)
+                                    else if (CurrentPlatformType == PlatformType.RightRU)
                                     {
                                         //Curved Platform Ramp Up
                                         //Platform Mesh
@@ -1288,7 +1145,7 @@ namespace Weiche
                                             sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(((1.55 + gaugeoffset) + platwidth), (25.3 / segmente) * i), platheight_new + fenceheight, trans.Z((1.55 + platwidth), (25.3 / segmente) * i));
                                         }
                                     }
-                                    else
+                                    else if (CurrentPlatformType == PlatformType.RightRD)
                                     {
                                         //Curved Platform Ramp Down
                                         //Platform Mesh
@@ -1344,7 +1201,7 @@ namespace Weiche
                             }
                         }
 
-                    }
+                    
                 }
             }
         }

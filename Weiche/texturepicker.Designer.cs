@@ -232,7 +232,7 @@
             this.Controls.Add(this.cancelbutton);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "texturepicker";
-            this.Text = "Texture Options- Track";
+            this.Text = "Track Textures";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();

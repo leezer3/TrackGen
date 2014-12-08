@@ -72,6 +72,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="ViaductTexture.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ViaductTexture.Designer.cs">
+      <DependentUpon>ViaductTexture.cs</DependentUpon>
+    </Compile>
     <Compile Include="MathFunctions.cs" />
     <Compile Include="Platforms.cs" />
     <Compile Include="platformtexture.cs">
@@ -111,6 +117,9 @@
     <EmbeddedResource Include="Properties\resources.fr.resx" />
     <EmbeddedResource Include="texturepicker.resx">
       <DependentUpon>texturepicker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ViaductTexture.resx">
+      <DependentUpon>ViaductTexture.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">

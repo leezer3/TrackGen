@@ -6,7 +6,7 @@ using System;
 
 namespace Weiche
 {
-    class MathFunctions
+    public class MathFunctions
     {
         public class Transform
         {

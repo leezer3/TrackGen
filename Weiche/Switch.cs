@@ -10,130 +10,62 @@ namespace Weiche
 {
     class Switch
     {
-        internal static void BuildSwitch(string[] inputStrings, bool[] inputcheckboxes)
+        internal static void BuildSwitch()
         {
             {
 
-                double radius;
-                double segmente;
-                double trackgauge;
-                double gaugeoffset;
+                
                 var LiRe = 1;
                 var LiRe_T = 1;
                 string name;
-                int laenge;
-                double Abw_tot;
-                int z;
                 double radiusT;
-                string launchpath = inputStrings[4];
-                string ballast_texture = inputStrings[5];
-                string ballast_file = inputStrings[6];
-                string sleeper_texture = inputStrings[7];
-                string sleeper_file = inputStrings[8];
-                string railside_texture = inputStrings[9];
-                string railside_file = inputStrings[10];
-                string railtop_texture = inputStrings[11];
-                string railtop_file = inputStrings[12];
-                string embankment_texture = inputStrings[13];
-                string embankment_file = inputStrings[14];
-                string texture_format = inputStrings[15];
-                string spez_texture = inputStrings[19];
-                string spez_file = inputStrings[20];
-                string spezanf_texture = inputStrings[21];
-                string spezanf_file = inputStrings[22];
-                string motor_texture = inputStrings[23];
-                string motor_file = inputStrings[24];
+                
                 MathFunctions.Transform trans;
                 bool EingabeOK;
 
-                //Check radius/ deviation is a valid number
-                EingabeOK = double.TryParse(inputStrings[0], out radius);
-                if (EingabeOK == false)
-                {
-                    MessageBox.Show("Invalid Radius!");
-                    return;
-                }
-
-                //Check secondary deviation is a valid number
-                EingabeOK = double.TryParse(inputStrings[16], out Abw_tot);
-                if (EingabeOK == false)
-                {
-                    MessageBox.Show("Eingabefehler Abweichung!");
-                    return;
-                }
-
-                //Check length is a valid number
-                //TODO: Check length is no more than 200m
-                EingabeOK = int.TryParse(inputStrings[17], out laenge);
-                if (EingabeOK == false)
-                {
-                    MessageBox.Show("Eingabefehler Weichenlänge!");
-                    return;
-                }
-
-                //Check segments are a valid number 
-
-                //TODO: Check for sensible number of segments
-                //Assume a max of 50 segments per 25m
-                EingabeOK = double.TryParse(inputStrings[1], out segmente);
-                if (EingabeOK == false)
-                {
-                    MessageBox.Show("Eingabefehler Segmente!");
-                    return;
-                }
-
-                EingabeOK = double.TryParse(inputStrings[2], out trackgauge);
-                if (EingabeOK == false)
-                {
-                    MessageBox.Show("Invalid Track Gauge!");
-                    return;
-                }
-                else
-                {
-                    //Is the track gauge standard?
-                    if (trackgauge != 1.44)
-                    {
-                        gaugeoffset = ((trackgauge - 1.44) / 2);
-                        //We aren't standard gauge
-                        //Now calculate the deviation
-
-                    }
-                    else
-                    {
-                        gaugeoffset = 0;
-                    }
-                }
-
-                //Check path is valid
-                if (inputStrings[3].Length == 0)
-                {
-                    MessageBox.Show("Geben sie einen Pfad an!");
-                    return;
-                }
-
+                double radius = Weichengenerator.radius;
+                double Abw_tot = Weichengenerator.Abw_tot;
+                int laenge = Weichengenerator.laenge;
+                int segmente = Weichengenerator.segmente;
+                double trackgauge = Weichengenerator.trackgauge;
+                double gaugeoffset = Weichengenerator.gaugeoffset;
+                string launchpath = Weichengenerator.launchpath;
+                string texture_format = Weichengenerator.texture_format;
+                string spez_texture = Weichengenerator.spez_texture;
+                string spez_file = Weichengenerator.spez_file;
+                string spezanf_texture = Weichengenerator.spezanf_texture;
+                string spezanf_file = Weichengenerator.spezanf_file;
+                string motor_texture = Weichengenerator.motor_texture;
+                string motor_file = Weichengenerator.motor_file;
+                string ballast_texture = Weichengenerator.ballast_texture;
+                string ballast_file = Weichengenerator.ballast_file;
+                string sleeper_texture = Weichengenerator.sleeper_texture;
+                string sleeper_file = Weichengenerator.sleeper_file;
+                string railtop_texture = Weichengenerator.railtop_texture;
+                string railtop_file = Weichengenerator.railtop_file;
+                string railside_texture = Weichengenerator.railside_texture;
+                string railside_file = Weichengenerator.railside_file;
+                string embankment_texture = Weichengenerator.embankment_texture;
+                string embankment_file = Weichengenerator.embankment_file;
+                int z = Weichengenerator.zmovement;
+                
                 //Create Output directory
-                if (!System.IO.Directory.Exists(inputStrings[3] + "\\Output\\Tracks"))
+                if (!System.IO.Directory.Exists(launchpath + "\\Output\\Tracks"))
                 {
-                    System.IO.Directory.CreateDirectory(inputStrings[3] + "\\Output\\Tracks");
+                    System.IO.Directory.CreateDirectory(launchpath + "\\Output\\Tracks");
                 }
 
 
 
-                //Check Z-Movement is valid
-                EingabeOK = int.TryParse(inputStrings[18], out z);
-                if (EingabeOK == false)
-                {
-                    MessageBox.Show("Eingabefehler z - Verschiebung!");
-                    return;
-                }
+                
 
                 if (z != 0)
                 {
-                    name = inputStrings[3] + "\\Output\\Tracks\\W" + radius + "m_" + Abw_tot + "m_" + 25 * laenge + "m_" + z + "z.csv";
+                    name = launchpath + "\\Output\\Tracks\\W" + radius + "m_" + Abw_tot + "m_" + 25 * laenge + "m_" + z + "z.csv";
                 }
                 else
                 {
-                    name = inputStrings[3] + "\\Output\\Tracks\\W" + radius + "m_" + Abw_tot + "m_" + 25 * laenge + "m.csv";
+                    name = launchpath + "\\Output\\Tracks\\W" + radius + "m_" + Abw_tot + "m_" + 25 * laenge + "m.csv";
                 }
 
 
@@ -145,18 +77,18 @@ namespace Weiche
                 //Spez Textures
                 Weichengenerator.ConvertAndMove(launchpath, spez_texture, texture_format, spez_file, outputtype);
                 Weichengenerator.ConvertAndMove(launchpath, spezanf_texture, texture_format, spezanf_file, outputtype);
-                if (inputcheckboxes[0] == true)
+                if (Weichengenerator.pointmotor == true)
                 {
                     Weichengenerator.ConvertAndMove(launchpath, motor_texture, texture_format, motor_file, outputtype);
                 }
                 //Embankment Texture
-                if (inputcheckboxes[1] == true)
+                if (Weichengenerator.noembankment == false)
                 {
                     Weichengenerator.ConvertAndMove(launchpath, embankment_texture, texture_format, embankment_file, outputtype);
                 }
 
                 //Rail Textures
-                if (inputcheckboxes[4] == true)
+                if (Weichengenerator.norailtexture == false)
                 {
                     Weichengenerator.ConvertAndMove(launchpath, railside_texture, texture_format, railside_file, outputtype);
                     Weichengenerator.ConvertAndMove(launchpath, railtop_texture, texture_format, railtop_file, outputtype);
@@ -243,7 +175,7 @@ namespace Weiche
 
                     sw.WriteLine("GenerateNormals,");
 
-                    if (inputcheckboxes[4] == false)
+                    if (Weichengenerator.norailtexture == false)
                     {
 
                         sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
@@ -270,7 +202,7 @@ namespace Weiche
                     }
 
                     sw.WriteLine("GenerateNormals,");
-                    if (inputcheckboxes[4] == false)
+                    if (Weichengenerator.norailtexture == false)
                     {
                         sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
                         sw.WriteLine("SetTextureCoordinates,0,0.5,0,");
@@ -307,7 +239,7 @@ namespace Weiche
                     Constructors.AddFace(sw, a, LiRe_T);
 
                     sw.WriteLine("GenerateNormals,");
-                    if (inputcheckboxes[4] == false)
+                    if (Weichengenerator.norailtexture == false)
                     {
                         sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
                         Constructors.SetTexture(sw, a, 1, 1);
@@ -342,7 +274,7 @@ namespace Weiche
                     Constructors.AddFace(sw, a, -LiRe_T);
 
                     sw.WriteLine("GenerateNormals,");
-                    if (inputcheckboxes[4] == false)
+                    if (Weichengenerator.norailtexture == false)
                     {
                         sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
                         Constructors.SetTexture(sw, a, 1, 1);
@@ -376,7 +308,7 @@ namespace Weiche
                     Constructors.AddFace(sw, a, LiRe_T);
 
                     sw.WriteLine("GenerateNormals,");
-                    if (inputcheckboxes[4] == false)
+                    if (Weichengenerator.norailtexture == false)
                     {
                         sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
                         Constructors.SetTexture(sw, a, 1, 1);
@@ -434,7 +366,7 @@ namespace Weiche
                     Constructors.AddFace(sw, a, -LiRe_T);
 
                     sw.WriteLine("GenerateNormals,");
-                    if (inputcheckboxes[4] == false)
+                    if (Weichengenerator.norailtexture == false)
                     {
                         sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
                         Constructors.SetTexture(sw, a, 1, 1);
@@ -463,7 +395,7 @@ namespace Weiche
                         sw.WriteLine("AddFace,0,1,2,");
                     }
                     sw.WriteLine("GenerateNormals,");
-                    if (inputcheckboxes[4] == false)
+                    if (Weichengenerator.norailtexture == false)
                     {
                         sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
                         sw.WriteLine("SetTextureCoordinates,0,0,1,");
@@ -483,7 +415,7 @@ namespace Weiche
                     Constructors.AddFace(sw, a, LiRe_T);
 
                     sw.WriteLine("GenerateNormals,");
-                    if (inputcheckboxes[4] == false)
+                    if (Weichengenerator.norailtexture == false)
                     {
                         sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
                         Constructors.SetTexture(sw, a, 1, 1);
@@ -514,7 +446,7 @@ namespace Weiche
                         sw.WriteLine("AddFace,0,1,2,");
                     }
                     sw.WriteLine("GenerateNormals,");
-                    if (inputcheckboxes[4] == false)
+                    if (Weichengenerator.norailtexture == false)
                     {
 
                         sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
@@ -535,7 +467,7 @@ namespace Weiche
                     Constructors.AddFace(sw, a, LiRe_T);
 
                     sw.WriteLine("GenerateNormals,");
-                    if (inputcheckboxes[4] == false)
+                    if (Weichengenerator.norailtexture == false)
                     {
                         sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
                         Constructors.SetTexture(sw, a, 1, 1);
@@ -561,7 +493,7 @@ namespace Weiche
                     Constructors.AddFace(sw, a, -LiRe_T);
 
                     sw.WriteLine("GenerateNormals,");
-                    if (inputcheckboxes[4] == false)
+                    if (Weichengenerator.norailtexture == false)
                     {
                         sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
                         Constructors.SetTexture(sw, a, 1, 1);
@@ -592,7 +524,7 @@ namespace Weiche
                     Constructors.AddFace(sw, a, LiRe_T);
 
                     sw.WriteLine("GenerateNormals,");
-                    if (inputcheckboxes[4] == false)
+                    if (Weichengenerator.norailtexture == false)
                     {
                         sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
                         Constructors.SetTexture(sw, a, 1, 1);
@@ -633,7 +565,7 @@ namespace Weiche
                     Constructors.AddFace(sw, a, -LiRe_T);
 
                     sw.WriteLine("GenerateNormals,");
-                    if (inputcheckboxes[4] == false)
+                    if (Weichengenerator.norailtexture == false)
                     {
                         sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
                         Constructors.SetTexture(sw, a, 1, 1);
@@ -659,7 +591,7 @@ namespace Weiche
                     Constructors.AddFace(sw, a, LiRe_T);
 
                     sw.WriteLine("GenerateNormals,");
-                    if (inputcheckboxes[4] == false)
+                    if (Weichengenerator.norailtexture == false)
                     {
                         sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
                         Constructors.SetTexture(sw, a, 1, 1);
@@ -694,7 +626,7 @@ namespace Weiche
                     Constructors.AddFace2(sw, a);
 
                     sw.WriteLine("GenerateNormals,");
-                    if (inputcheckboxes[4] == false)
+                    if (Weichengenerator.norailtexture == false)
                     {
                         sw.WriteLine("LoadTexture,railSide.{0},", texture_format);
                         Constructors.SetTexture(sw, a, 1, 3);
@@ -717,7 +649,7 @@ namespace Weiche
                     Constructors.AddFace2(sw, a);
 
                     sw.WriteLine("GenerateNormals,");
-                    if (inputcheckboxes[4] == false)
+                    if (Weichengenerator.norailtexture == false)
                     {
                         sw.WriteLine("LoadTexture,railSide.{0},", texture_format);
                         Constructors.SetTexture(sw, a, 1, 3);
@@ -751,7 +683,7 @@ namespace Weiche
                     Constructors.AddFace2(sw, a);
 
                     sw.WriteLine("GenerateNormals,");
-                    if (inputcheckboxes[4] == false)
+                    if (Weichengenerator.norailtexture == false)
                     {
                         sw.WriteLine("LoadTexture,railSide.{0},", texture_format);
                         Constructors.SetTexture(sw, a, 1, 3);
@@ -781,7 +713,7 @@ namespace Weiche
                     Constructors.AddFace2(sw, a);
 
                     sw.WriteLine("GenerateNormals,");
-                    if (inputcheckboxes[4] == false)
+                    if (Weichengenerator.norailtexture == false)
                     {
                         sw.WriteLine("LoadTexture,railSide.{0},", texture_format);
                         Constructors.SetTexture(sw, a, 1, 3);
@@ -810,7 +742,7 @@ namespace Weiche
                     Constructors.AddFace2(sw, a);
 
                     sw.WriteLine("GenerateNormals,");
-                    if (inputcheckboxes[4] == false)
+                    if (Weichengenerator.norailtexture == false)
                     {
                         sw.WriteLine("LoadTexture,railSide.{0},", texture_format);
                         Constructors.SetTexture(sw, a, 1, 3);
@@ -831,7 +763,7 @@ namespace Weiche
                     Constructors.AddFace2(sw, a);
 
                     sw.WriteLine("GenerateNormals,");
-                    if (inputcheckboxes[4] == false)
+                    if (Weichengenerator.norailtexture == false)
                     {
                         sw.WriteLine("LoadTexture,railSide.{0},", texture_format);
                         Constructors.SetTexture(sw, a, 1, 3);
@@ -857,7 +789,7 @@ namespace Weiche
                     Constructors.AddFace2(sw, a);
 
                     sw.WriteLine("GenerateNormals,");
-                    if (inputcheckboxes[4] == false)
+                    if (Weichengenerator.norailtexture == false)
                     {
                         sw.WriteLine("LoadTexture,railSide.{0},", texture_format);
                         Constructors.SetTexture(sw, a, 1, 3);
@@ -902,7 +834,7 @@ namespace Weiche
                     Constructors.AddFace2(sw, a);
 
                     sw.WriteLine("GenerateNormals,");
-                    if (inputcheckboxes[4] == false)
+                    if (Weichengenerator.norailtexture == false)
                     {
                         sw.WriteLine("LoadTexture,railSide.{0},", texture_format);
                         Constructors.SetTexture(sw, a, 1, 3);
@@ -929,7 +861,7 @@ namespace Weiche
                     Constructors.AddFace2(sw, a);
 
                     sw.WriteLine("GenerateNormals,");
-                    if (inputcheckboxes[4] == false)
+                    if (Weichengenerator.norailtexture == false)
                     {
                         sw.WriteLine("LoadTexture,railSide.{0},", texture_format);
                         Constructors.SetTexture(sw, a, 1, 3);
@@ -956,7 +888,7 @@ namespace Weiche
                     Constructors.AddFace2(sw, a);
 
                     sw.WriteLine("GenerateNormals,");
-                    if (inputcheckboxes[4] == false)
+                    if (Weichengenerator.norailtexture == false)
                     {
                         sw.WriteLine("LoadTexture,railSide.{0},", texture_format);
                         Constructors.SetTexture(sw, a, 1, 3);
@@ -1007,7 +939,7 @@ namespace Weiche
                     sw.WriteLine("LoadTexture,ballast.{0},", texture_format);
                     Constructors.SetTexture(sw, a, 10 * laenge, 1);
 
-                    if (inputcheckboxes[1])
+                    if (Weichengenerator.noembankment == false)
                     {
 
                         // Embankment Right
@@ -1103,7 +1035,7 @@ namespace Weiche
 
                     //Do we want to invert the textures??
 
-                    if (inputcheckboxes[2] == true)
+                    if (Weichengenerator.inverttextures == true)
                     {
                         for (double i = a; i >= 0; i--)
                         {
@@ -1190,7 +1122,7 @@ namespace Weiche
                     b = 0;
 
                     //Do we want to invert the textures??
-                    if (inputcheckboxes[2] == true)
+                    if (Weichengenerator.inverttextures == true)
                     {
 
                         for (double i = a; i >= 0; i--)
@@ -1494,7 +1426,7 @@ namespace Weiche
                     sw.WriteLine("SetDecalTransparentColor,255,255,255,");
 
                     //Weichenantrieb
-                    if (inputcheckboxes[0] == true)
+                    if (Weichengenerator.pointmotor == true)
                     {
                         sw.WriteLine("CreateMeshBuilder\r\r\nAddVertex,-1.8,-0.05,0.3,\r\nAddVertex,-1.2,-0.05,0.3,\r\r\nAddVertex,-1.2,-0.25,0.3,\r\r\nAddVertex,-1.8,-0.25,0.3,\r\r\nAddVertex,-1.8,0,0.35,\r\r\nAddVertex,-1.2,0,0.35,\r\r\nAddVertex,-1.8,0,0.55,\r\r\nAddVertex,-1.2,0,0.55,\r\r\nAddVertex,-1.8,-0.05,0.6,\r\r\nAddVertex,-1.2,-0.05,0.6,\r\r\nAddVertex,-1.2,-0.25,0.6,\r\r\nAddVertex,-1.8,-0.25,0.6,\r\r\nAddFace,0,1,2,3,\r\r\nAddFace,4,5,1,0,\r\r\nAddFace,6,7,5,4,\r\r\nAddFace,8,9,7,6,\r\r\nAddFace,11,10,9,8,\r\r\nGenerateNormals,\r\nLoadTexture,WeichAntrieb.{0},\r\nSetTextureCoordinates,0,0,0.5,\r\nSetTextureCoordinates,1,1,0.5,\r\nSetTextureCoordinates,2,1,1,\r\nSetTextureCoordinates,3,0,1,\r\nSetTextureCoordinates,4,0,0.3,\r\nSetTextureCoordinates,5,1,0.3,\r\nSetTextureCoordinates,6,0,0,\r\nSetTextureCoordinates,7,1,0,\r\nSetTextureCoordinates,8,0,0.3,\r\nSetTextureCoordinates,9,1,0.3,\r\nSetTextureCoordinates,10,1,0.6,\r\nSetTextureCoordinates,11,0,0.6,", texture_format);
 

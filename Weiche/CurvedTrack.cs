@@ -3,87 +3,38 @@
  */
 
 using System.IO;
-using System.Windows.Forms;
 
 namespace Weiche
 {
     class CurvedTrack
     {
-        internal static void BuildCurve(string[] inputStrings, bool[] inputcheckboxes)
+        internal static void BuildCurve()
         {
             {
-                double radius;
-                double segmente;
-                double trackgauge;
-                double gaugeoffset;
                 var LiRe = 1;
                 var LiRe_T = 1;
                 string name;
-                string launchpath = inputStrings[4];
-                string ballast_texture = inputStrings[5];
-                string ballast_file = inputStrings[6];
-                string sleeper_texture = inputStrings[7];
-                string sleeper_file = inputStrings[8];
-                string railside_texture = inputStrings[9];
-                string railside_file = inputStrings[10];
-                string railtop_texture = inputStrings[11];
-                string railtop_file = inputStrings[12];
-                string embankment_texture = inputStrings[13];
-                string embankment_file = inputStrings[14];
-                string texture_format = inputStrings[15];
                 MathFunctions.Transform trans;
-                /*
+                double radius = Weichengenerator.radius;
+                int segmente = Weichengenerator.segmente;
+                double gaugeoffset = Weichengenerator.gaugeoffset;
+                string launchpath = Weichengenerator.launchpath;
+                string texture_format = Weichengenerator.texture_format;
+                string ballast_texture = Weichengenerator.ballast_texture;
+                string ballast_file = Weichengenerator.ballast_file;
+                string sleeper_texture = Weichengenerator.sleeper_texture;
+                string sleeper_file = Weichengenerator.sleeper_file;
+                string railtop_texture = Weichengenerator.railtop_texture;
+                string railtop_file = Weichengenerator.railtop_file;
+                string railside_texture = Weichengenerator.railside_texture;
+                string railside_file = Weichengenerator.railside_file;
+                string embankment_texture = Weichengenerator.embankment_texture;
+                string embankment_file = Weichengenerator.embankment_file;
+               /*
                  Curves
                  */
                 //Initialise
-                bool EingabeOK;
-                //Check that radius is a valid number
-                EingabeOK = double.TryParse(inputStrings[0], out radius);
-                if (EingabeOK == false)
-                {
-                    MessageBox.Show("Eingabefehler Radius!");
-                    return;
-                }
-
-
-                if ((radius <= 49) && (radius >= -49))
-                {
-                    MessageBox.Show("Radius is less than 50m");
-                    return;
-                }
-
-                EingabeOK = double.TryParse(inputStrings[1], out segmente);
-                if (EingabeOK == false)
-                {
-                    MessageBox.Show("Eingabefehler Segmente!");
-                    return;
-                }
-
-                //Check that track gauge is a valid number
-                EingabeOK = double.TryParse(inputStrings[2], out trackgauge);
-                if (EingabeOK == false)
-                {
-                    MessageBox.Show("Invalid Track Gauge!");
-                    return;
-                }
-                else
-                {
-                    //Is the track gauge standard?
-                    if (trackgauge != 1.44)
-                    {
-                        gaugeoffset = ((trackgauge - 1.44) / 2);
-                    }
-                    else
-                    {
-                        gaugeoffset = 0;
-                    }
-                }
-
-                if (inputStrings[3].Length == 0)
-                {
-                    MessageBox.Show("Please select a valid path!");
-                    return;
-                }
+                
 
                 //Left or right definition
                 if (radius < 0)
@@ -95,17 +46,17 @@ namespace Weiche
 
                 if (LiRe == -1)
                 {
-                    name = (inputStrings[3]) + "\\Output\\Tracks\\L" + radius + ".csv";
+                    name = launchpath + "\\Output\\Tracks\\L" + radius + ".csv";
                 }
                 else
                 {
-                    name = (inputStrings[3]) + "\\Output\\Tracks\\R" + radius + ".csv";
+                    name = launchpath + "\\Output\\Tracks\\R" + radius + ".csv";
                 }
 
                 //Create Output directory
-                if (!System.IO.Directory.Exists(inputStrings[3] + "\\Output\\Tracks"))
+                if (!System.IO.Directory.Exists(launchpath + "\\Output\\Tracks"))
                 {
-                    System.IO.Directory.CreateDirectory(inputStrings[3] + "\\Output\\Tracks");
+                    System.IO.Directory.CreateDirectory(launchpath + "\\Output\\Tracks");
                 }
 
 
@@ -115,13 +66,13 @@ namespace Weiche
                 Weichengenerator.ConvertAndMove(launchpath, sleeper_texture, texture_format, sleeper_file, outputtype);
 
                 //Embankment Texture
-                if (inputcheckboxes[1] == false)
+                if (Weichengenerator.noembankment == false)
                 {
                     Weichengenerator.ConvertAndMove(launchpath, embankment_texture, texture_format, embankment_file, outputtype);
                 }
 
                 //Rail Textures
-                if (inputcheckboxes[4] == false)
+                if (Weichengenerator.norailtexture == false)
                 {
                     Weichengenerator.ConvertAndMove(launchpath, railside_texture, texture_format, railside_file, outputtype);
                     Weichengenerator.ConvertAndMove(launchpath, railtop_texture, texture_format, railtop_file, outputtype);
@@ -139,14 +90,19 @@ namespace Weiche
 
                     var a = -1;
                     sw.WriteLine("\r\nCreateMeshBuilder ;Railtop Links");
+                    var height = 0.0;
                     for (var i = 0; i <= segmente; i++, a++)
                     {
-                        sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X((-0.72 - gaugeoffset), (25 / segmente) * i), trans.Z(-0.72, (25 / segmente) * i));
-                        sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X((-0.78 - gaugeoffset), (25 / segmente) * i), trans.Z(-0.78, (25 / segmente) * i));
+                        if (i == segmente)
+                        {
+                            height += 0.01;
+                        }
+                        sw.WriteLine("AddVertex,{0:f4},{1:f2},{2:f4},", trans.X((-0.72 - gaugeoffset), (25.3 / segmente) * i),height, trans.Z(-0.72, (25.3 / segmente) * i));
+                        sw.WriteLine("AddVertex,{0:f4},{1:f2},{2:f4},", trans.X((-0.78 - gaugeoffset), (25.3 / segmente) * i),height, trans.Z(-0.78, (25.3 / segmente) * i));
                     }
 
                     Constructors.AddFace(sw, a, -LiRe_T);
-                    if (inputcheckboxes[4] == false)
+                    if (Weichengenerator.norailtexture == false)
                     {
                         sw.WriteLine("GenerateNormals,");
                         sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
@@ -159,19 +115,23 @@ namespace Weiche
                     }
 
                     //Rail Top Right
-
+                    height = 0.0;
                     a = -1;
                     sw.WriteLine("\r\nCreateMeshBuilder ;Railtop Rechts");
                     for (var i = 0; i <= segmente; i++, a++)
                     {
-                        sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X((0.78 + gaugeoffset), (25 / segmente) * i), trans.Z(0.78, (25 / segmente) * i));
-                        sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X((0.72 + gaugeoffset), (25 / segmente) * i), trans.Z(0.72, (25 / segmente) * i));
+                        if (i == segmente)
+                        {
+                            height += 0.01;
+                        }
+                        sw.WriteLine("AddVertex,{0:f4},{1:f2},{2:f4},", trans.X((0.78 + gaugeoffset), (25.3 / segmente) * i),height, trans.Z(0.78, (25.3 / segmente) * i));
+                        sw.WriteLine("AddVertex,{0:f4},{1:f2},{2:f4},", trans.X((0.72 + gaugeoffset), (25.3 / segmente) * i),height, trans.Z(0.72, (25.3 / segmente) * i));
                     }
 
                     Constructors.AddFace(sw, a, -LiRe_T);
 
                     sw.WriteLine("GenerateNormals,");
-                    if (inputcheckboxes[4] == false)
+                    if (Weichengenerator.norailtexture == false)
                     {
                         sw.WriteLine("LoadTexture,railTop.{0},", texture_format);
                         Constructors.SetTexture(sw, a, 1, 1);
@@ -184,19 +144,23 @@ namespace Weiche
 
 
                     //Railside Left
-
+                    height = 0.0;
                     a = -1;
                     sw.WriteLine("\r\nCreateMeshBuilder ;Railside Links");
                     for (var i = 0; i <= segmente; i++, a++)
                     {
-                        sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X((-0.74 - gaugeoffset), (25 / segmente) * i), trans.Z(-0.74, (25 / segmente) * i));
-                        sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((-0.74 - gaugeoffset), (25 / segmente) * i), trans.Z(-0.74, (25 / segmente) * i));
+                        if (i == segmente)
+                        {
+                            height += 0.01;
+                        }
+                        sw.WriteLine("AddVertex,{0:f4},{1:f2},{2:f4},", trans.X((-0.74 - gaugeoffset), (25.3 / segmente) * i),height, trans.Z(-0.74, (25.3 / segmente) * i));
+                        sw.WriteLine("AddVertex,{0:f4},{1:f2},{2:f4},", trans.X((-0.74 - gaugeoffset), (25.3 / segmente) * i),height -0.15, trans.Z(-0.74, (25.3 / segmente) * i));
                     }
 
                     Constructors.AddFace2(sw, a);
 
                     sw.WriteLine("GenerateNormals,");
-                    if (inputcheckboxes[4] == false)
+                    if (Weichengenerator.norailtexture == false)
                     {
                         sw.WriteLine("LoadTexture,railside.{0},", texture_format);
                         Constructors.SetTexture(sw, a, 1, 3);
@@ -207,19 +171,23 @@ namespace Weiche
                     }
 
                     //Right Rail Side
-
+                    height = 0.0;
                     a = -1;
                     sw.WriteLine("\r\nCreateMeshBuilder ;Railside Rechts");
                     for (var i = 0; i <= segmente; i++, a++)
                     {
-                        sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X((0.74 + gaugeoffset), (25 / segmente) * i), trans.Z(0.74, (25 / segmente) * i));
-                        sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((0.74 + gaugeoffset), (25 / segmente) * i), trans.Z(0.74, (25 / segmente) * i));
+                        if (i == segmente)
+                        {
+                            height += 0.01;
+                        }
+                        sw.WriteLine("AddVertex,{0:f4},{1:f2},{2:f4},", trans.X((0.74 + gaugeoffset), (25.3 / segmente) * i),height, trans.Z(0.74, (25.3 / segmente) * i));
+                        sw.WriteLine("AddVertex,{0:f4},{1:f2},{2:f4},", trans.X((0.74 + gaugeoffset), (25.3 / segmente) * i),height - 0.15, trans.Z(0.74, (25.3 / segmente) * i));
                     }
 
                     Constructors.AddFace2(sw, a);
 
                     sw.WriteLine("GenerateNormals,");
-                    if (inputcheckboxes[4] == false)
+                    if (Weichengenerator.norailtexture == false)
                     {
                         sw.WriteLine("LoadTexture,railside.{0},", texture_format);
                         Constructors.SetTexture(sw, a, 1, 3);
@@ -230,13 +198,17 @@ namespace Weiche
                     }
 
                     //Sleepers
-
+                    height = 0.0;
                     a = -1;
                     sw.WriteLine("\r\nCreateMeshBuilder ;Schwellen");
                     for (var i = 0; i <= segmente; i++, a++)
                     {
-                        sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((-1.3 - gaugeoffset), (25 / segmente) * i), trans.Z(-1.3, (25 / segmente) * i));
-                        sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((1.3 + gaugeoffset), (25 / segmente) * i), trans.Z(1.3, (25 / segmente) * i));
+                        if (i == segmente)
+                        {
+                            height += 0.01;
+                        }
+                        sw.WriteLine("AddVertex,{0:f4},{1:f2},{2:f4},", trans.X((-1.3 - gaugeoffset), (25.3 / segmente) * i), height -0.15, trans.Z(-1.3, (25.3 / segmente) * i));
+                        sw.WriteLine("AddVertex,{0:f4},{1:f2},{2:f4},", trans.X((1.3 + gaugeoffset), (25.3 / segmente) * i), height -0.15, trans.Z(1.3, (25.3 / segmente) * i));
                     }
 
                     Constructors.AddFace(sw, a, LiRe_T);
@@ -246,13 +218,17 @@ namespace Weiche
                     Constructors.SetTexture(sw, a, 15, 2);
 
                     //Ballast Left
-
+                    height = 0.0;
                     a = -1;
                     sw.WriteLine("\r\nCreateMeshBuilder ;Boeschung Links");
                     for (var i = 0; i <= segmente; i++, a++)
                     {
-                        sw.WriteLine("AddVertex,{0:f4},-0.4,{1:f4},", trans.X((-2.8 - gaugeoffset), (25 / segmente) * i), trans.Z(-2.8, (25 / segmente) * i));
-                        sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((-1.3 - gaugeoffset), (25 / segmente) * i), trans.Z(-1.3, (25 / segmente) * i));
+                        if (i == segmente)
+                        {
+                            height += 0.01;
+                        }
+                        sw.WriteLine("AddVertex,{0:f4},{1:f2},{2:f4},", trans.X((-2.8 - gaugeoffset), (25.3 / segmente) * i), height -0.4, trans.Z(-2.8, (25.3 / segmente) * i));
+                        sw.WriteLine("AddVertex,{0:f4},{1:f2},{2:f4},", trans.X((-1.3 - gaugeoffset), (25.3 / segmente) * i), height -0.15, trans.Z(-1.3, (25.3 / segmente) * i));
                     }
 
                     Constructors.AddFace(sw, a, LiRe_T);
@@ -262,13 +238,17 @@ namespace Weiche
                     Constructors.SetTexture(sw, a, 10, 2);
 
                     //Ballast Right
-
+                    height = 0.0;
                     a = -1;
                     sw.WriteLine("\r\nCreateMeshBuilder ;Boeschung Rechts");
                     for (var i = 0; i <= segmente; i++, a++)
                     {
-                        sw.WriteLine("AddVertex,{0:f4},-0.15,{1:f4},", trans.X((1.3 + gaugeoffset), (25 / segmente) * i), trans.Z(1.3, (25 / segmente) * i));
-                        sw.WriteLine("AddVertex,{0:f4},-0.4,{1:f4},", trans.X((2.8 + gaugeoffset), (25 / segmente) * i), trans.Z(2.8, (25 / segmente) * i));
+                        if (i == segmente)
+                        {
+                            height += 0.01;
+                        }
+                        sw.WriteLine("AddVertex,{0:f4},{1:f2},{2:f4},", trans.X((1.3 + gaugeoffset), (25.3 / segmente) * i), height -0.15, trans.Z(1.3, (25.3 / segmente) * i));
+                        sw.WriteLine("AddVertex,{0:f4},{1:f2},{2:f4},", trans.X((2.8 + gaugeoffset), (25.3 / segmente) * i), height -0.4, trans.Z(2.8, (25.3 / segmente) * i));
                     }
 
                     Constructors.AddFace(sw, a, LiRe_T);
@@ -277,17 +257,21 @@ namespace Weiche
                     sw.WriteLine("LoadTexture,{0}.{1},", ballast_file, texture_format);
                     Constructors.SetTexture(sw, a, 10, 1);
 
-                    if (inputcheckboxes[1] == false)
+                    if (Weichengenerator.noembankment == false)
                     {
 
                         //Grass Left
-
+                        height = 0.0;
                         a = -1;
                         sw.WriteLine("\r\nCreateMeshBuilder ;Grass Links");
                         for (var i = 0; i <= segmente; i++, a++)
                         {
-                            sw.WriteLine("AddVertex,{0:f4},-0.3,{1:f4},", trans.X((-3.6 - gaugeoffset), (25 / segmente) * i), trans.Z(-3.6, (25 / segmente) * i));
-                            sw.WriteLine("AddVertex,{0:f4},-0.35,{1:f4},", trans.X((-2.5 - gaugeoffset), (25 / segmente) * i), trans.Z(-2.5, (25 / segmente) * i));
+                            if (i == segmente)
+                            {
+                                height += 0.01;
+                            }
+                            sw.WriteLine("AddVertex,{0:f4},{1:f2},{2:f4},", trans.X((-3.6 - gaugeoffset), (25.3 / segmente) * i), height -0.3,  trans.Z(-3.6, (25.3 / segmente) * i));
+                            sw.WriteLine("AddVertex,{0:f4},{1:f2},{2:f4},", trans.X((-2.5 - gaugeoffset), (25.3 / segmente) * i), height -0.35, trans.Z(-2.5, (25.3 / segmente) * i));
                         }
 
                         Constructors.AddFace(sw, a, LiRe_T);
@@ -297,13 +281,17 @@ namespace Weiche
                         Constructors.SetTexture(sw, a, 3, 1);
 
                         //Grass Right
-
+                        height = 0.0;
                         a = -1;
                         sw.WriteLine("\r\nCreateMeshBuilder ;Grass Rechts");
                         for (var i = 0; i <= segmente; i++, a++)
                         {
-                            sw.WriteLine("AddVertex,{0:f4},-0.35,{1:f4},", trans.X((2.5 + gaugeoffset), (25 / segmente) * i), trans.Z(2.5, (25 / segmente) * i));
-                            sw.WriteLine("AddVertex,{0:f4},-0.3,{1:f4},", trans.X((3.6 + gaugeoffset), (25 / segmente) * i), trans.Z(3.6, (25 / segmente) * i));
+                            if (i == segmente)
+                            {
+                                height += 0.01;
+                            }
+                            sw.WriteLine("AddVertex,{0:f4},{1:f2},{2:f4},", trans.X((2.5 + gaugeoffset), (25.3 / segmente) * i), height -0.35, trans.Z(2.5, (25.3 / segmente) * i));
+                            sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X((3.6 + gaugeoffset), (25.3 / segmente) * i), height -0.3, trans.Z(3.6, (25.3 / segmente) * i));
                         }
 
                         Constructors.AddFace(sw, a, LiRe_T);

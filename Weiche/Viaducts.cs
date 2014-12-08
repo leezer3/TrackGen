@@ -2,99 +2,65 @@
  * Viaduct Generation
  */
 
-using System.Windows.Forms;
 using System.IO;
+
 namespace Weiche
 {
     class Viaducts
     {
-        internal static void BuildViaduct(string[] inputStrings, bool[] inputcheckboxes)
+        internal static void BuildViaduct()
         {
             {
-                double radius;
-                //Fixed 25 segments for viaducts, required to have consistant mesh
-                double segmente = 25;
-                double trackgauge;
-                double gaugeoffset;
                 var LiRe = 1;
                 var LiRe_T = 1;
+                double segmente = 25;
+                double gaugeoffset = Weichengenerator.gaugeoffset;
+                string texture_format = Weichengenerator.texture_format;
+                double radius = Weichengenerator.radius;
+                string launchpath = Weichengenerator.launchpath;
+                string arch_texture = Weichengenerator.arch_texture;
+                string arch_file = Weichengenerator.arch_file;
+                string topwall_texture = Weichengenerator.topwall_texture;
+                string topwall_file = Weichengenerator.topwall_file;
+                string footwalk_texture = Weichengenerator.footwalk_texture;
+                string footwalk_file = Weichengenerator.footwalk_file;
+                string archis_texture = Weichengenerator.archis_texture;
+                string archis_file = Weichengenerator.archis_file;
                 string name;
-                string launchpath = inputStrings[4];
-                string texture_format = inputStrings[15];
-                bool EingabeOK;
                 MathFunctions.Transform trans;
-                //Initialise
-
-                //Check that radius is a valid number
-                EingabeOK = double.TryParse(inputStrings[0], out radius);
-                if (EingabeOK == false)
+                
+                //Create Output directory
+                if (!System.IO.Directory.Exists(launchpath + "\\Output\\Viaducts"))
                 {
-                    MessageBox.Show("Eingabefehler Radius!");
-                    return;
+                    System.IO.Directory.CreateDirectory(launchpath + "\\Output\\Viaducts");
                 }
 
-                if ((radius != 0) && (radius <= 49) && (radius >= -49))
-                {
-                    MessageBox.Show("Radius for viaducts should either be 0 for Straight or greater than 50m!");
-                    return;
-                }
+                //Main Textures
+                const string outputtype = "Viaducts";
 
-
-                //Check that track gauge is a valid number
-                EingabeOK = double.TryParse(inputStrings[2], out trackgauge);
-                if (EingabeOK == false)
-                {
-                    MessageBox.Show("Invalid Track Gauge!");
-                    return;
-                }
-                else
-                {
-                    //Is the track gauge standard?
-                    if (trackgauge != 1.44)
-                    {
-                        gaugeoffset = ((trackgauge - 1.44)/2);
-                    }
-                    else
-                    {
-                        gaugeoffset = 0;
-                    }
-                }
+                Weichengenerator.ConvertAndMove(launchpath, arch_texture, texture_format, arch_file, outputtype);
+                Weichengenerator.ConvertAndMove(launchpath, topwall_texture, texture_format, topwall_file, outputtype);
+                Weichengenerator.ConvertAndMove(launchpath, footwalk_texture, texture_format, footwalk_file, outputtype);
+                Weichengenerator.ConvertAndMove(launchpath, archis_texture, texture_format, archis_file, outputtype);
 
                 //Left or right definition
                 if (radius < 0)
                 {
                     LiRe = -1;
-                    radius = radius*-1;
+                    radius = radius * -1;
                 }
 
-                //Create Output directory
-                if (!System.IO.Directory.Exists(inputStrings[3] + "\\Output\\Viaducts"))
-                {
-                    System.IO.Directory.CreateDirectory(inputStrings[3] + "\\Output\\Viaducts");
-                }
-
-                //Main Textures
-                const string outputtype = "Viaducts";
-                /*
-                 * Sort out later when textures are required
-                 * 
-                Weichengenerator.ConvertAndMove(launchpath, platform_texture, texture_format, platform_file, outputtype);
-                if (inputcheckboxes[9] == true)
-                {
-                    Weichengenerator.ConvertAndMove(launchpath, fence_texture, texture_format, fence_file, outputtype);
-                }
-                 */
                 if (radius == 0)
                 {
-                    name = inputStrings[3] + "\\Output\\Viaducts\\Viaduct_Straight.csv";
+                    name = launchpath + "\\Output\\Viaducts\\Viaduct_Straight.csv";
                 }
                 else if (LiRe == -1)
                 {
-                    name = inputStrings[3] + "\\Output\\Viaducts\\Viaduct_L" + radius + ".csv";
+                    name = launchpath + "\\Output\\Viaducts\\Viaduct_L" + radius + ".csv";
                 }
                 else
                 {
-                    name = inputStrings[3] + "\\Output\\Viaducts\\Viaduct_R" + radius + ".csv";
+                    name = launchpath + "\\Output\\Viaducts\\Viaduct_R" + radius + ".csv";
                 }
 
                 //Calculate the track width to move the viaduct sides as appropriate
