@@ -106,11 +106,119 @@ namespace Weiche.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Without embankment.
+        ///   Looks up a localized string similar to Down.
+        /// </summary>
+        internal static string down {
+            get {
+                return ResourceManager.GetString("down", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add embankment.
         /// </summary>
         internal static string embankment {
             get {
                 return ResourceManager.GetString("embankment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid Secondary Deviation!.
+        /// </summary>
+        internal static string invaliddeviation {
+            get {
+                return ResourceManager.GetString("invaliddeviation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid Platform Fence Height!.
+        /// </summary>
+        internal static string invalidfenceheight {
+            get {
+                return ResourceManager.GetString("invalidfenceheight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid Length Multiplier!.
+        /// </summary>
+        internal static string invalidlength {
+            get {
+                return ResourceManager.GetString("invalidlength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid Additional Pier Height!.
+        /// </summary>
+        internal static string invalidpierheight {
+            get {
+                return ResourceManager.GetString("invalidpierheight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid Platform Height!.
+        /// </summary>
+        internal static string invalidplatformheight {
+            get {
+                return ResourceManager.GetString("invalidplatformheight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid Radius!.
+        /// </summary>
+        internal static string invalidradius {
+            get {
+                return ResourceManager.GetString("invalidradius", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid Number of Segments!.
+        /// </summary>
+        internal static string invalidsegements {
+            get {
+                return ResourceManager.GetString("invalidsegements", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid Number of Tracks!.
+        /// </summary>
+        internal static string invalidtracks {
+            get {
+                return ResourceManager.GetString("invalidtracks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid Platform Width (Far)!.
+        /// </summary>
+        internal static string invalidwidth_f {
+            get {
+                return ResourceManager.GetString("invalidwidth_f", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid Platform Width (Near)!.
+        /// </summary>
+        internal static string invalidwidth_n {
+            get {
+                return ResourceManager.GetString("invalidwidth_n", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid Z-Movement!.
+        /// </summary>
+        internal static string invalidzmovement {
+            get {
+                return ResourceManager.GetString("invalidzmovement", resourceCulture);
             }
         }
         
@@ -142,11 +250,47 @@ namespace Weiche.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        internal static string no {
+            get {
+                return ResourceManager.GetString("no", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to None.
+        /// </summary>
+        internal static string none {
+            get {
+                return ResourceManager.GetString("none", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of tracks.
+        /// </summary>
+        internal static string numberoftracks {
+            get {
+                return ResourceManager.GetString("numberoftracks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Path.
         /// </summary>
         internal static string path {
             get {
                 return ResourceManager.GetString("path", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Additional Pier height (in m).
+        /// </summary>
+        internal static string pierheight {
+            get {
+                return ResourceManager.GetString("pierheight", resourceCulture);
             }
         }
         
@@ -250,7 +394,16 @@ namespace Weiche.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Do not texture rails.
+        ///   Looks up a localized string similar to Track.
+        /// </summary>
+        internal static string rail {
+            get {
+                return ResourceManager.GetString("rail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Texture rails.
         /// </summary>
         internal static string railtexture {
             get {
@@ -282,6 +435,82 @@ namespace Weiche.Properties {
         internal static string straight {
             get {
                 return ResourceManager.GetString("straight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tgplatform {
+            get {
+                object obj = ResourceManager.GetObject("tgplatform", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tgswitch {
+            get {
+                object obj = ResourceManager.GetObject("tgswitch", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tgtrack {
+            get {
+                object obj = ResourceManager.GetObject("tgtrack", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tgviaduct {
+            get {
+                object obj = ResourceManager.GetObject("tgviaduct", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Track Gauge (in m).
+        /// </summary>
+        internal static string trackgauge {
+            get {
+                return ResourceManager.GetString("trackgauge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Up.
+        /// </summary>
+        internal static string up {
+            get {
+                return ResourceManager.GetString("up", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Viaduct.
+        /// </summary>
+        internal static string viaduct {
+            get {
+                return ResourceManager.GetString("viaduct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        internal static string yes {
+            get {
+                return ResourceManager.GetString("yes", resourceCulture);
             }
         }
         

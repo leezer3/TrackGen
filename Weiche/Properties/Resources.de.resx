@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="advanced" xml:space="preserve">
     <value>Erweiterte Optionen</value>
@@ -181,7 +181,7 @@
     <value>Radius/Abweichung der eigenen Spur (in m)</value>
   </data>
   <data name="railtexture" xml:space="preserve">
-    <value>Nicht Textur Schiene</value>
+    <value>Textur Schiene</value>
   </data>
   <data name="right" xml:space="preserve">
     <value>Recht</value>
@@ -194,5 +194,68 @@
   </data>
   <data name="zadjust" xml:space="preserve">
     <value>z - Verschiebung</value>
+  </data>
+  <data name="no" xml:space="preserve">
+    <value>Nein</value>
+  </data>
+  <data name="yes" xml:space="preserve">
+    <value>Ja</value>
+  </data>
+  <data name="down" xml:space="preserve">
+    <value>Hinunter</value>
+  </data>
+  <data name="invaliddeviation" xml:space="preserve">
+    <value>Eingabefehler Abweichung!</value>
+  </data>
+  <data name="invalidfenceheight" xml:space="preserve">
+    <value>Eingabefehler Plattform Zaun Höhe!</value>
+  </data>
+  <data name="invalidlength" xml:space="preserve">
+    <value>Eingabefehler Weichenlänge!</value>
+  </data>
+  <data name="invalidpierheight" xml:space="preserve">
+    <value>Eingabefehler Zusätzliche Pfeilerhöhe!</value>
+  </data>
+  <data name="invalidplatformheight" xml:space="preserve">
+    <value>Eingabefehler Plattformhöhe!</value>
+  </data>
+  <data name="invalidradius" xml:space="preserve">
+    <value>Eingabefehler Radius!</value>
+  </data>
+  <data name="invalidsegments" xml:space="preserve">
+    <value>Eingabefehler Segmente!</value>
+  </data>
+  <data name="invalidtracks" xml:space="preserve">
+    <value>Eingabefehler Anzahl der Spuren!</value>
+  </data>
+  <data name="invalidwidth_f" xml:space="preserve">
+    <value>Eingabefehler Plattformbreite (Nahe)!</value>
+  </data>
+  <data name="invalidwidth_n" xml:space="preserve">
+    <value>Eingabefehler Plattformbreite (Weit)!</value>
+  </data>
+  <data name="invalidzmovement" xml:space="preserve">
+    <value>Eingabefehler z - Verschiebung!</value>
+  </data>
+  <data name="none" xml:space="preserve">
+    <value>Keiner</value>
+  </data>
+  <data name="numberoftracks" xml:space="preserve">
+    <value>Anzahl der spuren</value>
+  </data>
+  <data name="pierheight" xml:space="preserve">
+    <value>Zusätzliche Pfeilerhöhe (in m)</value>
+  </data>
+  <data name="up" xml:space="preserve">
+    <value>Hinauf</value>
+  </data>
+  <data name="rail" xml:space="preserve">
+    <value>Spur</value>
+  </data>
+  <data name="trackgauge" xml:space="preserve">
+    <value>Spurweite (in m)</value>
+  </data>
+  <data name="viaduct" xml:space="preserve">
+    <value>Viadukt</value>
   </data>
 </root>

@@ -16,7 +16,7 @@ namespace Weiche
                 double radius = Weichengenerator.radius;
                 int segmente = Weichengenerator.segmente;
                 double gaugeoffset = Weichengenerator.gaugeoffset;
-                string launchpath = Weichengenerator.launchpath;
+                string launchpath = Weichengenerator.path;
                 string texture_format = Weichengenerator.texture_format;
                 double fenceheight = Weichengenerator.fenceheight;
                 double platwidth_near = Weichengenerator.platwidth_near;

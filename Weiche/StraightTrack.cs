@@ -14,7 +14,7 @@ namespace Weiche
             {
                 string name;
                 double gaugeoffset = Weichengenerator.gaugeoffset;
-                string launchpath = Weichengenerator.launchpath;
+                string launchpath = Weichengenerator.path;
                 string texture_format = Weichengenerator.texture_format;
                 string ballast_texture = Weichengenerator.ballast_texture;
                 string ballast_file = Weichengenerator.ballast_file;

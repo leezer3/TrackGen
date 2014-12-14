@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="advanced" xml:space="preserve">
     <value>Options avancées</value>
@@ -132,8 +132,44 @@
   <data name="deviation" xml:space="preserve">
     <value>Déviation de voie déviée (En m)</value>
   </data>
+  <data name="down" xml:space="preserve">
+    <value>En bas</value>
+  </data>
   <data name="embankment" xml:space="preserve">
-    <value>Sans rembli</value>
+    <value>Ajouter un rembli</value>
+  </data>
+  <data name="invaliddeviation" xml:space="preserve">
+    <value>Déviation de voie déviée invalide!</value>
+  </data>
+  <data name="invalidfenceheight" xml:space="preserve">
+    <value>Hauter de plate-forme clôture invalide!</value>
+  </data>
+  <data name="invalidlength" xml:space="preserve">
+    <value>Longueur multiplication invalide!</value>
+  </data>
+  <data name="invalidpierheight" xml:space="preserve">
+    <value>Supplémentaires hauteur de pilier invalide!</value>
+  </data>
+  <data name="invalidplatformheight" xml:space="preserve">
+    <value>Hauteur de plate-forme invalide!</value>
+  </data>
+  <data name="invalidradius" xml:space="preserve">
+    <value>Rayon invalide!</value>
+  </data>
+  <data name="invalidsegments" xml:space="preserve">
+    <value>Nombre de segments invalide!</value>
+  </data>
+  <data name="invalidtracks" xml:space="preserve">
+    <value>Nombre de pistes invalide!</value>
+  </data>
+  <data name="invalidwidth_f" xml:space="preserve">
+    <value>Largeur de la plate-forme (Avoir) invalide!</value>
+  </data>
+  <data name="invalidwidth_n" xml:space="preserve">
+    <value>Largeur de la plate-forme (Pres) invalide!</value>
+  </data>
+  <data name="invalidzmovement" xml:space="preserve">
+    <value>Z - ajustement invalide!</value>
   </data>
   <data name="invertexture" xml:space="preserve">
     <value>Inverti des textures</value>
@@ -144,8 +180,20 @@
   <data name="lengthmultiplier" xml:space="preserve">
     <value>Longueur multiplication (25,50,75,..) </value>
   </data>
+  <data name="no" xml:space="preserve">
+    <value>Non</value>
+  </data>
+  <data name="none" xml:space="preserve">
+    <value>Aucun</value>
+  </data>
+  <data name="numberoftracks" xml:space="preserve">
+    <value>Nombre de pistes</value>
+  </data>
   <data name="path" xml:space="preserve">
     <value>Path</value>
+  </data>
+  <data name="pierheight" xml:space="preserve">
+    <value>Supplémentaires hauteur de pilier (En m)</value>
   </data>
   <data name="platform" xml:space="preserve">
     <value>Plate-forme</value>
@@ -180,8 +228,11 @@
   <data name="radius" xml:space="preserve">
     <value>Rayon piste incurvée pour le joueur OU déviation (En m)</value>
   </data>
+  <data name="rail" xml:space="preserve">
+    <value>Piste</value>
+  </data>
   <data name="railtexture" xml:space="preserve">
-    <value>Ne pas texturer rails</value>
+    <value>Texturer rails</value>
   </data>
   <data name="right" xml:space="preserve">
     <value>Droit</value>
@@ -191,6 +242,18 @@
   </data>
   <data name="straight" xml:space="preserve">
     <value>Rectiligne</value>
+  </data>
+  <data name="trackgauge" xml:space="preserve">
+    <value>Ecartement des rails (En m)</value>
+  </data>
+  <data name="up" xml:space="preserve">
+    <value>En haut</value>
+  </data>
+  <data name="viaduct" xml:space="preserve">
+    <value>Viaduc</value>
+  </data>
+  <data name="yes" xml:space="preserve">
+    <value>Oui</value>
   </data>
   <data name="zadjust" xml:space="preserve">
     <value>Z - ajustement</value>

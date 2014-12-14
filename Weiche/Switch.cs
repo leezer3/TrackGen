@@ -29,7 +29,7 @@ namespace Weiche
                 int segmente = Weichengenerator.segmente;
                 double trackgauge = Weichengenerator.trackgauge;
                 double gaugeoffset = Weichengenerator.gaugeoffset;
-                string launchpath = Weichengenerator.launchpath;
+                string launchpath = Weichengenerator.path;
                 string texture_format = Weichengenerator.texture_format;
                 string spez_texture = Weichengenerator.spez_texture;
                 string spez_file = Weichengenerator.spez_file;

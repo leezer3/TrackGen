@@ -1,6 +1,5 @@
 using System;
 using System.Globalization;
-using System.Runtime.Remoting.Messaging;
 using System.Threading;
 using System.Windows.Forms;
 using System.IO;
@@ -63,13 +62,11 @@ namespace Weiche
         public static string footwalk_file;
         public static string archis_texture;
         public static string archis_file;
+        public static double additionalpierheight;
         //Common Values
         public static double radius;
         public static double trackgauge;
         public static double gaugeoffset;
-        public static int LiRe;
-        public static int LiRe_T;
-        public static string name;
         public static string texture_format;
         public static bool EingabeOK;
         public static MathFunctions.Transform trans;
@@ -77,6 +74,7 @@ namespace Weiche
         public static double Abw_tot;
         public static int laenge;
         public static int zmovement;
+        public static int numberoftracks;
         
         public static string launchpath = AppDomain.CurrentDomain.BaseDirectory;
         public static string path;
@@ -115,19 +113,28 @@ namespace Weiche
                         key.SetValue("Language", "en");
 
                     }
+                    tabPage1.Text = Resources.pointswitch;
+                    tabPage2.Text = Resources.rail;
+                    tabPage3.Text = Resources.platform;
+                    tabPage4.Text = Resources.viaduct;
+                    label9.Text = Resources.trackgauge;
                     label_radius.Text = Resources.radius;
+                    label11.Text = Resources.radius;
+                    label15.Text = Resources.radius;
+                    label16.Text = Resources.radius;
+                    label20.Text = Resources.pointmotor;
+                    label21.Text = Resources.embankment;
+                    label12.Text = Resources.embankment;
+                    label13.Text = Resources.railtexture;
+                    label22.Text = Resources.railtexture;
+                    label24.Text = Resources.invertexture;
                     label_tot.Text = Resources.deviation;
-                    radioButton1.Text = Resources.pointswitch;
-                    radioButton2.Text = Resources.curve;
-                    radioButton3.Text = Resources.straight;
                     label_laenge.Text = Resources.lengthmultiplier;
                     label_segmente.Text = Resources.segments;
+                    label14.Text = Resources.segments;
+                    label10.Text = Resources.segments;
                     groupBox1.Text = Resources.advanced;
-                    checkBox5.Text = Resources.railtexture;
-                    checkBox4.Text = Resources.pngtexture;
-                    checkBox3.Text = Resources.invertexture;
-                    checkBox2.Text = Resources.embankment;
-                    checkBox1.Text = Resources.pointmotor;
+                    pngtextures1.Text = Resources.pngtexture;
                     label_z.Text = Resources.zadjust;
                     folderPath.Text = Resources.path;
                     button.Text = Resources.createbutton;
@@ -137,22 +144,39 @@ namespace Weiche
                     label7.Text = Resources.platformwidth_f;
                     label6.Text = Resources.platformramp;
                     label8.Text = Resources.platformfence;
-                    radioButton4.Text = Resources.platform;
+                    label17.Text = Resources.pierheight;
+                    label18.Text = Resources.numberoftracks;
+                    
                     radioButton5.Text = Resources.left;
                     radioButton6.Text = Resources.right;
                     texturebutton.Text = Resources.choosetexture;
-                    
+                    addpointmotor.Text = Resources.yes;
+                    nopointmotor.Text = Resources.no;
+                    addembankment.Text = Resources.yes;
+                    noembankment1.Text = Resources.no;
+                    addembankment1.Text = Resources.yes;
+                    noembankment2.Text = Resources.no;
+                    texturerails.Text = Resources.yes;
+                    notexturerails.Text = Resources.no;
+                    texturerails1.Text = Resources.yes;
+                    notexturerails1.Text = Resources.no;
+                    invertexture.Text = Resources.yes;
+                    noinvertextures.Text = Resources.no;
+                    invertextures1.Text = Resources.yes;
+                    noinvertextures1.Text = Resources.no;
+                    fence_yes.Text = Resources.yes;
+                    fence_no.Text = Resources.no;
 
                     if (key.GetValue("TextureFormat") != null)
                     {
                         //Set texture Format
                         if (Convert.ToString(textureformat) == "bmp")
                         {
-                            checkBox4.Checked = false;
+                            pngtextures1.Checked = false;
                         }
                         else
                         {
-                            checkBox4.Checked = true;
+                            pngtextures1.Checked = true;
                         }
                     }
                     else
@@ -231,85 +255,74 @@ namespace Weiche
             if (string.IsNullOrEmpty(ballast_file))
             {
                 ballast_file = ("Ballast");
-                ballast_texture = (richTextBox1.Text + "\\Textures\\ballast.png");
+                ballast_texture = (launchpath + "\\Textures\\ballast.png");
             }
 
             if (string.IsNullOrEmpty(sleeper_file))
             {
                 sleeper_file = ("Sleeper");
-                sleeper_texture = (richTextBox1.Text + "\\Textures\\sleeper.png");
+                sleeper_texture = (launchpath + "\\Textures\\sleeper.png");
             }
 
             if (string.IsNullOrEmpty(embankment_file))
             {
                 embankment_file = ("GrassSeit");
-                embankment_texture = (richTextBox1.Text + "\\Textures\\GrassSeit.png");
+                embankment_texture = (launchpath + "\\Textures\\GrassSeit.png");
             }
 
             if (string.IsNullOrEmpty(railside_file))
             {
                 railside_file = ("railSide");
-                railside_texture = (richTextBox1.Text + "\\Textures\\railSide.png");
+                railside_texture = (launchpath + "\\Textures\\railSide.png");
             }
 
             if (string.IsNullOrEmpty(railtop_file))
             {
                 railtop_file = ("railTop");
-                railtop_texture = (richTextBox1.Text + "\\Textures\\railTop.png");
+                railtop_texture = (launchpath + "\\Textures\\railTop.png");
             }
 
             if (string.IsNullOrEmpty(platform_file))
             {
                 platform_file = ("platformsurface");
-                platform_texture = (richTextBox1.Text + "\\Textures\\platformsurface.png");
+                platform_texture = (launchpath + "\\Textures\\platformsurface.png");
             }
             if (string.IsNullOrEmpty(fence_file))
             {
                 fence_file = ("fence_18");
-                fence_texture = (richTextBox1.Text + "\\Textures\\fence_18.png");
+                fence_texture = (launchpath + "\\Textures\\fence_18.png");
             }
             if (string.IsNullOrEmpty(arch_file))
             {
                 arch_file = ("viaduct1");
-                arch_texture = (richTextBox1.Text + "\\Textures\\viaduct1.png");
+                arch_texture = (launchpath + "\\Textures\\viaduct1.png");
             }
             if (string.IsNullOrEmpty(topwall_file))
             {
                 topwall_file = ("viaduct2");
-                topwall_texture = (richTextBox1.Text + "\\Textures\\viaduct2.png");
+                topwall_texture = (launchpath + "\\Textures\\viaduct2.png");
             }
             if (string.IsNullOrEmpty(footwalk_file))
             {
                 footwalk_file = ("viaduct3");
-                footwalk_texture = (richTextBox1.Text + "\\Textures\\viaduct3.png");
+                footwalk_texture = (launchpath + "\\Textures\\viaduct3.png");
             }
             if (string.IsNullOrEmpty(archis_file))
             {
                 archis_file = ("viaduct4");
-                archis_texture = (richTextBox1.Text + "\\Textures\\viaduct4.png");
+                archis_texture = (launchpath + "\\Textures\\viaduct4.png");
             }
 
             spez_file = "SchieneSpez";
-            spez_texture = (richTextBox1.Text + "\\Textures\\SchieneSpez.png");
+            spez_texture = (launchpath + "\\Textures\\SchieneSpez.png");
             spezanf_file = "SchieneSpezAnf";
-            spezanf_texture = (richTextBox1.Text + "\\Textures\\SchieneSpezAnf.png");
+            spezanf_texture = (launchpath + "\\Textures\\SchieneSpezAnf.png");
 
             motor_file = "WeichAntrieb";
-            motor_texture = (richTextBox1.Text + "\\Textures\\WeichAntrieb.png");
+            motor_texture = (launchpath + "\\Textures\\WeichAntrieb.png");
 
 
-            EingabeOK = double.TryParse(textBox_radius.Text, out radius);
-            if (EingabeOK == false)
-            {
-                MessageBox.Show("Eingabefehler Radius!");
-                return;
-            }
-            EingabeOK = Int32.TryParse(textBox_segmente.Text, out segmente);
-            if (EingabeOK == false)
-            {
-                MessageBox.Show("Eingabefehler Segmente!");
-                return;
-            }
+            
             EingabeOK = double.TryParse(trackgauge_inp.Text, out trackgauge);
             if (EingabeOK == false)
             {
@@ -345,7 +358,7 @@ namespace Weiche
 
 
             //Set texture format
-            if (!checkBox4.Checked)
+            if (!pngtextures1.Checked)
             {
                 texture_format = ("bmp");
             }
@@ -360,23 +373,8 @@ namespace Weiche
                 MessageBox.Show("Path does not exist.");
                 return;
             }
-
-            Weichengenerator.EingabeOK = int.TryParse(textBox_z.Text, out zmovement);
-            if (Weichengenerator.EingabeOK == false)
-            {
-                MessageBox.Show("Eingabefehler z - Verschiebung!");
-                return;
-            }
-
-            if (checkBox1.Checked)
-            {
-                pointmotor = true;
-            }
-            else
-            {
-                pointmotor = false;
-            }
-            if (checkBox2.Checked)
+            
+            if ((MainTabs.SelectedTab.TabIndex == 0 && addembankment.Checked) || (MainTabs.SelectedTab.TabIndex == 1 && addembankment1.Checked))
             {
                 noembankment = true;
             }
@@ -384,7 +382,7 @@ namespace Weiche
             {
                 noembankment = false;
             }
-            if (checkBox3.Checked)
+            if ((MainTabs.SelectedTab.TabIndex == 0 && invertexture.Checked) || (MainTabs.SelectedTab.TabIndex == 1 && invertextures1.Checked))
             {
                 inverttextures = true;
             }
@@ -392,7 +390,7 @@ namespace Weiche
             {
                 inverttextures = false;
             }
-            if (checkBox5.Checked)
+            if ((MainTabs.SelectedTab.TabIndex == 0 && notexturerails.Checked) || (MainTabs.SelectedTab.TabIndex == 1 && notexturerails1.Checked))
             {
                 norailtexture = true;
             }
@@ -404,13 +402,33 @@ namespace Weiche
             try
             {
                 //Create Switch
-                if (radioButton1.Checked == true)
+                if (MainTabs.SelectedTab.TabIndex == 0)
                 {
+                    EingabeOK = double.TryParse(textBox_radius.Text, out radius);
+                    if (EingabeOK == false)
+                    {
+                        MessageBox.Show(Resources.invalidradius);
+                        return;
+                    }
+                    EingabeOK = Int32.TryParse(textBox_segmente.Text, out segmente);
+                    if (EingabeOK == false)
+                    {
+                        MessageBox.Show(Resources.invalidsegements);
+                        return;
+                    }
+                    if (addpointmotor.Checked)
+                    {
+                        pointmotor = true;
+                    }
+                    else
+                    {
+                        pointmotor = false;
+                    }
                     //Check secondary deviation is a valid number
                     EingabeOK = double.TryParse(textBox_tot.Text, out Abw_tot);
                     if (EingabeOK == false)
                     {
-                        MessageBox.Show("Eingabefehler Abweichung!");
+                        MessageBox.Show(Resources.invaliddeviation);
                         return;
                     }
 
@@ -419,65 +437,89 @@ namespace Weiche
                     EingabeOK = int.TryParse(textBox_laenge.Text, out laenge);
                     if (EingabeOK == false)
                     {
-                        MessageBox.Show("Eingabefehler Weichenlänge!");
+                        MessageBox.Show(Resources.invalidlength);
                         return;
                     }
                     //Check Z-Movement is valid
                     EingabeOK = int.TryParse(textBox_z.Text, out zmovement);
                     if (EingabeOK == false)
                     {
-                        MessageBox.Show("Eingabefehler z - Verschiebung!");
+                        MessageBox.Show(Resources.invalidzmovement);
                         return;
                     }
                     Switch.BuildSwitch();
                 }
 
                 //Create Curve
-                if (radioButton2.Checked == true)
+                if (MainTabs.SelectedTab.TabIndex == 1)
                 {
-                    //Check radius
-                    if ((radius <= 49) && (radius >= -49))
+                    EingabeOK = double.TryParse(textBox_radius_curve.Text, out radius);
+                    if (EingabeOK == false)
                     {
-                        MessageBox.Show("Radius should be greater than 50m!");
+                        MessageBox.Show(Resources.invalidradius);
                         return;
                     }
-                    CurvedTrack.BuildCurve();
-                    
-                }
-
-                //Create Straight Track
-                if (radioButton3.Checked == true)
-                {
-                    StraightTrack.BuildStraight();
+                    if (radius != 0)
+                    {
+                        EingabeOK = Int32.TryParse(textBox_segmente_curve.Text, out segmente);
+                        if (EingabeOK == false)
+                        {
+                            MessageBox.Show(Resources.invalidsegements);
+                            return;
+                        }
+                        //Check radius
+                        if ((radius <= 49) && (radius >= -49))
+                        {
+                            MessageBox.Show("Radius should be greater than 50m!");
+                            return;
+                        }
+                        CurvedTrack.BuildCurve();
+                    }
+                    else
+                    {
+                        StraightTrack.BuildStraight();
+                    }
                 }
 
                 //Create Platform
-                if (radioButton4.Checked == true)
+                if (MainTabs.SelectedTab.TabIndex == 2)
                 {
+                    EingabeOK = double.TryParse(textBox_radius_platform.Text, out radius);
+                    if (EingabeOK == false)
+                    {
+                        MessageBox.Show(Resources.invalidradius);
+                        return;
+                    }
                     //Check radius
                     if ((radius != 0) && (radius <= 49) && (radius >= -49))
                     {
                         MessageBox.Show("Radius for platforms should either be 0 for Straight or greater than 50m!");
                         return;
                     }
+                    EingabeOK = Int32.TryParse(textBox_segmente_platform.Text, out segmente);
+                    if (EingabeOK == false)
+                    {
+                        MessageBox.Show(Resources.invalidsegements);
+                        return;
+                    }
                     //Check platform widths are valid numbers
                     EingabeOK = double.TryParse(textBox_platwidth_near.Text, out platwidth_near);
                     if (EingabeOK == false)
                     {
-                        MessageBox.Show("Invalid Platform Width (Near)!");
+                        MessageBox.Show(Resources.invalidwidth_n);
                         return;
                     }
                     EingabeOK = double.TryParse(textBox_platwidth_far.Text, out platwidth_far);
                     if (EingabeOK == false)
                     {
-                        MessageBox.Show("Invalid Platform Width (Far)!");
+                        MessageBox.Show(Resources.invalidwidth_f);
                         return;
                     }
                     //Check platform height is a valid number
                     EingabeOK = double.TryParse(textBox_platheight.Text, out platheight);
                     if (EingabeOK == false)
                     {
-                        MessageBox.Show("Invalid Platform Height!");
+                        MessageBox.Show(Resources.invalidplatformheight);
                         return;
                     }
                     //Parse fence height into number
@@ -486,7 +528,7 @@ namespace Weiche
                         EingabeOK = double.TryParse(fenceheight_tb.Text, out fenceheight);
                         if (EingabeOK == false)
                         {
-                            MessageBox.Show("Invalid Fence Height!");
+                            MessageBox.Show(Resources.invalidfenceheight);
                             return;
                         }
                         if (fenceheight == 0)
@@ -539,18 +581,30 @@ namespace Weiche
                     Platforms.BuildPlatform();
                 }
                 //Create Viaduct
-                if (radioButton10.Checked == true)
+                if (MainTabs.SelectedTab.TabIndex == 3)
                 {
+                    EingabeOK = double.TryParse(viaductradius.Text, out radius);
+                    if (EingabeOK == false)
+                    {
+                        MessageBox.Show(Resources.invalidradius);
+                        return;
+                    }
                     //Check radius
                     if ((radius != 0) && (radius <= 49) && (radius >= -49))
                     {
                         MessageBox.Show("Radius for viaducts should either be 0 for Straight or greater than 50m!");
                         return;
                     }
-                    //Check platform widths are over 1m
-                    if (platwidth_near < 1 | platwidth_far < 1)
+                    EingabeOK = double.TryParse(pierheight.Text, out additionalpierheight);
+                    if (EingabeOK == false)
                     {
-                        MessageBox.Show("Minimum platform width is 1m!");
+                        MessageBox.Show(Resources.invalidpierheight);
+                        return;
+                    }
+                    EingabeOK = int.TryParse(tracks.Text, out numberoftracks);
+                    if (EingabeOK == false || numberoftracks <= 0)
+                    {
+                        MessageBox.Show(Resources.invalidtracks);
                         return;
                     }
                     Viaducts.BuildViaduct();
@@ -586,63 +640,11 @@ namespace Weiche
 
         }
 
-        private void radioButton2_CheckedChanged(object sender, EventArgs e)
-        {
-            textBox_tot.ReadOnly = true;
-            textBox_laenge.ReadOnly = true;
-            textBox_radius.ReadOnly = false;
-            checkBox1.Enabled = false;
-            checkBox3.Enabled = false;
-            textBox_z.ReadOnly = true;
-            radioButton5.Enabled = false;
-            radioButton6.Enabled = false;
-            textBox_platheight.ReadOnly = true;
-            textBox_platwidth_near.ReadOnly = true;
-            textBox_platwidth_far.ReadOnly = true;
-
-
-        }
-
-        private void radioButton3_CheckedChanged(object sender, EventArgs e)
-        {
-            textBox_tot.ReadOnly = true;
-            textBox_laenge.ReadOnly = true;
-            textBox_radius.ReadOnly = true;
-            checkBox1.Enabled = false;
-            checkBox2.Enabled = true;
-            checkBox5.Enabled = true;
-            checkBox3.Enabled = false;
-            textBox_z.ReadOnly = true;
-            radioButton5.Enabled = false;
-            radioButton6.Enabled = false;
-            textBox_platheight.ReadOnly = true;
-            textBox_platwidth_near.ReadOnly = true;
-            textBox_platwidth_far.ReadOnly = true;
-            panel2.Enabled = false;
-        }
-
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
-        {
-            textBox_tot.ReadOnly = false;
-            textBox_laenge.ReadOnly = false;
-            textBox_radius.ReadOnly = false;
-            checkBox1.Enabled = true;
-            checkBox2.Enabled = true;
-            checkBox5.Enabled = true;
-            checkBox3.Enabled = true;
-            textBox_z.ReadOnly = false;
-            radioButton5.Enabled = false;
-            radioButton6.Enabled = false;
-            textBox_platheight.ReadOnly = true;
-            textBox_platwidth_near.ReadOnly = true;
-            textBox_platwidth_far.ReadOnly = true;
-            panel2.Enabled = false;
-
-        }
+        
 
         private void checkBox4_CheckedChanged_1(object sender, EventArgs e)
         {
-            if (checkBox4.Checked == false)
+            if (pngtextures1.Checked == false)
             {
                 using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Trackgen", true))
                 {
@@ -659,36 +661,16 @@ namespace Weiche
             }
         }
 
-        private void radioButton4_CheckedChanged(object sender, EventArgs e)
-        {
-            textBox_tot.ReadOnly = true;
-            textBox_laenge.ReadOnly = true;
-            textBox_radius.ReadOnly = false;
-            checkBox1.Enabled = false;
-            checkBox2.Enabled = false;
-            checkBox5.Enabled = false;
-            checkBox3.Enabled = false;
-            textBox_z.ReadOnly = true;
-            radioButton5.Enabled = true;
-            radioButton6.Enabled = true;
-            textBox_platheight.ReadOnly = false;
-            textBox_platwidth_near.ReadOnly = false;
-            textBox_platwidth_far.ReadOnly = false;
-            panel2.Enabled = true;
-        }
-
-
-
         private void texturebutton_Click(object sender, EventArgs e)
         {
-            if (radioButton4.Checked == true)
+            if (MainTabs.SelectedTab.TabIndex == 2)
             {
                 using (var childform = new platformtexture(launchpath))
                 {
                     childform.ShowDialog(this);
                 }
             }
-            else if (radioButton10.Checked == true)
+            if (MainTabs.SelectedTab.TabIndex == 3)
             {
                 using (var childform = new ViaductTexture(launchpath))
                 {
@@ -763,6 +745,26 @@ namespace Weiche
 
         }
 
+        public void MainTabs_SelectedIndexChanged(Object sender, EventArgs e)
+        {
+            if (MainTabs.SelectedTab.TabIndex == 0)
+            {
+                MainImage.Image = Resources.tgswitch;
+            }
+            else if (MainTabs.SelectedTab.TabIndex == 1)
+            {
+                MainImage.Image = Resources.tgtrack;
+            }
+            else if (MainTabs.SelectedTab.TabIndex == 2)
+            {
+                MainImage.Image = Resources.tgplatform;
+            }
+            else if (MainTabs.SelectedTab.TabIndex == 3)
+            {
+                MainImage.Image = Resources.tgviaduct;
+            }
+        }
+
         public void updateballast(string filename, string texture)
         {
             ballast_file = filename;
@@ -834,20 +836,28 @@ namespace Weiche
                     key.SetValue("Language", "fr");
                 }
             }
-            
+                        tabPage1.Text = Resources.pointswitch;
+                        tabPage2.Text = Resources.rail;
+                        tabPage3.Text = Resources.platform;
+                        tabPage4.Text = Resources.viaduct;
+                        label9.Text = Resources.trackgauge;
                         label_radius.Text = Resources.radius;
+                        label11.Text = Resources.radius;
+                        label15.Text = Resources.radius;
+                        label16.Text = Resources.radius;
+                        label20.Text = Resources.pointmotor;
+                        label21.Text = Resources.embankment;
+                        label12.Text = Resources.embankment;
+                        label13.Text = Resources.railtexture;
+                        label22.Text = Resources.railtexture;
+                        label24.Text = Resources.invertexture;
                         label_tot.Text = Resources.deviation;
-                        radioButton1.Text = Resources.pointswitch;
-                        radioButton2.Text = Resources.curve;
-                        radioButton3.Text = Resources.straight;
                         label_laenge.Text = Resources.lengthmultiplier;
                         label_segmente.Text = Resources.segments;
+                        label14.Text = Resources.segments;
+                        label10.Text = Resources.segments;
                         groupBox1.Text = Resources.advanced;
-                        checkBox5.Text = Resources.railtexture;
-                        checkBox4.Text = Resources.pngtexture;
-                        checkBox3.Text = Resources.invertexture;
-                        checkBox2.Text = Resources.embankment;
-                        checkBox1.Text = Resources.pointmotor;
+                        pngtextures1.Text = Resources.pngtexture;
                         label_z.Text = Resources.zadjust;
                         folderPath.Text = Resources.path;
                         button.Text = Resources.createbutton;
@@ -857,10 +867,33 @@ namespace Weiche
                         label7.Text = Resources.platformwidth_f;
                         label6.Text = Resources.platformramp;
                         label8.Text = Resources.platformfence;
-                        radioButton4.Text = Resources.platform;
+                        label17.Text = Resources.pierheight;
+                        label18.Text = Resources.numberoftracks;
+                        radioButton5.Text = Resources.left;
+                        radioButton6.Text = Resources.right;
+                        radioButton7.Text = Resources.none;
+                        radioButton8.Text = Resources.up;
+                        radioButton9.Text = Resources.down;
+                        texturebutton.Text = Resources.choosetexture;
                         radioButton5.Text = Resources.left;
                         radioButton6.Text = Resources.right;
                         texturebutton.Text = Resources.choosetexture;
-        }
+                        addpointmotor.Text = Resources.yes;
+                        nopointmotor.Text = Resources.no;
+                        addembankment.Text = Resources.yes;
+                        noembankment1.Text = Resources.no;
+                        addembankment1.Text = Resources.yes;
+                        noembankment2.Text = Resources.no;
+                        texturerails.Text = Resources.yes;
+                        notexturerails.Text = Resources.no;
+                        texturerails1.Text = Resources.yes;
+                        notexturerails1.Text = Resources.no;
+                        invertexture.Text = Resources.yes;
+                        noinvertextures.Text = Resources.no;
+                        invertextures1.Text = Resources.yes;
+                        noinvertextures1.Text = Resources.no;
+                        fence_yes.Text = Resources.yes;
+                        fence_no.Text = Resources.no;
+        } 
     }
 }
