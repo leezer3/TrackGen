@@ -374,7 +374,7 @@ namespace Weiche
                 return;
             }
             
-            if ((MainTabs.SelectedTab.TabIndex == 0 && addembankment.Checked) || (MainTabs.SelectedTab.TabIndex == 1 && addembankment1.Checked))
+            if ((MainTabs.SelectedTab.TabIndex == 0 && noembankment1.Checked) || (MainTabs.SelectedTab.TabIndex == 1 && noembankment2.Checked))
             {
                 noembankment = true;
             }

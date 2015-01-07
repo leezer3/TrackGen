@@ -26,7 +26,7 @@ namespace Weiche
                 double radius = Weichengenerator.radius;
                 double Abw_tot = Weichengenerator.Abw_tot;
                 int laenge = Weichengenerator.laenge;
-                int segmente = Weichengenerator.segmente;
+                double segmente = Weichengenerator.segmente;
                 double trackgauge = Weichengenerator.trackgauge;
                 double gaugeoffset = Weichengenerator.gaugeoffset;
                 string launchpath = Weichengenerator.path;
@@ -616,7 +616,7 @@ namespace Weiche
                     //Railside Gerade Schiene Außen
 
                     a = -1;
-                    sw.WriteLine("\r\r\nCreateMeshBuilder");
+                    sw.WriteLine("\r\r\nCreateMeshBuilder; Rail Side Left");
                     for (var i = 0; i <= segmente; i++, a++)
                     {
                         sw.WriteLine("AddVertex,{0:f4},0,{1:f4},", trans.X((-0.74 - gaugeoffset) * LiRe_T, (laenge * 25 / segmente) * i), trans.Z((-0.74 - gaugeoffset) * LiRe_T, (laenge * 25 / segmente) * i));

@@ -16,7 +16,7 @@ namespace Weiche
                 string name;
                 MathFunctions.Transform trans;
                 double radius = Weichengenerator.radius;
-                int segmente = Weichengenerator.segmente;
+                double segmente = Weichengenerator.segmente;
                 double gaugeoffset = Weichengenerator.gaugeoffset;
                 string launchpath = Weichengenerator.path;
                 string texture_format = Weichengenerator.texture_format;
