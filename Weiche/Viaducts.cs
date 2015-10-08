@@ -492,5 +492,260 @@ namespace Weiche
                 }
             }
         }
+
+        internal static void BuildSteelViaduct()
+        {
+            var LiRe = 1;
+            var LiRe_T = 1;
+            double gaugeoffset = Weichengenerator.gaugeoffset;
+            string texture_format = Weichengenerator.texture_format;
+            double radius = Weichengenerator.radius;
+            string launchpath = Weichengenerator.path;
+            string steel_texture = Weichengenerator.steel_texture;
+            string steel_file = Weichengenerator.steel_file;
+            string viaductfence_texture = Weichengenerator.viaductfence_texture;
+            string viaductfence_file = Weichengenerator.viaductfence_file;
+            string black_texture = Weichengenerator.black_texture;
+            string black_file = Weichengenerator.black_file;
+            
+            int numberoftracks = Weichengenerator.numberoftracks;
+            double trackoffset;
+            string name;
+            double segmente;
+            MathFunctions.Transform trans;
+
+            //Create Output directory
+            if (!System.IO.Directory.Exists(launchpath + "\\Output\\Viaducts"))
+            {
+                System.IO.Directory.CreateDirectory(launchpath + "\\Output\\Viaducts");
+            }
+
+            //Main textures
+            const string outputtype = "Viaducts";
+            Weichengenerator.ConvertAndMove(launchpath, steel_texture, texture_format, steel_file, outputtype);
+            Weichengenerator.ConvertAndMove(launchpath, viaductfence_texture, texture_format, viaductfence_file, outputtype);
+            Weichengenerator.ConvertAndMove(launchpath, black_texture, texture_format, black_file, outputtype);
+
+            //Left or right definition
+                if (radius < 0)
+                {
+                    LiRe = -1;
+                    radius = radius * -1;
+                }
+
+                if (radius == 0)
+                {
+                    name = launchpath + "\\Output\\Viaducts\\Viaduct_Straight.csv";
+                    segmente = 1;
+                }
+                else if (LiRe == -1)
+                {
+                    name = launchpath + "\\Output\\Viaducts\\Viaduct_L" + radius + ".csv";
+                    segmente = 25;
+                }
+                else
+                {
+                    name = launchpath + "\\Output\\Viaducts\\Viaduct_R" + radius + ".csv";
+                    segmente = 25;
+                }
+                if (numberoftracks == 1)
+                {
+                    trackoffset = 0 - (4.0 + (gaugeoffset * 2));
+                }
+                else
+                {
+                    trackoffset = (4.0 + (gaugeoffset * 2)) * (numberoftracks - 2);
+                }
+
+                //Calculate the track width to move the viaduct sides as appropriate
+                trans = new MathFunctions.Transform(1, radius, LiRe, 0);
+
+                //Write Out to CSV
+            using (var sw = new StreamWriter(name))
+            {
+                //Straight Viaduct, requires a single segment
+                if (radius == 0)
+                {
+                    segmente = 1;
+                }
+
+
+                {
+                    //Main Viaduct Body
+                    sw.WriteLine("\r\nCreateMeshBuilder ;Viaduct Main Body");
+                    int a = -1;
+                    for (var i = 0; i <= segmente; i++, a++)
+                    {
+                        //Inner
+                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(0, (25.3 / segmente) * i), -0.33, trans.Z(0, (25.3 / segmente) * i));
+                        //Outer
+                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-3 - gaugeoffset, (25.3 / segmente) * i), -0.33, trans.Z(-3 - gaugeoffset, (25.3 / segmente) * i));
+                        //Drop
+                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-3 - gaugeoffset, (25.3 / segmente) * i), -1, trans.Z(-3 - gaugeoffset, (25.3 / segmente) * i));
+                        //Swing In
+                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},",trans.X(-2.0 - gaugeoffset, (25.3 / segmente) * i), -1, trans.Z(-2.0 - gaugeoffset, (25.3 / segmente) * i));
+                        //Bottom of Second Drop L
+                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},",trans.X(-2.0 - gaugeoffset, (25.3 / segmente) * i), -2.0, trans.Z(-2.0 - gaugeoffset, (25.3 / segmente) * i));
+                        //Bottom of Second Drop R
+                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(6.0 + gaugeoffset + trackoffset, (25.3 / segmente) * i), -2.0, trans.Z(6.0 + gaugeoffset + trackoffset, (25.3 / segmente) * i));
+                        //Swing in R
+                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(6.0 + gaugeoffset + trackoffset, (25.3 / segmente) * i), -1, trans.Z(6.0 + gaugeoffset + trackoffset, (25.3 / segmente) * i));
+                        //Drop R
+                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},",trans.X(7 + gaugeoffset + trackoffset, (25.3/segmente)*i), -1,trans.Z(7 + gaugeoffset + trackoffset, (25.3/segmente)*i));
+                        //Outer R
+                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(7 + gaugeoffset + trackoffset, (25.3 / segmente) * i), -0.33, trans.Z(7 + gaugeoffset + trackoffset, (25.3 / segmente) * i));
+                        //Innter R
+                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(0, (25.3/segmente)*i), -0.33,trans.Z(0, (25.3/segmente)*i));
+                    }
+                    //End 1 Face
+                    sw.WriteLine("AddFace,3,2,1,0,");
+                    sw.WriteLine("AddFace,6,5,4,3,0,");
+                    sw.WriteLine("AddFace,8,7,6,0,");
+                    //End 2 Face
+                    sw.WriteLine("AddFace,256,257,258,259,");
+                    sw.WriteLine("AddFace,253,254,255,256,259,");
+                    sw.WriteLine("AddFace,251,252,253,259,");
+
+                    Constructors.AddSteelViaductFace(sw, a, -LiRe_T);
+                    sw.WriteLine("GenerateNormals,");
+                    sw.WriteLine("LoadTexture,{0}.{1},", "viaduct7", texture_format);
+                    if (LiRe == -1 || radius == 0)
+                    {
+                        Constructors.SetTexture(sw, a, 5, 10);
+                    }
+                    else
+                    {
+                        Constructors.SetTexture(sw, a, 5, 10);
+                    }
+                    //Fences
+                    sw.WriteLine("\r\nCreateMeshBuilder ;Viaduct Fencing L");
+                    a = -1;
+                    for (var i = 0; i <= segmente; i++, a++)
+                    {
+                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-2.9 - gaugeoffset, (25.3 / segmente) * i), -0.33, trans.Z(-2.9 - gaugeoffset, (25.3 / segmente) * i));
+                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-2.9 - gaugeoffset, (25.3 / segmente) * i), 1.5, trans.Z(-2.9 - gaugeoffset, (25.3 / segmente) * i));
+                    }
+
+                    Constructors.AddFace2_New(sw, a, -LiRe_T);
+
+                    sw.WriteLine("GenerateNormals,");
+                    sw.WriteLine("LoadTexture,{0}.{1},", "viaduct8", texture_format);
+                    Constructors.SetTexture(sw, a, 5, 4);
+                    sw.WriteLine("SetDecalTransparentColor,0,0,0");
+                    sw.WriteLine("\r\nCreateMeshBuilder ;Viaduct Fencing R");
+                    a = -1;
+                    for (var i = 0; i <= segmente; i++, a++)
+                    {
+                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(6.9 + gaugeoffset + trackoffset, (25.3 / segmente) * i), -0.33, trans.Z(6.9 + gaugeoffset + trackoffset, (25.3 / segmente) * i));
+                        sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(6.9 + gaugeoffset + trackoffset, (25.3 / segmente) * i), 1.5, trans.Z(6.9 + gaugeoffset + trackoffset, (25.3 / segmente) * i));
+                    }
+
+                    Constructors.AddFace2_New(sw, a, -LiRe_T);
+
+                    sw.WriteLine("GenerateNormals,");
+                    sw.WriteLine("LoadTexture,{0}.{1},", "viaduct8", texture_format);
+                    Constructors.SetTexture(sw, a, 5, 4);
+
+                    sw.WriteLine("SetDecalTransparentColor,0,0,0");
+                    //Side Supports
+                    //5,10,15,20
+                    sw.WriteLine("\r\nCreateMeshBuilder ;Viaduct Side Supports L");
+                    for (var i = 0; i < 5; i++)
+                    {
+                        switch (i)
+                        {
+                            case 0:
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-3 - gaugeoffset, 5.26), -1, trans.Z(-3 - gaugeoffset, 5.26));
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-2.0 - gaugeoffset, 5.26), -1, trans.Z(-2.0 - gaugeoffset, 5.26));
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-2.0 - gaugeoffset, 5.26), -2.0, trans.Z(-2.0 - gaugeoffset, 5.26));
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-2.5 - gaugeoffset, 5.26), -2.0, trans.Z(-2.5 - gaugeoffset, 5.26));
+                            break;
+                            case 1:
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-3 - gaugeoffset, 10.3), -1, trans.Z(-3 - gaugeoffset, 10.3));
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-2.0 - gaugeoffset, 10.3), -1, trans.Z(-2.0 - gaugeoffset, 10.3));
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-2.0 - gaugeoffset, 10.3), -2.0, trans.Z(-2.0 - gaugeoffset, 10.3));
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-2.5 - gaugeoffset, 10.3), -2.0, trans.Z(-2.5 - gaugeoffset, 10.3));
+                            break;
+                            case 2:
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-3 - gaugeoffset, 15.4), -1, trans.Z(-3 - gaugeoffset, 15.4));
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-2.0 - gaugeoffset, 15.4), -1, trans.Z(-2.0 - gaugeoffset, 15.4));
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-2.0 - gaugeoffset, 15.4), -2.0, trans.Z(-2.0 - gaugeoffset, 15.4));
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-2.5 - gaugeoffset, 15.4), -2.0, trans.Z(-2.5 - gaugeoffset, 15.4));
+                            break;
+                            case 3:
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-3 - gaugeoffset, 20.5), -1, trans.Z(-3 - gaugeoffset, 20.5));
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-2.0 - gaugeoffset, 20.5), -1, trans.Z(-2.0 - gaugeoffset, 20.5));
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-2.0 - gaugeoffset, 20.5), -2.0, trans.Z(-2.0 - gaugeoffset, 20.5));
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-2.5 - gaugeoffset, 20.5), -2.0, trans.Z(-2.5 - gaugeoffset, 20.5));
+                            break;
+                            case 4:
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-3 - gaugeoffset, 25.3), -1, trans.Z(-3 - gaugeoffset, 25.3));
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-2.0 - gaugeoffset, 25.3), -1, trans.Z(-2.0 - gaugeoffset, 25.3));
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-2.0 - gaugeoffset, 25.3), -2.0, trans.Z(-2.0 - gaugeoffset, 25.3));
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(-2.5 - gaugeoffset, 25.3), -2.0, trans.Z(-2.5 - gaugeoffset, 25.3));
+                            break;
+                        }
+                        
+                    }
+                    sw.WriteLine("AddFace2,0,1,2,3");
+                    sw.WriteLine("AddFace2,4,5,6,7");
+                    sw.WriteLine("AddFace2,8,9,10,11");
+                    sw.WriteLine("AddFace2,12,13,14,15");
+                    sw.WriteLine("AddFace2,16,17,18,19");
+                    sw.WriteLine("GenerateNormals,");
+                    sw.WriteLine("LoadTexture,{0}.{1},", "black", texture_format);
+                    Constructors.SetTexture(sw, 9, 5, 4);
+
+                    sw.WriteLine("\r\nCreateMeshBuilder ;Viaduct Side Supports R");
+                    for (var i = 0; i < 5; i++)
+                    {
+                        switch (i)
+                        {
+                            case 0:
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(7 + gaugeoffset + trackoffset, 5.26), -1, trans.Z(7 + gaugeoffset + trackoffset, 5.26));
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(6 + gaugeoffset + trackoffset, 5.26), -1, trans.Z(6 + gaugeoffset + trackoffset, 5.26));
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(6 + gaugeoffset + trackoffset, 5.26), -2.0, trans.Z(6 + gaugeoffset + trackoffset, 5.26));
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(6.5 + gaugeoffset + trackoffset, 5.26), -2.0, trans.Z(6.5 + gaugeoffset + trackoffset, 5.26));
+                                break;
+                            case 1:
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(7 + gaugeoffset + trackoffset, 10.3), -1, trans.Z(7 + gaugeoffset + trackoffset, 10.3));
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(6 + gaugeoffset + trackoffset, 10.3), -1, trans.Z(6 + gaugeoffset + trackoffset, 10.3));
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(6 + gaugeoffset + trackoffset, 10.3), -2.0, trans.Z(6 + gaugeoffset + trackoffset, 10.3));
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(6.5 + gaugeoffset + trackoffset, 10.3), -2.0, trans.Z(6.5 + gaugeoffset + trackoffset, 10.3));
+                                break;
+                            case 2:
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(7 + gaugeoffset + trackoffset, 15.4), -1, trans.Z(7 + gaugeoffset + trackoffset, 15.4));
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(6 + gaugeoffset + trackoffset, 15.4), -1, trans.Z(6 + gaugeoffset + trackoffset, 15.4));
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(6 + gaugeoffset + trackoffset, 15.4), -2.0, trans.Z(6 + gaugeoffset + trackoffset, 15.4));
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(6.5 + gaugeoffset + trackoffset, 15.4), -2.0, trans.Z(6.5 + gaugeoffset + trackoffset, 15.4));
+                                break;
+                            case 3:
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(7 + gaugeoffset + trackoffset, 20.5), -1, trans.Z(7 + gaugeoffset + trackoffset, 20.5));
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(6 + gaugeoffset + trackoffset, 20.5), -1, trans.Z(6 + gaugeoffset + trackoffset, 20.5));
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(6 + gaugeoffset + trackoffset, 20.5), -2.0, trans.Z(6 + gaugeoffset + trackoffset, 20.5));
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(6.5 + gaugeoffset + trackoffset, 20.5), -2.0, trans.Z(6.5 + gaugeoffset + trackoffset, 20.5));
+                                break;
+                            case 4:
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(7 + gaugeoffset + trackoffset, 25.3), -1, trans.Z(7 + gaugeoffset + trackoffset, 25.3));
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(6 + gaugeoffset + trackoffset, 25.3), -1, trans.Z(6 + gaugeoffset + trackoffset, 25.3));
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(6 + gaugeoffset + trackoffset, 25.3), -2.0, trans.Z(6 + gaugeoffset + trackoffset, 25.3));
+                                sw.WriteLine("AddVertex,{0:f4},{1:f4},{2:f4},", trans.X(6.5 + gaugeoffset + trackoffset, 25.3), -2.0, trans.Z(6.5 + gaugeoffset + trackoffset, 25.3));
+                                break;
+                        }
+
+                    }
+                    sw.WriteLine("AddFace2,0,1,2,3");
+                    sw.WriteLine("AddFace2,4,5,6,7");
+                    sw.WriteLine("AddFace2,8,9,10,11");
+                    sw.WriteLine("AddFace2,12,13,14,15");
+                    sw.WriteLine("AddFace2,16,17,18,19");
+                    sw.WriteLine("GenerateNormals,");
+                    sw.WriteLine("LoadTexture,{0}.{1},", "black", texture_format);
+                    Constructors.SetTexture(sw, 9, 5, 4);
+
+
+                }
+            }
+        }
     }
 }

@@ -4,6 +4,7 @@
 
 using System.ComponentModel;
 using System.IO;
+using System.Windows.Forms;
 
 namespace Weiche
 {
@@ -104,6 +105,23 @@ namespace Weiche
                         sw.WriteLine("SetTextureCoordinates,{0},{1:f4},0,", b, (i * TexturMulti / Faktor) -0.015);
                         sw.WriteLine("SetTextureCoordinates,{0},{1:f4},1,", b + 1, (i * TexturMulti / Faktor) -0.015);
                         b = b + 2;
+                    }
+                    break;
+                case 10:
+                    //Steel Viaduct Main
+                    for (double i = Faktor; i >= 0; i--)
+                    {
+                        sw.WriteLine("SetTextureCoordinates,{0},{1:f4},0,", b++, i * TexturMulti / Faktor);
+                        sw.WriteLine("SetTextureCoordinates,{0},{1:f4},1,", b++, i * TexturMulti / Faktor);
+                        sw.WriteLine("SetTextureCoordinates,{0},{1:f4},0,", b++, i * TexturMulti / Faktor);
+                        sw.WriteLine("SetTextureCoordinates,{0},{1:f4},1,", b++, i * TexturMulti / Faktor);
+                        sw.WriteLine("SetTextureCoordinates,{0},{1:f4},0,", b++, i * TexturMulti / Faktor);
+                        sw.WriteLine("SetTextureCoordinates,{0},{1:f4},1,", b++, i * TexturMulti / Faktor);
+                        sw.WriteLine("SetTextureCoordinates,{0},{1:f4},0,", b++, i * TexturMulti / Faktor);
+                        sw.WriteLine("SetTextureCoordinates,{0},{1:f4},1,", b++, i * TexturMulti / Faktor);
+                        sw.WriteLine("SetTextureCoordinates,{0},{1:f4},0,", b++, i * TexturMulti / Faktor);
+                        sw.WriteLine("SetTextureCoordinates,{0},{1:f4},1,", b++, i * TexturMulti / Faktor);
+                        //b = b + 4;
                     }
                     break;
             }
@@ -526,6 +544,54 @@ namespace Weiche
                     break;
             }
             
+        }
+
+        public static void AddSteelViaductFace(StreamWriter sw, int NumberOfSegments, int LiRe_T)
+        {
+            //Wall
+            var face = new double[40];
+            if (LiRe_T > 0)
+            {
+                for (int k = 0; k < 10; k++)
+                {
+                    face[0 + (k * 4)] = 10 + k;
+                    face[1 + (k * 4)] = 11 + k;
+                    face[2 + (k * 4)] = 1 + k;
+                    face[3 + (k * 4)] = 0 + k;
+                }
+            }
+            else
+            {
+                for (int k = 0; k < 10; k++)
+                {
+                    face[0 + (k * 4)] = 0 + k;
+                    face[1 + (k * 4)] = 1 + k;
+                    face[2 + (k * 4)] = 11 + k;
+                    face[3 + (k * 4)] = 10 + k;
+                }
+            }
+
+
+            for (var i = 0; i < NumberOfSegments; i++)
+            {
+                for (int l = 0; l < face.Length; l++)
+                {
+                    if (l == (face.Length - 7) && i == (NumberOfSegments - 1))
+                    {
+                        //We need to break out of the loop early on the last itineration
+                        break;
+                    }
+                    //If L is a multiple of 4, then write out face
+                    if (l % 4 == 0) 
+                    {
+                        sw.WriteLine("AddFace,{0},{1},{2},{3},", face[0 + l], face[1 + l], face[2 + l], face[3 + l]);
+                    }
+                }
+                for (int j = 0; j < face.Length; j++)
+                {
+                    face[j] += 10;
+                }
+            }
         }
 
         public static void AddFace2(StreamWriter sw, int Faktor)

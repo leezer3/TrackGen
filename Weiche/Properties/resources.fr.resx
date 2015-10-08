@@ -240,6 +240,12 @@
   <data name="segments" xml:space="preserve">
     <value>Nombre de segments</value>
   </data>
+  <data name="steel" xml:space="preserve">
+    <value>Acier</value>
+  </data>
+  <data name="stone" xml:space="preserve">
+    <value>Pierre</value>
+  </data>
   <data name="straight" xml:space="preserve">
     <value>Rectiligne</value>
   </data>
@@ -251,6 +257,9 @@
   </data>
   <data name="viaduct" xml:space="preserve">
     <value>Viaduc</value>
+  </data>
+  <data name="viaducttype" xml:space="preserve">
+    <value>Type de Viaduc</value>
   </data>
   <data name="yes" xml:space="preserve">
     <value>Oui</value>

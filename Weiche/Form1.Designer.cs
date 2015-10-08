@@ -108,6 +108,9 @@
             this.radioButton5 = new System.Windows.Forms.RadioButton();
             this.label3 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.SteelType = new System.Windows.Forms.RadioButton();
+            this.StoneType = new System.Windows.Forms.RadioButton();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
@@ -138,6 +141,7 @@
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabPage4.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainImage)).BeginInit();
@@ -180,7 +184,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(213, 13);
             this.label2.TabIndex = 21;
-            this.label2.Text = "v 1.6.1 © N.Busch and C. Lees 2008- 2014";
+            this.label2.Text = "v 1.6.2 © N.Busch and C. Lees 2008- 2015";
             // 
             // label1
             // 
@@ -933,6 +937,7 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.groupBox2);
             this.tabPage4.Controls.Add(this.groupBox4);
             this.tabPage4.Controls.Add(this.tracks);
             this.tabPage4.Controls.Add(this.label18);
@@ -947,6 +952,40 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Viaduct";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.SteelType);
+            this.groupBox2.Controls.Add(this.StoneType);
+            this.groupBox2.Location = new System.Drawing.Point(9, 6);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(123, 38);
+            this.groupBox2.TabIndex = 80;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Viaduct Type";
+            // 
+            // SteelType
+            // 
+            this.SteelType.AutoSize = true;
+            this.SteelType.Location = new System.Drawing.Point(65, 19);
+            this.SteelType.Name = "SteelType";
+            this.SteelType.Size = new System.Drawing.Size(49, 17);
+            this.SteelType.TabIndex = 79;
+            this.SteelType.Text = "Steel";
+            this.SteelType.UseVisualStyleBackColor = true;
+            // 
+            // StoneType
+            // 
+            this.StoneType.AutoSize = true;
+            this.StoneType.Checked = true;
+            this.StoneType.Location = new System.Drawing.Point(6, 19);
+            this.StoneType.Name = "StoneType";
+            this.StoneType.Size = new System.Drawing.Size(53, 17);
+            this.StoneType.TabIndex = 78;
+            this.StoneType.TabStop = true;
+            this.StoneType.Text = "Stone";
+            this.StoneType.UseVisualStyleBackColor = true;
+            this.StoneType.CheckedChanged += new System.EventHandler(this.StoneType_CheckedChanged);
             // 
             // groupBox4
             // 
@@ -990,7 +1029,7 @@
             // 
             // tracks
             // 
-            this.tracks.Location = new System.Drawing.Point(304, 62);
+            this.tracks.Location = new System.Drawing.Point(304, 96);
             this.tracks.Name = "tracks";
             this.tracks.Size = new System.Drawing.Size(118, 20);
             this.tracks.TabIndex = 48;
@@ -999,7 +1038,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(6, 65);
+            this.label18.Location = new System.Drawing.Point(6, 99);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(92, 13);
             this.label18.TabIndex = 47;
@@ -1007,7 +1046,7 @@
             // 
             // pierheight
             // 
-            this.pierheight.Location = new System.Drawing.Point(304, 36);
+            this.pierheight.Location = new System.Drawing.Point(304, 70);
             this.pierheight.Name = "pierheight";
             this.pierheight.Size = new System.Drawing.Size(118, 20);
             this.pierheight.TabIndex = 46;
@@ -1016,7 +1055,7 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(6, 39);
+            this.label17.Location = new System.Drawing.Point(6, 73);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(136, 13);
             this.label17.TabIndex = 45;
@@ -1024,7 +1063,7 @@
             // 
             // viaductradius
             // 
-            this.viaductradius.Location = new System.Drawing.Point(304, 10);
+            this.viaductradius.Location = new System.Drawing.Point(304, 44);
             this.viaductradius.Name = "viaductradius";
             this.viaductradius.Size = new System.Drawing.Size(118, 20);
             this.viaductradius.TabIndex = 44;
@@ -1033,7 +1072,7 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(6, 13);
+            this.label16.Location = new System.Drawing.Point(6, 47);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(219, 13);
             this.label16.TabIndex = 43;
@@ -1142,6 +1181,8 @@
             this.panel1.PerformLayout();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -1248,6 +1289,9 @@
         private System.Windows.Forms.RadioButton noinvertextures1;
         private System.Windows.Forms.RadioButton invertextures1;
         private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.RadioButton SteelType;
+        private System.Windows.Forms.RadioButton StoneType;
 
 
     }

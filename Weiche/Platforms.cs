@@ -161,7 +161,9 @@ namespace Weiche
                 {
                     
                         //Left Sided Platform
-                        {
+                        
+                    if(CurrentPlatformType == PlatformType.LeftLevel || CurrentPlatformType == PlatformType.LeftRD || CurrentPlatformType == PlatformType.LeftRU)
+                    {
                             var a = -1;
                             //If radius is zero, use one segment
                             if (radius == 0)
@@ -421,7 +423,6 @@ namespace Weiche
 
                             Constructors.PlatFace(sw, a, -LiRe_T);
                             sw.WriteLine("GenerateNormals,");
-
                             sw.WriteLine("LoadTexture,{0}.{1},", platform_file, texture_format);
                             Constructors.SetPlatformTexture(sw, a, 5, 1, platwidth_near, platwidth_far, segmente);
 
@@ -676,16 +677,9 @@ namespace Weiche
 
                             }
                         }
-                    
-
-
-
-
-
                     //Right Sided Platforms
-                    
-                    
-                        {
+                    else
+                       {
                             var a = -1;
                             //If radius is zero, use one segment
                             if (radius == 0)

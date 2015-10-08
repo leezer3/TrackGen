@@ -60,6 +60,12 @@ namespace Weiche
         public static string topwall_file;
         public static string footwalk_texture;
         public static string footwalk_file;
+        public static string steel_file;
+        public static string steel_texture;
+        public static string viaductfence_file;
+        public static string viaductfence_texture;
+        public static string black_file;
+        public static string black_texture;
         public static string archis_texture;
         public static string archis_file;
         public static double additionalpierheight;
@@ -166,6 +172,9 @@ namespace Weiche
                     noinvertextures1.Text = Resources.no;
                     fence_yes.Text = Resources.yes;
                     fence_no.Text = Resources.no;
+                    groupBox2.Text = Resources.viaducttype;
+                    StoneType.Text = Resources.stone;
+                    SteelType.Text = Resources.steel;
 
                     if (key.GetValue("TextureFormat") != null)
                     {
@@ -311,6 +320,21 @@ namespace Weiche
             {
                 archis_file = ("viaduct4");
                 archis_texture = (launchpath + "\\Textures\\viaduct4.png");
+            }
+            if (string.IsNullOrEmpty(viaductfence_file))
+            {
+                viaductfence_file = ("viaduct8");
+                viaductfence_texture = (launchpath + "\\Textures\\viaduct8.png");
+            }
+            if (string.IsNullOrEmpty(steel_file))
+            {
+                steel_file = ("viaduct7");
+                steel_texture = (launchpath + "\\Textures\\viaduct7.png");
+            }
+            if (string.IsNullOrEmpty(black_file))
+            {
+                black_file = ("black");
+                black_texture = (launchpath + "\\Textures\\black.png");
             }
 
             spez_file = "SchieneSpez";
@@ -607,7 +631,14 @@ namespace Weiche
                         MessageBox.Show(Resources.invalidtracks);
                         return;
                     }
-                    Viaducts.BuildViaduct();
+                    if (StoneType.Checked)
+                    {
+                        Viaducts.BuildViaduct();
+                    }
+                    else
+                    {
+                        Viaducts.BuildSteelViaduct();
+                    }
                 }
             }
 
@@ -663,26 +694,36 @@ namespace Weiche
 
         private void texturebutton_Click(object sender, EventArgs e)
         {
-            if (MainTabs.SelectedTab.TabIndex == 2)
+            switch (MainTabs.SelectedTab.TabIndex)
             {
-                using (var childform = new platformtexture(launchpath))
-                {
-                    childform.ShowDialog(this);
-                }
-            }
-            if (MainTabs.SelectedTab.TabIndex == 3)
-            {
-                using (var childform = new ViaductTexture(launchpath))
-                {
-                    childform.ShowDialog(this);
-                }
-            }
-            else
-            {
-                using (var childform = new texturepicker(launchpath))
-                {
-                    childform.ShowDialog(this);
-                }
+                case 1:
+                    using (var childform = new texturepicker(launchpath))
+                    {
+                        childform.ShowDialog(this);
+                    }
+                    break;
+                case 2:
+                    using (var childform = new platformtexture(launchpath))
+                    {
+                        childform.ShowDialog(this);
+                    }
+                    break;
+                case 3:
+                    if (SteelType.Checked)
+                    {
+                        using (var childform = new SteelViaductTexture(launchpath))
+                        {
+                            childform.ShowDialog(this);
+                        }
+                    }
+                    else
+                    {
+                        using (var childform = new ViaductTexture(launchpath))
+                        {
+                            childform.ShowDialog(this);
+                        }
+                    }
+                    break;
             }
         }
 
@@ -739,6 +780,16 @@ namespace Weiche
                     archis_file = filename;
                     archis_texture = filename;
                     //Viaduct Arch IS
+                    break;
+                case 11:
+                    //Steel Viaduct Texure
+                    steel_file = filename;
+                    steel_texture = filename;
+                    break;
+                case 12:
+                    //Steel Viaduct Fence
+                    viaductfence_file = filename;
+                    viaductfence_texture = filename;
                     break;
             }
             
@@ -894,6 +945,23 @@ namespace Weiche
                         noinvertextures1.Text = Resources.no;
                         fence_yes.Text = Resources.yes;
                         fence_no.Text = Resources.no;
+                        groupBox2.Text = Resources.viaducttype;
+                        StoneType.Text = Resources.stone;
+                        SteelType.Text = Resources.steel;
+        }
+
+        private void StoneType_CheckedChanged(object sender, EventArgs e)
+        {
+            if (StoneType.Checked)
+            {
+                pierheight.Enabled = true;
+                MainImage.Image = Resources.tgviaduct;
+            }
+            else
+            {
+                pierheight.Enabled = false;
+                MainImage.Image = Resources.tgviaduct1;
+            }
         } 
     }
 }

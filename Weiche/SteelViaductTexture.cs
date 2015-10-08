@@ -5,9 +5,9 @@ using System.Windows.Forms;
 
 namespace Weiche
 {
-    public partial class ViaductTexture : Form
+    public partial class SteelViaductTexture : Form
     {
-        public ViaductTexture(string launchpath)
+        public SteelViaductTexture(string launchpath)
         {
             InitializeComponent();
             openFileDialog1.Filter = "Image Files (*.bmp, *.png)|*.bmp;*.png";
@@ -18,21 +18,13 @@ namespace Weiche
             try
             {
                 
-                string lp_arch = (launchpath) + "Textures\\viaduct1.png";
-                pictureBox1.Image = new Bitmap(lp_arch);
+                string lp_steel = (launchpath) + "Textures\\viaduct7.png";
+                pictureBox1.Image = new Bitmap(lp_steel);
                 pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
 
-                string lp_wall = (launchpath) + "Textures\\viaduct2.png";
+                string lp_wall = (launchpath) + "Textures\\viaduct8.png";
                 pictureBox2.Image = new Bitmap(lp_wall);
                 pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
-
-                string lp_footwalk = (launchpath) + "Textures\\viaduct3.png";
-                pictureBox3.Image = new Bitmap(lp_footwalk);
-                pictureBox3.SizeMode = PictureBoxSizeMode.StretchImage;
-
-                string lp_arch_is = (launchpath) + "Textures\\viaduct4.png";
-                pictureBox4.Image = new Bitmap(lp_arch_is);
-                pictureBox4.SizeMode = PictureBoxSizeMode.StretchImage;
 
             }
             catch (Exception ex)
@@ -55,7 +47,7 @@ namespace Weiche
 
                     string filename = Path.GetFileNameWithoutExtension(openFileDialog1.FileName);
                     Weichengenerator parent = (Weichengenerator)this.Owner;
-                    parent.updatetexture(filename, openFileDialog1.FileName,7);
+                    parent.updatetexture(filename, openFileDialog1.FileName,11);
 
                 }
                 catch (Exception ex)
@@ -77,51 +69,7 @@ namespace Weiche
 
                     string filename = Path.GetFileNameWithoutExtension(openFileDialog1.FileName);
                     Weichengenerator parent = (Weichengenerator)this.Owner;
-                    parent.updatetexture(filename, openFileDialog1.FileName, 8);
-
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error loading image" + ex.Message);
-                }
-            }
-        }
-
-        private void footwalkbutton_Click(object sender, EventArgs e)
-        {
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-
-                try
-                {
-                    this.pictureBox2.Load(openFileDialog1.FileName);
-                    pictureBox2.Load();
-
-                    string filename = Path.GetFileNameWithoutExtension(openFileDialog1.FileName);
-                    Weichengenerator parent = (Weichengenerator)this.Owner;
-                    parent.updatetexture(filename, openFileDialog1.FileName, 9);
-
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error loading image" + ex.Message);
-                }
-            }
-        }
-
-        private void archisbutton_Click(object sender, EventArgs e)
-        {
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-
-                try
-                {
-                    this.pictureBox2.Load(openFileDialog1.FileName);
-                    pictureBox2.Load();
-
-                    string filename = Path.GetFileNameWithoutExtension(openFileDialog1.FileName);
-                    Weichengenerator parent = (Weichengenerator)this.Owner;
-                    parent.updatetexture(filename, openFileDialog1.FileName, 10);
+                    parent.updatetexture(filename, openFileDialog1.FileName, 12);
 
                 }
                 catch (Exception ex)

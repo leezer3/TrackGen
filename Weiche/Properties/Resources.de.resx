@@ -258,4 +258,13 @@
   <data name="viaduct" xml:space="preserve">
     <value>Viadukt</value>
   </data>
+  <data name="steel" xml:space="preserve">
+    <value>Stahl</value>
+  </data>
+  <data name="stone" xml:space="preserve">
+    <value>Stein</value>
+  </data>
+  <data name="viaducttype" xml:space="preserve">
+    <value>Viaduct Art</value>
+  </data>
 </root>
