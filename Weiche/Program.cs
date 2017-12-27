@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Threading;
+using System.Globalization;
 
 namespace Weiche
 {
@@ -11,6 +13,7 @@ namespace Weiche
         [STAThread]
         static void Main()
         {
+			Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Weichengenerator());
